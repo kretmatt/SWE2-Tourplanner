@@ -20,3 +20,4 @@ C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Deb
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\ref\SWE2-Tourplanner.dll
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\SWE2-Tourplanner.pdb
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\SWE2-Tourplanner.genruntimeconfig.cache
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\GeneratedInternalTypeHelper.g.cs
