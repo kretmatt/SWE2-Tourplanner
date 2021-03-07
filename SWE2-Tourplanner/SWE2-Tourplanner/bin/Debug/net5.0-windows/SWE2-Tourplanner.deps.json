@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "SWE2-Tourplanner/1.0.0": {
+        "runtime": {
+          "SWE2-Tourplanner.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SWE2-Tourplanner/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
