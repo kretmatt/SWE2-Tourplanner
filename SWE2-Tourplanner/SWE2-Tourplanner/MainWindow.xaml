@@ -11,22 +11,35 @@
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="50"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="12*"/>
         </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Menu>
+                <MenuItem Header="File"></MenuItem>
+                <MenuItem Header="Edit"></MenuItem>
+                <MenuItem Header="Options"></MenuItem>
+                <MenuItem Header="Help"></MenuItem>
+            </Menu>
+        </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="25*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Suchfilter eingeben:" Margin="5" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center"/>
-            <Button Grid.Column="2" Command="{Binding SearchToursCommand}" Content="Search" Margin="5" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <Button Grid.Column="1" Command="{Binding SearchToursCommand}" Content="Search" Margin="5" VerticalAlignment="Center"/>
         </Grid>
         <Grid Grid.Row="2">
-            <ListBox Margin="20" ItemsSource="{Binding FilteredTours}">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="25*"/>
+            </Grid.ColumnDefinitions>
+            
+            <ListBox Grid.Column="0" Margin="10" ItemsSource="{Binding FilteredTours}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -34,8 +47,17 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-                
             </ListBox>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"></Grid>
+                <Grid Grid.Row="1"></Grid>
+            </Grid>
+            
 
         </Grid>
     </Grid>
