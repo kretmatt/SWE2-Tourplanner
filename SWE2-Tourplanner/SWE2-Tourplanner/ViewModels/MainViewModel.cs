@@ -71,10 +71,17 @@ namespace SWE2_Tourplanner
             SearchToursCommand = new SearchToursCommand(this);
             Tours = new List<string> { "Tour 1", "Tour 2", "Tour 3", "Tour 34" };
             FilteredTours = Tours;
+
+            Action<int> abc = (int i) =>
+            {
+                Console.WriteLine(i);
+            };
+
+            abc(123);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName=null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

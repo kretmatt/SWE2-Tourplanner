@@ -11,51 +11,112 @@
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="12*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
             <Menu>
+                <Menu.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DockPanel HorizontalAlignment="Stretch"></DockPanel>
+                    </ItemsPanelTemplate>
+                </Menu.ItemsPanel>
                 <MenuItem Header="File"></MenuItem>
                 <MenuItem Header="Edit"></MenuItem>
                 <MenuItem Header="Options"></MenuItem>
-                <MenuItem Header="Help"></MenuItem>
+                <MenuItem Header="Help" HorizontalAlignment="Right"></MenuItem>
             </Menu>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="75*"/>
-                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}" Margin="5" TextWrapping="Wrap" VerticalAlignment="Center"/>
-            <Button Grid.Column="1" Command="{Binding SearchToursCommand}" Content="Search" Margin="5" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <Button Grid.Column="1" Command="{Binding SearchToursCommand}" Content="Search" VerticalAlignment="Center"/>
         </Grid>
-        <Grid Grid.Row="2">
-            
+        <Grid Grid.Row="2" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="15*"/>
                 <ColumnDefinition Width="25*"/>
             </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"  Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Tours: " Grid.Column="0"></Label>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="+" Grid.Column="0"></Button>
+                        <Button Content="-" Grid.Column="1"></Button>
+                        <Button Content="[]" Grid.Column="2"></Button>
+                    </Grid>
+                </Grid>
+                <ListBox Grid.Row="1" ItemsSource="{Binding FilteredTours}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
             
-            <ListBox Grid.Column="0" Margin="10" ItemsSource="{Binding FilteredTours}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0"></Grid>
-                <Grid Grid.Row="1"></Grid>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Titel: " Grid.Row="0"></Label>
+                    <TabControl  Grid.Row="1">
+                        <TabItem Header="Route"></TabItem>
+                        <TabItem Header="Description"></TabItem>
+                    </TabControl>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Logs: " Grid.Column="0"></Label>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="+" Grid.Column="0"></Button>
+                            <Button Content="-" Grid.Column="1"></Button>
+                            <Button Content="[]" Grid.Column="2"></Button>
+                        </Grid>
+                    </Grid>
+                    <DataGrid  Grid.Row="1">
+                        
+                    </DataGrid>
+                </Grid>
             </Grid>
             
 
