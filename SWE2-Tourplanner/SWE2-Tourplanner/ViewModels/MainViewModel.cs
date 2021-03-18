@@ -5,7 +5,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using SWE2_Tourplanner.Commands;
 
 namespace SWE2_Tourplanner
 {
@@ -65,19 +67,52 @@ namespace SWE2_Tourplanner
         }
 
         public ICommand SearchToursCommand { get; }
+        public ICommand AddTourCommand { get; }
+        public ICommand RemoveTourCommand { get; }
+        public ICommand EditTourCommand { get; }
+        public ICommand AddLogCommand { get; }
+        public ICommand RemoveLogCommand { get; }
+        public ICommand EditLogCommand { get; }
 
         public MainViewModel()
         {
-            SearchToursCommand = new SearchToursCommand(this);
+            SearchToursCommand = new RelayCommand(
+                (_)=>FilteredTours = Tours.FindAll(t => t.Contains(SearchFilter) == true),
+                (_)=> { return Tours.Any() && !string.IsNullOrWhiteSpace(SearchFilter);
+            });
+            AddTourCommand = new RelayCommand(
+                (_) => MessageBox.Show("AddTourCommand stub "),
+                (_) => {
+                    return true;
+            });
+            RemoveTourCommand = new RelayCommand(
+                (_) => MessageBox.Show("RemoveTourCommand stub "),
+                (_) => {
+                    return true;
+            });
+            EditTourCommand = new RelayCommand(
+                (_) => MessageBox.Show("EditTourCommand stub "),
+                (_) => {
+                    return true;
+            });
+            AddLogCommand = new RelayCommand(
+                (_) => MessageBox.Show("AddLogCommand stub "),
+                (_) => {
+                    return true;
+            });
+            RemoveLogCommand = new RelayCommand(
+                (_) => MessageBox.Show("RemoveLogCommand stub "),
+                (_) => {
+                    return true;
+            });
+            EditLogCommand = new RelayCommand(
+                (_) => MessageBox.Show("EditLogCommand stub "),
+                (_) => {
+                    return true;
+            });
+
             Tours = new List<string> { "Tour 1", "Tour 2", "Tour 3", "Tour 34" };
             FilteredTours = Tours;
-
-            Action<int> abc = (int i) =>
-            {
-                Console.WriteLine(i);
-            };
-
-            abc(123);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
