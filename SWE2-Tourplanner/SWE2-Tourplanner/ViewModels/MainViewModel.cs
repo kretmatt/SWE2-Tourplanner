@@ -77,7 +77,7 @@ namespace SWE2_Tourplanner
         public MainViewModel()
         {
             SearchToursCommand = new RelayCommand(
-                (_)=>FilteredTours = Tours.FindAll(t => t.Contains(SearchFilter) == true),
+                (_)=> FilteredTours = Tours.FindAll(t => t.Contains(SearchFilter) == true),
                 (_)=> { return Tours.Any() && !string.IsNullOrWhiteSpace(SearchFilter);
             });
             AddTourCommand = new RelayCommand(
