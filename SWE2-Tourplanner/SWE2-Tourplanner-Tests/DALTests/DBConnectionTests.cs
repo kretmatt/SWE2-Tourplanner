@@ -12,18 +12,18 @@ namespace SWE2_Tourplanner_Tests.DALTests
     class DBConnectionTests
     {
         private IDBConnection db;
-        private Mock<INpgsqlCommand> mockNpgsqlCommand;
-        private Mock<INpgsqlDataReader> mockNpgsqlDataReader;
+        private Mock<IDbCommand> mockNpgsqlCommand;
+        private Mock<IDataReader> mockNpgsqlDataReader;
 
         [SetUp]
         public void Setup()
         {
             db = DatabaseConnection.GetDBConnection();
-            mockNpgsqlDataReader = new Mock<INpgsqlDataReader>();
+            mockNpgsqlDataReader = new Mock<IDataReader>();
             mockNpgsqlDataReader.SetupSequence(dr => dr.Read()).Returns(true).Returns(true).Returns(false);
             mockNpgsqlDataReader.SetupSequence(dr => dr.GetValue(It.IsAny<int>())).Returns("Mock");
-            mockNpgsqlDataReader.Setup(dr => dr.FieldCount()).Returns(2);
-            mockNpgsqlCommand = new Mock<INpgsqlCommand>();
+            mockNpgsqlDataReader.Setup(dr => dr.FieldCount).Returns(2);
+            mockNpgsqlCommand = new Mock<IDbCommand>();
             mockNpgsqlCommand.Setup(nc => nc.ExecuteReader()).Returns(mockNpgsqlDataReader.Object);
             mockNpgsqlCommand.Setup(nc => nc.ExecuteNonQuery()).Returns(1);
         }
@@ -50,7 +50,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
             mockNpgsqlCommand.VerifySet(nc => nc.Connection = It.IsAny<Npgsql.NpgsqlConnection>(), Times.Once);
             mockNpgsqlCommand.Verify(nc => nc.ExecuteReader(), Times.Once);
             mockNpgsqlDataReader.Verify(dr => dr.Read(), Times.Exactly(3));
-            mockNpgsqlDataReader.Verify(dr => dr.FieldCount(), Times.Exactly(2));
+            mockNpgsqlDataReader.Verify(dr => dr.FieldCount, Times.Exactly(2));
             mockNpgsqlDataReader.Verify(dr => dr.GetValue(It.IsAny<int>()), Times.Exactly(4));
             Assert.AreEqual(2, results.Count);
             foreach(object[] row in results)
@@ -58,5 +58,24 @@ namespace SWE2_Tourplanner_Tests.DALTests
                 Assert.AreEqual(2, row.Length);
             }
         }
+        //Because DeclareParameter is called in DefineParameter, the methods are tested together.
+        [Test]
+        public void DefineParameter_ArgumentExceptionThrownTest()
+        {
+            //arrange
+            IDbCommand command = new NpgsqlCommand("DELETE FROM test WHERE id=@id;");
+            //act
+            db.DefineParameter(command, "id", System.Data.DbType.String, "1");
+            //assert
+            Assert.Throws<ArgumentException>(() =>db.DefineParameter(command,"id",System.Data.DbType.String,"2"));
+        }
+
+
+
+        /*int DeclareParameter(IDbCommand command, string name, DbType type);
+
+    void DefineParameter(IDbCommand command, string name, DbType type, object value);
+
+    void SetParameter(IDbCommand command, string name, object value);*/
     }
 }

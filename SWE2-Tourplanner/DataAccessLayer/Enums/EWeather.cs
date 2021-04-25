@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Enums
 {
+    /// <summary>
+    /// Enum for the weather of tour logs.
+    /// </summary>
     public enum EWeather
     {
         SUNNY,
@@ -13,5 +16,6 @@ namespace DataAccessLayer.Enums
         CLOUDY,
         HAIL,
         SNOWY,
+        STORMY
     }
 }

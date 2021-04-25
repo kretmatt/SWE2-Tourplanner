@@ -26,8 +26,8 @@ namespace SWE2_Tourplanner_Tests.DALTests
         {
             //Setup of mock database connection
             db = new Mock<IDBConnection>();
-            db.Setup(d => d.ExecuteStatement(It.IsAny<INpgsqlCommand>())).Returns(1);
-            db.Setup(d => d.QueryDatabase(It.IsAny<INpgsqlCommand>())).Returns(new List<object[]>());
+            db.Setup(d => d.ExecuteStatement(It.IsAny<IDbCommand>())).Returns(1);
+            db.Setup(d => d.QueryDatabase(It.IsAny<IDbCommand>())).Returns(new List<object[]>());
             //Setup of mock commit commands to verify correct calls in Commit function
             commitCommands = new List<IDBCommand>();
             mockCommitCommands = new List<Mock<IDBCommand>>();

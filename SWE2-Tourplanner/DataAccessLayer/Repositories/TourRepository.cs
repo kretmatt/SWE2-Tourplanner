@@ -11,12 +11,30 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
+    /// <summary>
+    /// TourRepositories are used for querying, inserting, updating and deleting tours. DML commands are not executed in this class. The only way to truly insert, update and delete tours is through the UnitOfWork class, which ensures that database connections get opened/closed only when really needed. Retrieving data is possible everywhere.
+    /// </summary>
     public class TourRepository : ITourRepository
     {
+        /// <summary>
+        /// Database connection
+        /// </summary>
         private IDBConnection db;
+        /// <summary>
+        /// Commands to be commited to the database
+        /// </summary>
         private List<IDBCommand> commitCommands;
+        /// <summary>
+        /// Repository for retrieving associated tourlogs
+        /// </summary>
         private ITourLogRepository tourLogRepository;
+        /// <summary>
+        /// Repositories for retrieving associated maneuvers
+        /// </summary>
         private IManeuverRepository maneuverRepository;
+        /// <summary>
+        /// Creates the TourRepository object
+        /// </summary>
         public TourRepository()
         {
             db = DatabaseConnection.GetDBConnection();
@@ -24,6 +42,11 @@ namespace DataAccessLayer.Repositories
             tourLogRepository = new TourLogRepository();
             maneuverRepository = new ManeuverRepository();
         }
+        /// <summary>
+        /// Creates the TourRepository instance and "connects" it to the wrapping UnitOfWork class
+        /// </summary>
+        /// <param name="db">Database connection</param>
+        /// <param name="commitCommands">Commands for a commit (UnitOfWork)</param>
         public TourRepository(IDBConnection db, List<IDBCommand> commitCommands)
         {
             this.db = db;
@@ -31,7 +54,13 @@ namespace DataAccessLayer.Repositories
             maneuverRepository = new ManeuverRepository(this.db, this.commitCommands);
             tourLogRepository = new TourLogRepository(this.db, this.commitCommands);
         }
-
+        /// <summary>
+        /// Constructor solely for testing purposes
+        /// </summary>
+        /// <param name="db">Database connection. For tests, a mock can be passed.</param>
+        /// <param name="commitCommands">Commands to be commited. </param>
+        /// <param name="tourLogRepository">A repository for tourlogs. A mock can be passed for testing puproses.</param>
+        /// <param name="maneuverRepository">Repository for maneuvers. Mock object can be passed</param>
         public TourRepository(IDBConnection db, List<IDBCommand> commitCommands, ITourLogRepository tourLogRepository, IManeuverRepository maneuverRepository)
         {
             this.db = db;
@@ -39,6 +68,11 @@ namespace DataAccessLayer.Repositories
             this.maneuverRepository = maneuverRepository;
             this.tourLogRepository = tourLogRepository;
         }
+        /// <summary>
+        /// Converts object arrays to tours.
+        /// </summary>
+        /// <param name="row">Result (row) of a query</param>
+        /// <returns>Converted tour.</returns>
         private Tour ConvertToTour(object[] row)
         {
             Tour tour = new Tour()
@@ -55,7 +89,10 @@ namespace DataAccessLayer.Repositories
 
             return tour;
         }
-
+        /// <summary>
+        /// Creates a DeleteTourCommand object if a tour with the specified id exists.
+        /// </summary>
+        /// <param name="id">Id of the tour to be deleted</param>
         public void Delete(int id)
         {
             Tour tour = Read(id);
@@ -64,7 +101,10 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new DeleteTourCommand(db,tour));
             }
         }
-
+        /// <summary>
+        /// Checks if the data of the tour is ok. If so, a InsertTourCommand object gets created.
+        /// </summary>
+        /// <param name="entity">Tour that is supposed to be inserted into the database</param>
         public void Insert(Tour entity)
         {
             if ((!String.IsNullOrEmpty(entity.Name)) && (!String.IsNullOrEmpty(entity.RouteInfo)) && (!String.IsNullOrEmpty(entity.StartLocation)) && (!String.IsNullOrEmpty(entity.EndLocation)))
@@ -72,14 +112,18 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new InsertTourCommand(db, entity.Name, entity.StartLocation, entity.EndLocation, entity.RouteInfo, entity.Distance, entity.RouteType, entity.Description));
             }
         }
-
+        /// <summary>
+        /// Retrieves a tour with the specified id.
+        /// </summary>
+        /// <param name="id">Id of the wanted tour.</param>
+        /// <returns>Tour with the specified id (null if id doesn't exist in table). Associated data (maneuvers, tourlogs) are already loaded</returns>
         public Tour Read(int id)
         {
             Tour tour = null;
             if (id > 0)
             {
-                INpgsqlCommand readTourCommand = new NpgsqlCommand("SELECT * FROM tour WHERE id=@id;");
-                readTourCommand.Parameters.AddWithValue("id", id);
+                IDbCommand readTourCommand = new NpgsqlCommand("SELECT * FROM tour WHERE id=@id;");
+                db.DefineParameter(readTourCommand, "@id", System.Data.DbType.Int32, id);
                 db.OpenConnection();
                 List<object[]> readTourResults = db.QueryDatabase(readTourCommand);
                 db.CloseConnection();
@@ -92,10 +136,13 @@ namespace DataAccessLayer.Repositories
             }
             return tour;
         }
-
+        /// <summary>
+        /// Retrieves all tours in the tour table.
+        /// </summary>
+        /// <returns>Collection of all tours. Associated data (maneuvers, tourlogs) are already loaded.</returns>
         public List<Tour> ReadAll()
         {
-            INpgsqlCommand readToursCommand = new NpgsqlCommand("SELECT * FROM tour;");
+            IDbCommand readToursCommand = new NpgsqlCommand("SELECT * FROM tour;");
             db.OpenConnection();
             List<object[]> readToursResults = db.QueryDatabase(readToursCommand);
             db.CloseConnection();
@@ -111,7 +158,10 @@ namespace DataAccessLayer.Repositories
 
             return tours;
         }
-
+        /// <summary>
+        /// Creates UpdateTourCommand if the specified entity exists.
+        /// </summary>
+        /// <param name="entity">New state of the tour.</param>
         public void Update(Tour entity)
         {
             Tour oldTour = Read(entity.Id);

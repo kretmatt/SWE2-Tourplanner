@@ -11,23 +11,42 @@ using DataAccessLayer.Enums;
 
 namespace DataAccessLayer.Repositories
 {
+    /// <summary>
+    /// TourLogRepositories are used for querying, inserting, updating and deleting tourlogs. DML commands are not executed in this class. The only way to truly insert, update and delete tourlogs is through the UnitOfWork class, which ensures that database connections get opened/closed only when really needed. Retrieving data is possible everywhere.
+    /// </summary>
     public class TourLogRepository : ITourLogRepository
     {
+        /// <summary>
+        /// Database connection
+        /// </summary>
         private IDBConnection db;
+        /// <summary>
+        /// Commands to be committed to the database
+        /// </summary>
         private List<IDBCommand> commitCommands;
-
+        /// <summary>
+        /// Creates the TourLogRepository instance.
+        /// </summary>
         public TourLogRepository()
         {
             db = DatabaseConnection.GetDBConnection();
             commitCommands = new List<IDBCommand>();
         }
-
+        /// <summary>
+        /// Creates the TourLogRepository instance and "connects" it to the UnitOfWork class
+        /// </summary>
+        /// <param name="db">Database connection</param>
+        /// <param name="commitCommands">Commands for a commit (UnitOfWork)</param>
         public TourLogRepository(IDBConnection db, List<IDBCommand> commitCommands)
         {
             this.db = db;
             this.commitCommands = commitCommands;
         }
-
+        /// <summary>
+        /// Converts object arrays to tourlogs.
+        /// </summary>
+        /// <param name="row">Result of a query</param>
+        /// <returns>Converted tourlog.</returns>
         private TourLog ConvertToTourLog(object[] row)
         {
             TourLog tourLog = new TourLog()
@@ -48,7 +67,10 @@ namespace DataAccessLayer.Repositories
 
             return tourLog;
         }
-
+        /// <summary>
+        /// Creates a DeleteTourLogCommand object, if a tourlog with the specified id exists.
+        /// </summary>
+        /// <param name="id">Id of the tourlog to be deleted</param>
         public void Delete(int id)
         {
             TourLog tourLog = Read(id);
@@ -57,7 +79,10 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new DeleteTourLogCommand(db,tourLog));
             }
         }
-
+        /// <summary>
+        /// Checks if log data is ok. If so, creates a new InsertTourLogCommand
+        /// </summary>
+        /// <param name="entity">TourLog to be inserted.</param>
         public void Insert(TourLog entity)
         {
             if (!(String.IsNullOrEmpty(entity.Report)))
@@ -65,15 +90,20 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new InsertTourLogCommand(db, entity.TourId, entity.StartDate,entity.EndDate, entity.Distance, entity.TotalTime, entity.Rating, entity.AverageSpeed, entity.Weather, entity.TravelMethod, entity.Report, entity.Temperature));
             }
         }
-
+        /// <summary>
+        /// Function for the retrieval of a log with the specified id
+        /// </summary>
+        /// <param name="id">Id of the wanted log</param>
+        /// <returns>Log with the specified id (null if id doesn't exist in the table)</returns>
         public TourLog Read(int id)
         {
             TourLog tourLog = null;
 
             if (id > 0)
             {
-                INpgsqlCommand readTourLogCommand = new NpgsqlCommand("SELECT * FROM tourlog WHERE id=@id;");
-                readTourLogCommand.Parameters.AddWithValue("id", id);
+                IDbCommand readTourLogCommand = new NpgsqlCommand("SELECT * FROM tourlog WHERE id=@id;");
+                db.DefineParameter(readTourLogCommand, "@id", System.Data.DbType.Int32, id);
+                //readTourLogCommand.Parameters.AddWithValue("id", id);
                 db.OpenConnection();
                 List<object[]> readTourLogResults = db.QueryDatabase(readTourLogCommand);
                 db.CloseConnection();
@@ -86,11 +116,14 @@ namespace DataAccessLayer.Repositories
 
             return tourLog;
         }
-
+        /// <summary>
+        /// Function for retrieving all tourlogs in the table.
+        /// </summary>
+        /// <returns>Collection of all logs in the tourlog table</returns>
         public List<TourLog> ReadAll()
         {
             List<TourLog> tourLogs = new List<TourLog>();
-            INpgsqlCommand readTourLogsCommand = new NpgsqlCommand("SELECT * FROM tourlog;");
+            IDbCommand readTourLogsCommand = new NpgsqlCommand("SELECT * FROM tourlog;");
             db.OpenConnection();
             List<object[]> readTourLogsResults = db.QueryDatabase(readTourLogsCommand);
             db.CloseConnection();
@@ -103,7 +136,10 @@ namespace DataAccessLayer.Repositories
 
             return tourLogs;
         }
-
+        /// <summary>
+        /// Creates an UpdateTourLogCommand object if the specified entity (id) exists in the table.
+        /// </summary>
+        /// <param name="entity">New state of the log</param>
         public void Update(TourLog entity)
         {
             TourLog oldTourLog = Read(entity.Id);

@@ -10,6 +10,7 @@ using DataAccessLayer.DBCommands;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.Entities;
 using DataAccessLayer.DBCommands.ManeuverCommands;
+using DataAccessLayer.UnitOfWork;
 
 namespace SWE2_Tourplanner_Tests.DALTests
 {
@@ -24,13 +25,13 @@ namespace SWE2_Tourplanner_Tests.DALTests
         {
             mockCommandList = new List<IDBCommand>();
             mockDb = new Mock<IDBConnection>();
-            mockDb.Setup(d => d.ExecuteStatement(It.IsAny<INpgsqlCommand>())).Returns(1);
+            mockDb.Setup(d => d.ExecuteStatement(It.IsAny<IDbCommand>())).Returns(1);
             object[] arr = new object[4];
             arr[0] = 1;
             arr[1] = 2;
             arr[2] = "MOCK";
             arr[3] = 15.0;
-            mockDb.Setup(d => d.QueryDatabase(It.IsAny<INpgsqlCommand>())).Returns(new List<object[]>() { arr });
+            mockDb.Setup(d => d.QueryDatabase(It.IsAny<IDbCommand>())).Returns(new List<object[]>() { arr });
             maneuverRepository = new ManeuverRepository(mockDb.Object, mockCommandList);
         }
         [Test]
@@ -65,14 +66,14 @@ namespace SWE2_Tourplanner_Tests.DALTests
             //assert
             Assert.AreEqual(1, mockCommandList.Count);
             Assert.IsInstanceOf(typeof(UpdateManeuverCommand), mockCommandList[0]);
-            mockDb.Verify(mdb => mdb.QueryDatabase(It.IsAny<INpgsqlCommand>()), Times.Once);
+            mockDb.Verify(mdb => mdb.QueryDatabase(It.IsAny<IDbCommand>()), Times.Once);
             mockDb.Verify(mdb => mdb.OpenConnection(), Times.Once);
             mockDb.Verify(mdb => mdb.CloseConnection(), Times.Once);
         }
         
         [Test]
         public void DeleteCorrectCallsMock()
-        {
+        { 
             //arrange
             int id = 1;
             //act
@@ -80,7 +81,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
             //assert
             Assert.AreEqual(1, mockCommandList.Count);
             Assert.IsInstanceOf(typeof(DeleteManeuverCommand), mockCommandList[0]);
-            mockDb.Verify(mdb => mdb.QueryDatabase(It.IsAny<INpgsqlCommand>()), Times.Once);
+            mockDb.Verify(mdb => mdb.QueryDatabase(It.IsAny<IDbCommand>()), Times.Once);
             mockDb.Verify(mdb => mdb.OpenConnection(), Times.Once);
             mockDb.Verify(mdb => mdb.CloseConnection(), Times.Once);
         }
@@ -94,7 +95,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
             Maneuver m = maneuverRepository.Read(id);
             //assert
             Assert.NotNull(m);
-            mockDb.Verify(mdb => mdb.QueryDatabase(It.IsAny<INpgsqlCommand>()), Times.Once);
+            mockDb.Verify(mdb => mdb.QueryDatabase(It.IsAny<IDbCommand>()), Times.Once);
             mockDb.Verify(mdb => mdb.OpenConnection(), Times.Once);
             mockDb.Verify(mdb => mdb.CloseConnection(), Times.Once);
         }
@@ -108,7 +109,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
             tourLogs = maneuverRepository.ReadAll();
             //assert
             Assert.AreEqual(1, tourLogs.Count);
-            mockDb.Verify(mdb => mdb.QueryDatabase(It.IsAny<INpgsqlCommand>()), Times.Once);
+            mockDb.Verify(mdb => mdb.QueryDatabase(It.IsAny<IDbCommand>()), Times.Once);
             mockDb.Verify(mdb => mdb.OpenConnection(), Times.Once);
             mockDb.Verify(mdb => mdb.CloseConnection(), Times.Once);
         }
