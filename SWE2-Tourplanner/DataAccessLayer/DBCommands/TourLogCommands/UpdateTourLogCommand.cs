@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBConnection;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBConnection;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,9 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
         /// Old state of the log.
         /// </summary>
         private TourLog oldTourLog;
+
+        private log4net.ILog logger;
+
         /// <summary>
         /// Creates the UpdateTourLogCommand instance.
         /// </summary>
@@ -36,6 +40,7 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
             this.db = db;
             this.tourLog = tourLog;
             this.oldTourLog = oldTourLog;
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Updates the data of the log in the database according to the new state of the log.
@@ -50,8 +55,11 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
             List<object[]> tourResults = db.QueryDatabase(checkForTourCommand);
 
             if (tourResults.Count != 1)
+            {
+                logger.Warn($"Tour with the id {tourLog.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                 return updateTourLogResult;
-            
+            }
+
             IDbCommand updateTourLogCommand = new NpgsqlCommand("UPDATE tourlog SET tourid=@tourid, startdate=@startdate, enddate=@enddate, distance=@distance, totaltime=@totaltime, rating=@rating, averagespeed=@averagespeed, weather=@weather, travelmethod=@travelmethod, report=@report, temperature=@temperature WHERE id = @id;");
             db.DefineParameter(updateTourLogCommand, "@id", System.Data.DbType.Int32, tourLog.Id);
             db.DefineParameter(updateTourLogCommand, "@tourid", System.Data.DbType.Int32, tourLog.TourId);
@@ -79,11 +87,14 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
             int undoResult = 0;
 
             IDbCommand checkForTourCommand = new NpgsqlCommand("SELECT * FROM tour WHERE id=@tourid;");
-            db.DefineParameter(checkForTourCommand, "@tourid", System.Data.DbType.Int32, tourLog.TourId);
+            db.DefineParameter(checkForTourCommand, "@tourid", System.Data.DbType.Int32, oldTourLog.TourId);
             List<object[]> tourResults = db.QueryDatabase(checkForTourCommand);
 
             if (tourResults.Count != 1)
+            {
+                logger.Warn($"Tour with the id {oldTourLog.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                 return undoResult;
+            }
 
             IDbCommand undoUpdateTourLogCommand = new NpgsqlCommand("UPDATE tourlog SET tourid=@tourid, startdate=@startdate, enddate=@enddate, distance=@distance, totaltime=@totaltime, rating=@rating, averagespeed=@averagespeed, weather=@weather, travelmethod=@travelmethod, report=@report, temperature=@temperature WHERE id = @id;");
             db.DefineParameter(undoUpdateTourLogCommand, "@id", System.Data.DbType.Int32, oldTourLog.Id);
@@ -98,18 +109,6 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
             db.DefineParameter(undoUpdateTourLogCommand, "@travelmethod", System.Data.DbType.Int32, (int)oldTourLog.TravelMethod);
             db.DefineParameter(undoUpdateTourLogCommand, "@report", System.Data.DbType.String, oldTourLog.Report);
             db.DefineParameter(undoUpdateTourLogCommand, "@temperature", System.Data.DbType.Decimal, oldTourLog.Temperature);
-            /*undoCommand.Parameters.AddWithValue("id", oldTourLog.Id);
-            undoCommand.Parameters.AddWithValue("tourid", oldTourLog.TourId);
-            undoCommand.Parameters.AddWithValue("startdate", oldTourLog.StartDate);
-            undoCommand.Parameters.AddWithValue("enddate", oldTourLog.EndDate);
-            undoCommand.Parameters.AddWithValue("distance", oldTourLog.Distance);
-            undoCommand.Parameters.AddWithValue("totaltime", oldTourLog.TotalTime);
-            undoCommand.Parameters.AddWithValue("rating", oldTourLog.Rating);
-            undoCommand.Parameters.AddWithValue("averagespeed", oldTourLog.AverageSpeed);
-            undoCommand.Parameters.AddWithValue("weather", (int)oldTourLog.Weather);
-            undoCommand.Parameters.AddWithValue("travelmethod", (int)oldTourLog.TravelMethod);
-            undoCommand.Parameters.AddWithValue("report", oldTourLog.Report);
-            undoCommand.Parameters.AddWithValue("temperature", oldTourLog.Temperature);*/
 
             undoResult = db.ExecuteStatement(undoUpdateTourLogCommand);
 

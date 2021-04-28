@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBConnection;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBConnection;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,9 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         /// The maneuver to be created/deleted.
         /// </summary>
         private Maneuver maneuver;
+
+        private log4net.ILog logger;
+
         /// <summary>
         /// Creates a new InsertManeuverCommand instance.
         /// </summary>
@@ -38,6 +42,7 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
                 Narrative=narrative,
                 Distance=distance
             };
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Inserts the new maneuver into the maneuver table.
@@ -53,7 +58,10 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
             List<object[]> tourResults = db.QueryDatabase(checkForTourCommand);
 
             if (tourResults.Count != 1)
+            {
+                logger.Warn($"Tour with the id {maneuver.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                 return insertManeuverResult;
+            }
 
             IDbCommand retrieveNextIdCommand = new NpgsqlCommand("SELECT nextval(pg_get_serial_sequence('maneuver','id')) AS newid;");
             List<object[]> retrieveNextIdResult = db.QueryDatabase(retrieveNextIdCommand);
@@ -82,8 +90,6 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
             {
                 IDbCommand deleteManeuverCommand = new NpgsqlCommand("DELETE FROM maneuver WHERE id=@id;");
                 db.DefineParameter(deleteManeuverCommand, "@id", System.Data.DbType.Int32, maneuver.Id);
-
-                //undoCommand.Parameters.AddWithValue("id", maneuver.Id);
 
                 undoResult = db.ExecuteStatement(deleteManeuverCommand);
             }

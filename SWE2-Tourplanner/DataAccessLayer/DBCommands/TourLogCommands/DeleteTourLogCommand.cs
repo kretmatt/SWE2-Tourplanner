@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBConnection;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBConnection;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,9 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
         /// Log of a tour to be deleted.
         /// </summary>
         private TourLog tourLog;
+
+        private log4net.ILog logger;
+
         /// <summary>
         /// Creates the DeleteTourLogCommand instance.
         /// </summary>
@@ -30,6 +34,7 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
         {
             this.db = db;
             this.tourLog = tourLog;
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Deletes the log of a tour from the tourlog table.
@@ -64,7 +69,10 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
                 List<object[]> tourResults = db.QueryDatabase(checkForTourCommand);
 
                 if (tourResults.Count != 1)
+                {
+                    logger.Warn($"Tour with the id {tourLog.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                     return undoResult;
+                }
 
                 IDbCommand insertTourLogCommand = new NpgsqlCommand("INSERT INTO tourlog (id,tourid,startdate,enddate,distance,totaltime,rating,averagespeed,weather,travelmethod,report,temperature) VALUES (@id,@tourid,@startdate,@enddate,@distance,@totaltime,@rating,@averagespeed,@weather,@travelmethod,@report,@temperature);");
                 db.DefineParameter(insertTourLogCommand, "@id", System.Data.DbType.Int32, tourLog.Id);

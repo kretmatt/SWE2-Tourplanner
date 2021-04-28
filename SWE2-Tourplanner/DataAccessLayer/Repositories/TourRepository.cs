@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBCommands;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBCommands.TourCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.Entities;
@@ -32,6 +33,9 @@ namespace DataAccessLayer.Repositories
         /// Repositories for retrieving associated maneuvers
         /// </summary>
         private IManeuverRepository maneuverRepository;
+
+        private log4net.ILog logger;
+
         /// <summary>
         /// Creates the TourRepository object
         /// </summary>
@@ -41,6 +45,7 @@ namespace DataAccessLayer.Repositories
             commitCommands = new List<IDBCommand>();
             tourLogRepository = new TourLogRepository();
             maneuverRepository = new ManeuverRepository();
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Creates the TourRepository instance and "connects" it to the wrapping UnitOfWork class
@@ -53,6 +58,7 @@ namespace DataAccessLayer.Repositories
             this.commitCommands = commitCommands;
             maneuverRepository = new ManeuverRepository(this.db, this.commitCommands);
             tourLogRepository = new TourLogRepository(this.db, this.commitCommands);
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Constructor solely for testing purposes
@@ -67,6 +73,7 @@ namespace DataAccessLayer.Repositories
             this.commitCommands = commitCommands;
             this.maneuverRepository = maneuverRepository;
             this.tourLogRepository = tourLogRepository;
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Converts object arrays to tours.
@@ -99,6 +106,7 @@ namespace DataAccessLayer.Repositories
             if (tour != null)
             {
                 commitCommands.Add(new DeleteTourCommand(db,tour));
+                logger.Info($"DeleteTourCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
         /// <summary>
@@ -110,6 +118,7 @@ namespace DataAccessLayer.Repositories
             if ((!String.IsNullOrEmpty(entity.Name)) && (!String.IsNullOrEmpty(entity.RouteInfo)) && (!String.IsNullOrEmpty(entity.StartLocation)) && (!String.IsNullOrEmpty(entity.EndLocation)))
             {
                 commitCommands.Add(new InsertTourCommand(db, entity.Name, entity.StartLocation, entity.EndLocation, entity.RouteInfo, entity.Distance, entity.RouteType, entity.Description));
+                logger.Info($"InsertTourCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
         /// <summary>
@@ -168,6 +177,7 @@ namespace DataAccessLayer.Repositories
             if (oldTour != null)
             {
                 commitCommands.Add(new UpdateTourCommand(db, entity, oldTour));
+                logger.Info($"InsertTourCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
     }

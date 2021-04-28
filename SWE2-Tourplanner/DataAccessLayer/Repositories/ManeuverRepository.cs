@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBCommands;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBCommands.ManeuverCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.Entities;
@@ -23,6 +24,8 @@ namespace DataAccessLayer.Repositories
         /// Commands to be committed to the database.
         /// </summary>
         private List<IDBCommand> commitCommands;
+
+        private log4net.ILog logger;
         /// <summary>
         /// Creates the ManeuverRepository instance.
         /// </summary>
@@ -30,6 +33,7 @@ namespace DataAccessLayer.Repositories
         {
             db = DatabaseConnection.GetDBConnection();
             commitCommands = new List<IDBCommand>();
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Creates the ManeuverRepository instance and "connects" it to the UnitOfWork class
@@ -40,6 +44,8 @@ namespace DataAccessLayer.Repositories
         {
             this.db = db;
             this.commitCommands = commitCommands;
+            logger = LogHelper.GetLogHelper().GetLogger();
+
         }
         /// <summary>
         /// Converts object arrays to maneuvers.
@@ -68,6 +74,7 @@ namespace DataAccessLayer.Repositories
             if (maneuver != null)
             {
                 commitCommands.Add(new DeleteManeuverCommand(db,maneuver));
+                logger.Info($"DeleteManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
         /// <summary>
@@ -79,6 +86,7 @@ namespace DataAccessLayer.Repositories
             if (!String.IsNullOrEmpty(entity.Narrative))
             {
                 commitCommands.Add(new InsertManeuverCommand(db,entity.TourId,entity.Narrative,entity.Distance));
+                logger.Info($"InsertManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
         /// <summary>
@@ -134,6 +142,7 @@ namespace DataAccessLayer.Repositories
             if (oldManeuver != null)
             {
                 commitCommands.Add(new UpdateManeuverCommand(db, entity, oldManeuver));
+                logger.Info($"UpdateManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
     }

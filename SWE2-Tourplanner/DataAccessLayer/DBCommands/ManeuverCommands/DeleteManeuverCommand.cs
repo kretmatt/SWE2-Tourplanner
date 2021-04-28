@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBConnection;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBConnection;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         /// </summary>
         private Maneuver maneuver;
 
+        private log4net.ILog logger;
+
         /// <summary>
         /// Creates the new DeleteManeuverCommand and sets its values.
         /// </summary>
@@ -31,6 +34,7 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         {
             this.db = db;
             this.maneuver = maneuver;
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Removes a specific maneuver from the maneuver-table.
@@ -65,7 +69,10 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
                 List<object[]> tourResults = db.QueryDatabase(checkForTourCommand);
 
                 if (tourResults.Count != 1)
+                {
+                    logger.Warn($"Tour with the id {maneuver.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                     return undoResult;
+                }
 
                 IDbCommand insertManeuverCommand = new NpgsqlCommand("INSERT INTO maneuver (id,tourid,narrative,distance) VALUES (@id,@tourid,@narrative,@distance);");
                 db.DefineParameter(insertManeuverCommand, "@id", System.Data.DbType.Int32, maneuver.Id);

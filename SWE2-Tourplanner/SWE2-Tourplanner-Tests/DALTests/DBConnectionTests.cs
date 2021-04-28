@@ -69,13 +69,5 @@ namespace SWE2_Tourplanner_Tests.DALTests
             //assert
             Assert.Throws<ArgumentException>(() =>db.DefineParameter(command,"id",System.Data.DbType.String,"2"));
         }
-
-
-
-        /*int DeclareParameter(IDbCommand command, string name, DbType type);
-
-    void DefineParameter(IDbCommand command, string name, DbType type, object value);
-
-    void SetParameter(IDbCommand command, string name, object value);*/
     }
 }

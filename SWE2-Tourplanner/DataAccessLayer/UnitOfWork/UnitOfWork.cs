@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBCommands;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.Repositories;
 using System;
@@ -38,6 +39,8 @@ namespace DataAccessLayer.UnitOfWork
         /// The provided Maneuver repository for the user. Insert-, Update- and Delete-ManeuverCommands produced by Insert(), Update() and Delete() are saved into the commitCommands collection.
         /// </summary>
         private IManeuverRepository maneuverRepository;
+
+        private log4net.ILog logger;
         /// <summary>
         /// A public property for setting and getting the private property tourRepository.
         /// </summary>
@@ -94,6 +97,7 @@ namespace DataAccessLayer.UnitOfWork
             tourLogRepository = new TourLogRepository(db, commitCommands);
             maneuverRepository = new ManeuverRepository(db, commitCommands);
             tourRepository = new TourRepository(db,commitCommands);
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// A constructor just for testing purposes.
@@ -109,6 +113,7 @@ namespace DataAccessLayer.UnitOfWork
             tourLogRepository = new TourLogRepository(db, commitCommands);
             maneuverRepository = new ManeuverRepository(db, commitCommands);
             tourRepository = new TourRepository(db, commitCommands);
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Concrete imlementation of the Commit() function of the IUnitOfWork interface. Takes every issued command for the commit and executes them together.
@@ -117,6 +122,7 @@ namespace DataAccessLayer.UnitOfWork
         public int Commit()
         {
             int commitCount = 0;
+            logger.Info($"Starting database transaction. Commiting {commitCommands.Count} commands.");
             db.OpenConnection();
             commitCommands.ForEach(cc =>
             {
@@ -124,6 +130,7 @@ namespace DataAccessLayer.UnitOfWork
                 rollbackCommands.Add(cc);
             });
             db.CloseConnection();
+            logger.Info($"Finished database transaction. {commitCount} rows were affected by the issued commands.");
             return commitCount;
         }
         /// <summary>
@@ -141,6 +148,7 @@ namespace DataAccessLayer.UnitOfWork
         public int Rollback()
         {
             int rollbackCount = 0;
+            logger.Info($"Starting database rollback. Rolling back {rollbackCommands.Count} commands.");
             db.OpenConnection();
             rollbackCommands.Reverse<IDBCommand>().ToList().ForEach(rc => 
             {
@@ -148,6 +156,7 @@ namespace DataAccessLayer.UnitOfWork
             });
             db.CloseConnection();
             rollbackCommands.Clear();
+            logger.Info($"Finished database rollback. {rollbackCount} rows were affected by the rollback.");
             return rollbackCount;
         }
     }

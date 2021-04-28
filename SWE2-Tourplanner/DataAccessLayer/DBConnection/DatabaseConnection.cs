@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BusinessLogicLayer.Logging;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -21,11 +22,14 @@ namespace DataAccessLayer.DBConnection
         /// Connection to the Postgres database
         /// </summary>
         private Npgsql.NpgsqlConnection npgsqlConnection;
+
+        private log4net.ILog logger;
         /// <summary>
         /// Creates a DatabaseConnection instance. Is only called once due to GetDBConnection() and the private access modifier.
         /// </summary>
         private DatabaseConnection()
         {
+            logger = LogHelper.GetLogHelper().GetLogger();
             IConfiguration config = new ConfigurationBuilder().AddJsonFile("config.json",false,true).Build();
             npgsqlConnection = new Npgsql.NpgsqlConnection($"Host={config["dbsettings:host"]};Port={config["dbsettings:port"]};Username={config["dbsettings:username"]};Password={config["dbsettings:password"]};Database={config["dbsettings:database"]};"); 
         }
@@ -97,6 +101,7 @@ namespace DataAccessLayer.DBConnection
                 int index = command.Parameters.Add(new Npgsql.NpgsqlParameter(name, type));
                 return index;
             }
+            logger.Error($"Error occured during declaration of parameter. The parameter {name} already exists and can therefore not be declared again.");
             throw new ArgumentException(string.Format("Parameter {0} already exists", name));
         }
         /// <summary>

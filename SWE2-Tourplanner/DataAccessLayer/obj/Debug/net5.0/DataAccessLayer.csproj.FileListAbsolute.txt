@@ -10,3 +10,6 @@ C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\obj\Debu
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.dll
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\obj\Debug\net5.0\ref\DataAccessLayer.dll
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.pdb
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\bin\Debug\net5.0\BusinessLogicLayer.dll
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\bin\Debug\net5.0\BusinessLogicLayer.pdb
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\obj\Debug\net5.0\DataAccessLayer.csproj.CopyComplete

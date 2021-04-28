@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBConnection;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBConnection;
 using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,9 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         /// Old state of the maneuver.
         /// </summary>
         private Maneuver oldManeuver;
+
+        private log4net.ILog logger;
+
         /// <summary>
         /// Creates the UpdateManeuverCommand instance.
         /// </summary>
@@ -37,6 +41,7 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
             this.db = db;
             this.maneuver = maneuver;
             this.oldManeuver = oldManeuver;
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Updates the data of a specific maneuver.
@@ -51,7 +56,10 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
             List<object[]> tourResults = db.QueryDatabase(checkForTourCommand);
 
             if (tourResults.Count != 1)
+            {
+                logger.Warn($"Tour with the id {maneuver.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                 return updateManeuverResult;
+            }
 
             IDbCommand updateManeuverCommand = new NpgsqlCommand("UPDATE maneuver SET tourid=@tourid,narrative=@narrative,distance=@distance WHERE id=@id;");
             db.DefineParameter(updateManeuverCommand, "@id", System.Data.DbType.Int32, maneuver.Id);
@@ -72,12 +80,15 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
             int undoResult = 0;
 
             IDbCommand checkForTourCommand = new NpgsqlCommand("SELECT * FROM tour WHERE id=@tourid;");
-            db.DefineParameter(checkForTourCommand, "@tourid", System.Data.DbType.Int32, maneuver.TourId);
+            db.DefineParameter(checkForTourCommand, "@tourid", System.Data.DbType.Int32, oldManeuver.TourId);
 
             List<object[]> tourResults = db.QueryDatabase(checkForTourCommand);
 
             if (tourResults.Count != 1)
+            {
+                logger.Warn($"Tour with the id {maneuver.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                 return undoResult;
+            }
 
             IDbCommand undoUpdateCommand = new NpgsqlCommand("UPDATE maneuver SET tourid=@tourid,narrative=@narrative,distance=@distance WHERE id=@id;");
             db.DefineParameter(undoUpdateCommand, "@id", System.Data.DbType.Int32, oldManeuver.Id);

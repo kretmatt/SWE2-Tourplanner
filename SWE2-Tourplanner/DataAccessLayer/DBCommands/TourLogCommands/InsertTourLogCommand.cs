@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.DBConnection;
+﻿using BusinessLogicLayer.Logging;
+using DataAccessLayer.DBConnection;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Enums;
 using System;
@@ -22,6 +23,9 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
         /// The new log to be inserted.
         /// </summary>
         private TourLog tourLog;
+
+        private log4net.ILog logger;
+
         /// <summary>
         /// Creates a new InsertTourLogCommand instance.
         /// </summary>
@@ -55,6 +59,7 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
                 Report=report,
                 Temperature=temperature
             };
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Inserts a new log of a tour into the tourlog table
@@ -72,7 +77,10 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
                 List<object[]> tourResults = db.QueryDatabase(checkForTourCommand);
 
                 if (tourResults.Count != 1)
+                {
+                    logger.Warn($"Tour with the id {tourLog.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                     return insertTourLogResult;
+                }
 
                 IDbCommand retrieveNextIdCommand = new NpgsqlCommand("SELECT nextval(pg_get_serial_sequence('tourlog','id')) AS newid;");
                 List<object[]> retrieveNextIdResult = db.QueryDatabase(retrieveNextIdCommand);

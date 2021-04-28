@@ -8,6 +8,7 @@ using DataAccessLayer.DBCommands.TourLogCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.Enums;
+using BusinessLogicLayer.Logging;
 
 namespace DataAccessLayer.Repositories
 {
@@ -24,6 +25,9 @@ namespace DataAccessLayer.Repositories
         /// Commands to be committed to the database
         /// </summary>
         private List<IDBCommand> commitCommands;
+
+        private log4net.ILog logger;
+
         /// <summary>
         /// Creates the TourLogRepository instance.
         /// </summary>
@@ -31,6 +35,7 @@ namespace DataAccessLayer.Repositories
         {
             db = DatabaseConnection.GetDBConnection();
             commitCommands = new List<IDBCommand>();
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Creates the TourLogRepository instance and "connects" it to the UnitOfWork class
@@ -41,6 +46,7 @@ namespace DataAccessLayer.Repositories
         {
             this.db = db;
             this.commitCommands = commitCommands;
+            logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
         /// Converts object arrays to tourlogs.
@@ -77,6 +83,7 @@ namespace DataAccessLayer.Repositories
             if (tourLog != null)
             {
                 commitCommands.Add(new DeleteTourLogCommand(db,tourLog));
+                logger.Info($"DeleteTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
         /// <summary>
@@ -88,6 +95,7 @@ namespace DataAccessLayer.Repositories
             if (!(String.IsNullOrEmpty(entity.Report)))
             {
                 commitCommands.Add(new InsertTourLogCommand(db, entity.TourId, entity.StartDate,entity.EndDate, entity.Distance, entity.TotalTime, entity.Rating, entity.AverageSpeed, entity.Weather, entity.TravelMethod, entity.Report, entity.Temperature));
+                logger.Info($"InsertTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
         /// <summary>
@@ -147,6 +155,7 @@ namespace DataAccessLayer.Repositories
             if (oldTourLog != null)
             {
                 commitCommands.Add(new UpdateTourLogCommand(db, entity, oldTourLog));
+                logger.Info($"UpdateTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
     }
