@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "0zLfNEBuZfES/SkvjdkKToSfhNtmT/jLcmg/9wa94/UgM0mR6OUs5B7OMiIiU5obieIzOMidJUP0rqmcz84aRQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\swe2\\.nuget\\packages\\log4net\\2.0.12\\log4net.2.0.12.nupkg.sha512",
+    "C:\\Users\\swe2\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
+    "C:\\Users\\swe2\\.nuget\\packages\\system.configuration.configurationmanager\\4.5.0\\system.configuration.configurationmanager.4.5.0.nupkg.sha512",
+    "C:\\Users\\swe2\\.nuget\\packages\\system.security.accesscontrol\\4.5.0\\system.security.accesscontrol.4.5.0.nupkg.sha512",
+    "C:\\Users\\swe2\\.nuget\\packages\\system.security.cryptography.protecteddata\\4.5.0\\system.security.cryptography.protecteddata.4.5.0.nupkg.sha512",
+    "C:\\Users\\swe2\\.nuget\\packages\\system.security.permissions\\4.5.0\\system.security.permissions.4.5.0.nupkg.sha512",
+    "C:\\Users\\swe2\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
