@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v5.0": {
       "DataAccessLayer/1.0.0": {
         "dependencies": {
-          "BusinessLogicLayer": "1.0.0",
+          "Common": "1.0.0",
           "Microsoft.Extensions.Configuration": "5.0.0",
           "Microsoft.Extensions.Configuration.FileExtensions": "5.0.0",
           "Microsoft.Extensions.Configuration.Json": "5.0.0",
@@ -185,12 +185,12 @@
           "Microsoft.NETCore.Platforms": "2.0.0"
         }
       },
-      "BusinessLogicLayer/1.0.0": {
+      "Common/1.0.0": {
         "dependencies": {
           "log4net": "2.0.12"
         },
         "runtime": {
-          "BusinessLogicLayer.dll": {}
+          "Common.dll": {}
         }
       }
     }
@@ -320,7 +320,7 @@
       "path": "system.security.principal.windows/4.5.0",
       "hashPath": "system.security.principal.windows.4.5.0.nupkg.sha512"
     },
-    "BusinessLogicLayer/1.0.0": {
+    "Common/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

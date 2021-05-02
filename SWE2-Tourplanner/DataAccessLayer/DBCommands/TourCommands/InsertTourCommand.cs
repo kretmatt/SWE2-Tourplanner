@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.DBConnection;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using Common.Entities;
+using Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;

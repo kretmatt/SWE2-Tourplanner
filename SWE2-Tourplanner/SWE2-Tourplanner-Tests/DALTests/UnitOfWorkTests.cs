@@ -1,13 +1,8 @@
 ﻿using DataAccessLayer.UnitOfWork;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using DataAccessLayer.DBConnection;
-using DataAccessLayer.Repositories;
 using DataAccessLayer.DBCommands;
 
 namespace SWE2_Tourplanner_Tests.DALTests

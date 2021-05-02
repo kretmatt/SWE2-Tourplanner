@@ -40,6 +40,14 @@
           }
         }
       },
+      "Json.Net/1.0.31": {
+        "runtime": {
+          "lib/netstandard2.0/Json.Net.dll": {
+            "assemblyVersion": "1.0.31.1",
+            "fileVersion": "1.0.31.1"
+          }
+        }
+      },
       "log4net/2.0.12": {
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.5.0"
@@ -1074,15 +1082,24 @@
       },
       "BusinessLogicLayer/1.0.0": {
         "dependencies": {
+          "Json.Net": "1.0.31",
           "log4net": "2.0.12"
         },
         "runtime": {
           "BusinessLogicLayer.dll": {}
         }
       },
+      "Common/1.0.0": {
+        "dependencies": {
+          "log4net": "2.0.12"
+        },
+        "runtime": {
+          "Common.dll": {}
+        }
+      },
       "DataAccessLayer/1.0.0": {
         "dependencies": {
-          "BusinessLogicLayer": "1.0.0",
+          "Common": "1.0.0",
           "Microsoft.Extensions.Configuration": "5.0.0",
           "Microsoft.Extensions.Configuration.FileExtensions": "5.0.0",
           "Microsoft.Extensions.Configuration.Json": "5.0.0",
@@ -1107,6 +1124,13 @@
       "sha512": "sha512-b5rRL5zeaau1y/5hIbI+6mGw3cwun16YjkHZnV9RRT5UyUIFsgLmNXJ0YnIN9p8Hw7K7AbG1q1UclQVU3DinAQ==",
       "path": "castle.core/4.4.0",
       "hashPath": "castle.core.4.4.0.nupkg.sha512"
+    },
+    "Json.Net/1.0.31": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vsmwinTBg7ziwRsWKBFkm9h1lL3vN4+bHUFuAwuyBMdWCxdD+BuuI2yLfZv4afY+LspjyeG6nIO7OCYUZPrhpg==",
+      "path": "json.net/1.0.31",
+      "hashPath": "json.net.1.0.31.nupkg.sha512"
     },
     "log4net/2.0.12": {
       "type": "package",
@@ -1676,6 +1700,11 @@
       "hashPath": "system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
     },
     "BusinessLogicLayer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Common/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

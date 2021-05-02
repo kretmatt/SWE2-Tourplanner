@@ -1,8 +1,8 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBCommands.ManeuverCommands;
 using DataAccessLayer.DBConnection;
-using DataAccessLayer.Entities;
+using Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Enums
+namespace Common.Enums
 {
     /// <summary>
     /// Enum for the different travel methods of users (in tourlogs it is specified how the user travelled. e.g.: Hiking tour, Bike tour, ...).

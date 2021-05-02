@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Enums;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.Repositories;
-using DataAccessLayer.Entities;
+using Common.Entities;
 using DataAccessLayer.DBCommands.TourLogCommands;
 
 namespace SWE2_Tourplanner_Tests.DALTests
@@ -56,8 +57,8 @@ namespace SWE2_Tourplanner_Tests.DALTests
                 Temperature=30,
                 Rating=10,
                 AverageSpeed=15,
-                Weather=DataAccessLayer.Enums.EWeather.SUNNY,
-                TravelMethod=DataAccessLayer.Enums.ETravelMethod.BIKING,
+                Weather=EWeather.SUNNY,
+                TravelMethod=ETravelMethod.BIKING,
                 Report="12345"
             };
             //act
@@ -81,8 +82,8 @@ namespace SWE2_Tourplanner_Tests.DALTests
                 Temperature = 30,
                 Rating = 10,
                 AverageSpeed = 15,
-                Weather = DataAccessLayer.Enums.EWeather.SUNNY,
-                TravelMethod = DataAccessLayer.Enums.ETravelMethod.BIKING,
+                Weather = EWeather.SUNNY,
+                TravelMethod = ETravelMethod.BIKING,
                 Report = "12345"
             };
             //act

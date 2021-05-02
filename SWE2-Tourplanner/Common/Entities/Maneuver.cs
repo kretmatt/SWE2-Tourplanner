@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Entities
+namespace Common.Entities
 {
     ///    <summary>
     ///     The maneuver entity is basically a single part of the overall route description of a tour. It consists of a narrative, describing the part of the route in detail, and the length (km) of the section.

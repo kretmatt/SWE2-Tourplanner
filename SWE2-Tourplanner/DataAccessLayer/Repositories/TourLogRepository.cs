@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer.Entities;
+using Common.Entities;
 using DataAccessLayer.DBCommands.TourLogCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.DBCommands;
-using DataAccessLayer.Enums;
-using BusinessLogicLayer.Logging;
+using Common.Enums;
+using Common.Logging;
 
 namespace DataAccessLayer.Repositories
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Enums
+namespace Common.Enums
 {
     /// <summary>
     /// Enum for the possible routetypes in mapquest. The route type influences the route itself.

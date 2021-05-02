@@ -2,13 +2,14 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using Common.Enums;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.Repositories;
-using DataAccessLayer.Entities;
+using Common.Entities;
 using DataAccessLayer.DBCommands.TourCommands;
 
 namespace SWE2_Tourplanner_Tests.DALTests
@@ -61,8 +62,8 @@ namespace SWE2_Tourplanner_Tests.DALTests
                 Temperature = 30,
                 Rating = 10,
                 AverageSpeed = 15,
-                Weather = DataAccessLayer.Enums.EWeather.SUNNY,
-                TravelMethod = DataAccessLayer.Enums.ETravelMethod.BIKING,
+                Weather = EWeather.SUNNY,
+                TravelMethod = ETravelMethod.BIKING,
                 Report = "Mock report"
             };
             tourLogRepository.Setup(tlr => tlr.Read(It.IsAny<int>())).Returns(tl);
@@ -81,7 +82,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
                 EndLocation="Vienna",
                 RouteInfo="Mock tour",
                 Distance=100,
-                RouteType=DataAccessLayer.Enums.ERouteType.BICYCLE,
+                RouteType=ERouteType.BICYCLE,
                 Description="Mock description"
             };
             //act
@@ -102,7 +103,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
                 EndLocation="Vienna",
                 RouteInfo="Mock tour",
                 Distance=100,
-                RouteType=DataAccessLayer.Enums.ERouteType.BICYCLE,
+                RouteType=ERouteType.BICYCLE,
                 Description="Mock description"
             };
             //act

@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;

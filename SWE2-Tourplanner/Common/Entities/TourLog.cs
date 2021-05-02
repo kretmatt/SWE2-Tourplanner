@@ -1,11 +1,11 @@
-﻿using DataAccessLayer.Enums;
+﻿using Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Entities
+namespace Common.Entities
 {
     ///    <summary>
     ///        The tourlog is an entry from a person, who participated in a tour. It's basically a short review of the tour.

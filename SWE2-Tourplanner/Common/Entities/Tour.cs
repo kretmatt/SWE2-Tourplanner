@@ -1,11 +1,11 @@
-﻿using DataAccessLayer.Enums;
+﻿using Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Entities
+namespace Common.Entities
 {
     ///    <summary>
     ///         The tour is the most important entity of the project. It represents a route. 

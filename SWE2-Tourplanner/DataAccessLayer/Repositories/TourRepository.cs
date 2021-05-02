@@ -1,9 +1,9 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBCommands.TourCommands;
 using DataAccessLayer.DBConnection;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using Common.Entities;
+using Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

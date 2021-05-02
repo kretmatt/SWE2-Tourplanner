@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.Repositories;
