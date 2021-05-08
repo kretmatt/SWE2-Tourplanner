@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,11 @@ namespace Common.Entities
     ///    </summary>
     public class Maneuver
     {
+        [JsonIgnore]
         /// <value>Id of the maneuver.</value>
         public int Id { get; set; }
 
+        [JsonIgnore]
         /// <value>Id of the associated tour.</value>
         public int TourId { get; set; }
 

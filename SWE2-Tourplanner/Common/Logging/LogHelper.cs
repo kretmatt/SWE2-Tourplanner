@@ -37,7 +37,7 @@ namespace Common.Logging
             return logHelper;
         }
         /// <summary>
-        /// 
+        /// In order to get an already configured ILog instance, the GetLogger method can be called.
         /// </summary>
         /// <param name="filename">Name of the file where the ILog instance is requested. This parameter doesn't need to be passed due to CallerFilePath</param>
         /// <returns>Properly configured ILog instance for corresponding files/classes</returns>

@@ -1,4 +1,5 @@
 ﻿using Common.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,10 @@ namespace Common.Entities
     ///    </summary>
     public class TourLog
     {
+        [JsonIgnore]
         /// <value>Id of the tour log.</value>
         public int Id { get; set; }
-
+        [JsonIgnore]
         /// <value>Id of the associated tour.</value>
         public int TourId { get; set; }
 
