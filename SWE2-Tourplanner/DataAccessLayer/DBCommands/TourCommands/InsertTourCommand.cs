@@ -34,20 +34,10 @@ namespace DataAccessLayer.DBCommands.TourCommands
         /// <param name="distance">Length of the tour in km.</param>
         /// <param name="routeType">Route type of the tour.</param>
         /// <param name="description">Tour description.</param>
-        public InsertTourCommand(IDBConnection db, string name, string startLocation, string endLocation, string routeInfo, double distance, ERouteType routeType, string description)
+        public InsertTourCommand(IDBConnection db, Tour tour)
         {
             this.db = db;
-            tour = new Tour()
-            {
-                Id=-1,
-                Name = name,
-                StartLocation = startLocation,
-                EndLocation = endLocation,
-                RouteInfo = routeInfo,
-                Distance = distance,
-                RouteType = routeType,
-                Description = description
-            };
+            this.tour = tour;
         }
         /// <summary>
         /// Inserts a new tour into the tour table.
@@ -77,6 +67,19 @@ namespace DataAccessLayer.DBCommands.TourCommands
                 db.DefineParameter(insertTourCommand, "@description", System.Data.DbType.String, tour.Description);
 
                 insertTourResult = db.ExecuteStatement(insertTourCommand);
+
+                if (insertTourResult == 1)
+                {
+                    tour.Maneuvers.ForEach(m =>
+                    {
+                        m.TourId = tour.Id;
+                    });
+
+                    tour.TourLogs.ForEach(tl =>
+                    {
+                        tl.TourId = tour.Id;
+                    });
+                }
             }
             return insertTourResult;
         }
@@ -87,7 +90,7 @@ namespace DataAccessLayer.DBCommands.TourCommands
         public int Undo()
         {
             int undoResult = 0;
-            if (tour.Id != -1)
+            if (tour.Id >0)
             {
                 DBConnection.IDbCommand removeTourCommand = new NpgsqlCommand("DELETE FROM tour WHERE id=@id;");
                 db.DefineParameter(removeTourCommand, "@id", System.Data.DbType.Int32, tour.Id);

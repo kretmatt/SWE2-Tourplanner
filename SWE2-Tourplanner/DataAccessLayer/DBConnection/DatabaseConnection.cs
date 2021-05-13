@@ -1,4 +1,5 @@
-﻿using Common.Logging;
+﻿using Common.Config;
+using Common.Logging;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace DataAccessLayer.DBConnection
         /// </summary>
         private Npgsql.NpgsqlConnection npgsqlConnection;
 
+        private ITourPlannerConfig config;
+
         private log4net.ILog logger;
         /// <summary>
         /// Creates a DatabaseConnection instance. Is only called once due to GetDBConnection() and the private access modifier.
@@ -30,8 +33,8 @@ namespace DataAccessLayer.DBConnection
         private DatabaseConnection()
         {
             logger = LogHelper.GetLogHelper().GetLogger();
-            IConfiguration config = new ConfigurationBuilder().AddJsonFile("config.json",false,true).Build();
-            npgsqlConnection = new Npgsql.NpgsqlConnection($"Host={config["dbsettings:host"]};Port={config["dbsettings:port"]};Username={config["dbsettings:username"]};Password={config["dbsettings:password"]};Database={config["dbsettings:database"]};"); 
+            config = TourPlannerConfig.GetTourPlannerConfig();
+            npgsqlConnection = new Npgsql.NpgsqlConnection(config.DatabaseConnectionString);
         }
         /// <summary>
         /// Ensures that the DatabaseConnection constructor only gets called once. Provides the DatabaseConnection instance.
@@ -82,7 +85,11 @@ namespace DataAccessLayer.DBConnection
         /// <summary>
         /// Opens the database connection
         /// </summary>
-        public void OpenConnection() => npgsqlConnection.Open();
+        public void OpenConnection() 
+        {
+            npgsqlConnection.ConnectionString = config.DatabaseConnectionString;
+            npgsqlConnection.Open();
+        }
         /// <summary>
         /// Closes the database connection
         /// </summary>

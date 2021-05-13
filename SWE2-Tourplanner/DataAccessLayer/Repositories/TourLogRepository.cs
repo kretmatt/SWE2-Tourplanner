@@ -73,6 +73,13 @@ namespace DataAccessLayer.Repositories
 
             return tourLog;
         }
+
+        private bool CheckDBConstraints(TourLog tourLog)
+        {
+            if (DateTime.Compare(tourLog.StartDate, tourLog.EndDate)<0 && tourLog.Distance>=0 && tourLog.AverageSpeed>0 && tourLog.Temperature>-273.15 && tourLog.Rating>=0 && tourLog.Rating<=10 )
+                return true;
+            return false;
+        }
         /// <summary>
         /// Creates a DeleteTourLogCommand object, if a tourlog with the specified id exists.
         /// </summary>
@@ -92,9 +99,9 @@ namespace DataAccessLayer.Repositories
         /// <param name="entity">TourLog to be inserted.</param>
         public void Insert(TourLog entity)
         {
-            if (!(String.IsNullOrEmpty(entity.Report)))
+            if (CheckDBConstraints(entity))
             {
-                commitCommands.Add(new InsertTourLogCommand(db, entity.TourId, entity.StartDate,entity.EndDate, entity.Distance, entity.TotalTime, entity.Rating, entity.AverageSpeed, entity.Weather, entity.TravelMethod, entity.Report, entity.Temperature));
+                commitCommands.Add(new InsertTourLogCommand(db, entity));
                 logger.Info($"InsertTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
@@ -152,7 +159,7 @@ namespace DataAccessLayer.Repositories
         {
             TourLog oldTourLog = Read(entity.Id);
 
-            if (oldTourLog != null)
+            if (oldTourLog != null && CheckDBConstraints(entity))
             {
                 commitCommands.Add(new UpdateTourLogCommand(db, entity, oldTourLog));
                 logger.Info($"UpdateTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
