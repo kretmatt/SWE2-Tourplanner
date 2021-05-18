@@ -26,5 +26,15 @@ namespace Common.Entities
         /// <value>Length of the section. Unit is km.</value>
         public double Distance { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if(obj.GetType() == GetType())
+            {
+                Maneuver m = (Maneuver)obj;
+                return (m.Distance==this.Distance&&m.Narrative==this.Narrative) ? true : false;
+            }
+            return false;
+        }
+
     }
 }

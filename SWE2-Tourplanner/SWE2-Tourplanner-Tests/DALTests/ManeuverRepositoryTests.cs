@@ -11,6 +11,7 @@ using DataAccessLayer.Repositories;
 using Common.Entities;
 using DataAccessLayer.DBCommands.ManeuverCommands;
 using DataAccessLayer.UnitOfWork;
+using BusinessLogicLayer.Factories;
 
 namespace SWE2_Tourplanner_Tests.DALTests
 {

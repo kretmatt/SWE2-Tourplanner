@@ -27,7 +27,14 @@
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj"
+              },
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -40,13 +47,13 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "Json.Net": {
+            "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[1.0.31, )"
+              "version": "[13.0.1, )"
             },
-            "log4net": {
+            "QuestPDF": {
               "target": "Package",
-              "version": "[2.0.12, )"
+              "version": "[2021.5.2, )"
             }
           },
           "imports": [
@@ -104,6 +111,22 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "log4net": {
               "target": "Package",
               "version": "[2.0.12, )"

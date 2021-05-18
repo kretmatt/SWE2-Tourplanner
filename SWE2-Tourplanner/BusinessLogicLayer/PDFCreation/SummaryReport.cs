@@ -3,11 +3,9 @@ using Common.Enums;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BusinessLogicLayer.PDFCreation
 {
@@ -55,69 +53,85 @@ namespace BusinessLogicLayer.PDFCreation
 
             container.PaddingVertical(10).Stack(stack =>
             {
-                stack.Item().Text("Tour stats", headingStyle);
-                stack.Item().PaddingTop(5).Element(ComposeTourStats);
+                if (Tours.Any())
+                {
+                    stack.Item().Text("Tour stats", headingStyle);
+                    stack.Item().PaddingTop(5).Element(ComposeTourStats);
+                    if (Tours.Any(t => t.Maneuvers.Any()))
+                    {
+                        stack.Item().Text("Maneuver stats", headingStyle);
+                        stack.Item().PaddingTop(5).Element(ComposeManeuverStats);
+                    }
 
-                stack.Item().Text("Maneuver stats", headingStyle);
-                stack.Item().PaddingTop(5).Element(ComposeManeuverStats);
-
-                stack.Item().Text("Tour log stats", headingStyle);
-                stack.Item().PaddingTop(5).Element(ComposeTourLogStats);
+                    if (Tours.Any(t => t.TourLogs.Any()))
+                    {
+                        stack.Item().Text("Tour log stats", headingStyle);
+                        stack.Item().PaddingTop(5).Element(ComposeTourLogStats);
+                    }
+                }
+                else
+                    stack.Item().Text("Because there are no tours, a summary is not possible!");
+               
+                
             });
         }
 
         void ComposeTourStats(IContainer container)
         {
-            double bestRating = Tours.Where(t=>t.TourLogs.Any()).GroupBy(t => t.TourLogs.Average(tl => tl.Rating)).Max(g=>g.Key);
-            List<Tour> bestTours = Tours.Where(t => t.TourLogs.Any()).Where(t => t.TourLogs.Average(tl => tl.Rating)==bestRating).ToList();
-            double worstRating = Tours.Where(t => t.TourLogs.Any()).GroupBy(t => t.TourLogs.Average(tl => tl.Rating)).Min(g => g.Key);
-            List<Tour> worstTours = Tours.Where(t => t.TourLogs.Any()).Where(t => t.TourLogs.Average(tl => tl.Rating) == worstRating).ToList();
-            double longestDistance = Tours.Max(t => t.Distance);
-            List<Tour> longestDistanceTours = Tours.Where(t => t.Distance == longestDistance).ToList();
-            double shortestDistance = Tours.Min(t => t.Distance);
-            List<Tour> shortestDistanceTours = Tours.Where(t => t.Distance == shortestDistance).ToList();
-            double longestTotalTime = Tours.Where(t => t.TourLogs.Any()).GroupBy(t => t.TourLogs.Sum(tl => tl.TotalTime)).Max(g => g.Key);
-            List<Tour> longestTotalTimeTours = Tours.Where(t => t.TourLogs.Any()).Where(t => t.TourLogs.Sum(tl=>tl.TotalTime) == longestTotalTime).ToList();
-            double shortestTotalTime = Tours.Where(t => t.TourLogs.Any()).GroupBy(t => t.TourLogs.Sum(tl => tl.TotalTime)).Min(g => g.Key);
-            List<Tour> shortestTotalTimeTours = Tours.Where(t => t.TourLogs.Any()).Where(t => t.TourLogs.Sum(tl => tl.TotalTime) == shortestTotalTime).ToList();
-            int highestManeuverCount = Tours.Max(t => t.Maneuvers.Count);
-            List<Tour> mostManeuversTours = Tours.Where(t => t.Maneuvers.Count == highestManeuverCount).ToList();
-            int lowestManeuverCount = Tours.Min(t => t.Maneuvers.Count);
-            List<Tour> leastManeuversTours = Tours.Where(t => t.Maneuvers.Count == lowestManeuverCount).ToList();
-            int highestTourLogCount = Tours.Max(t => t.TourLogs.Count);
-            List<Tour> mostTourLogsTours = Tours.Where(t => t.TourLogs.Count == highestTourLogCount).ToList();
-            int lowestTourLogCount = Tours.Min(t => t.TourLogs.Count);
-            List<Tour> leastTourLogsTours = Tours.Where(t => t.TourLogs.Count == lowestTourLogCount).ToList();
-            int highestRouteTypeCount = Tours.GroupBy(t => t.RouteType).Max(g => g.Count());
-            List<ERouteType> mostCommonRouteTypes = Tours.GroupBy(t => t.RouteType).Where(g => g.Count() == highestRouteTypeCount).Select(g => g.Key).ToList();
-            int lowestRouteTypeCount = Tours.GroupBy(t => t.RouteType).Min(g => g.Count());
-            List<ERouteType> leastCommonRouteTypes = Tours.GroupBy(t => t.RouteType).Where(g => g.Count() == lowestRouteTypeCount).Select(g => g.Key).ToList();
 
             var headingStyle = TextStyle.Default.Size(14).SemiBold();
-
-
             container.Stack(stack =>
             {
-                stack.Item().Text($"Best rated tours - {bestRating}", headingStyle);
-                stack.Item().Text(string.Join('\n', bestTours.Select(t=>t.Name)));
-                stack.Item().Text($"Worst rated tours - {worstRating}", headingStyle);
-                stack.Item().Text(string.Join('\n', worstTours.Select(t => t.Name)));
+                if (Tours.Any(t => t.TourLogs.Any()))
+                {
+                    double bestRating = Tours.Where(t => t.TourLogs.Any()).GroupBy(t => t.TourLogs.Average(tl => tl.Rating)).Max(g => g.Key);
+                    List<Tour> bestTours = Tours.Where(t => t.TourLogs.Any()).Where(t => t.TourLogs.Average(tl => tl.Rating) == bestRating).ToList();
+                    double worstRating = Tours.Where(t => t.TourLogs.Any()).GroupBy(t => t.TourLogs.Average(tl => tl.Rating)).Min(g => g.Key);
+                    List<Tour> worstTours = Tours.Where(t => t.TourLogs.Any()).Where(t => t.TourLogs.Average(tl => tl.Rating) == worstRating).ToList();
+                    double longestTotalTime = Tours.Where(t => t.TourLogs.Any()).GroupBy(t => t.TourLogs.Sum(tl => tl.TotalTime)).Max(g => g.Key);
+                    List<Tour> longestTotalTimeTours = Tours.Where(t => t.TourLogs.Any()).Where(t => t.TourLogs.Sum(tl => tl.TotalTime) == longestTotalTime).ToList();
+                    double shortestTotalTime = Tours.Where(t => t.TourLogs.Any()).GroupBy(t => t.TourLogs.Sum(tl => tl.TotalTime)).Min(g => g.Key);
+                    List<Tour> shortestTotalTimeTours = Tours.Where(t => t.TourLogs.Any()).Where(t => t.TourLogs.Sum(tl => tl.TotalTime) == shortestTotalTime).ToList();
+                    int highestTourLogCount = Tours.Max(t => t.TourLogs.Count);
+                    List<Tour> mostTourLogsTours = Tours.Where(t => t.TourLogs.Count == highestTourLogCount).ToList();
+                    int lowestTourLogCount = Tours.Min(t => t.TourLogs.Count);
+                    List<Tour> leastTourLogsTours = Tours.Where(t => t.TourLogs.Count == lowestTourLogCount).ToList();
+
+                    stack.Item().Text($"Best rated tours - {bestRating}", headingStyle);
+                    stack.Item().Text(string.Join('\n', bestTours.Select(t => t.Name)));
+                    stack.Item().Text($"Worst rated tours - {worstRating}", headingStyle);
+                    stack.Item().Text(string.Join('\n', worstTours.Select(t => t.Name)));
+                    stack.Item().Text($"Longest tours (total time from tour logs) - {longestTotalTime} h", headingStyle);
+                    stack.Item().Text(string.Join('\n', longestTotalTimeTours.Select(t => t.Name)));
+                    stack.Item().Text($"Shortest tours (total time from tour logs) - {shortestTotalTime} h", headingStyle);
+                    stack.Item().Text(string.Join('\n', shortestTotalTimeTours.Select(t => t.Name)));
+                    stack.Item().Text($"Tours with most tour logs - {highestTourLogCount}", headingStyle);
+                    stack.Item().Text(string.Join('\n', mostTourLogsTours.Select(t => t.Name)));
+                    stack.Item().Text($"Tours with least amount of tour logs - {lowestTourLogCount}", headingStyle);
+                    stack.Item().Text(string.Join('\n', leastTourLogsTours.Select(t => t.Name)));
+                }
+
+                double longestDistance = Tours.Max(t => t.Distance);
+                List<Tour> longestDistanceTours = Tours.Where(t => t.Distance == longestDistance).ToList();
+                double shortestDistance = Tours.Min(t => t.Distance);
+                List<Tour> shortestDistanceTours = Tours.Where(t => t.Distance == shortestDistance).ToList();
+                int highestManeuverCount = Tours.Max(t => t.Maneuvers.Count);
+                List<Tour> mostManeuversTours = Tours.Where(t => t.Maneuvers.Count == highestManeuverCount).ToList();
+                int lowestManeuverCount = Tours.Min(t => t.Maneuvers.Count);
+                List<Tour> leastManeuversTours = Tours.Where(t => t.Maneuvers.Count == lowestManeuverCount).ToList();
+                int highestRouteTypeCount = Tours.GroupBy(t => t.RouteType).Max(g => g.Count());
+                List<ERouteType> mostCommonRouteTypes = Tours.GroupBy(t => t.RouteType).Where(g => g.Count() == highestRouteTypeCount).Select(g => g.Key).ToList();
+                int lowestRouteTypeCount = Tours.GroupBy(t => t.RouteType).Min(g => g.Count());
+                List<ERouteType> leastCommonRouteTypes = Tours.GroupBy(t => t.RouteType).Where(g => g.Count() == lowestRouteTypeCount).Select(g => g.Key).ToList();
+
                 stack.Item().Text($"Longest tours (distance) - {longestDistance} km", headingStyle);
                 stack.Item().Text(string.Join('\n', longestDistanceTours.Select(t => t.Name)));
                 stack.Item().Text($"Shortest tours (distance) - {shortestDistance} km", headingStyle);
                 stack.Item().Text(string.Join('\n', shortestDistanceTours.Select(t => t.Name)));
-                stack.Item().Text($"Longest tours (total time from tour logs) - {longestTotalTime} h", headingStyle);
-                stack.Item().Text(string.Join('\n', longestTotalTimeTours.Select(t => t.Name)));
-                stack.Item().Text($"Shortest tours (total time from tour logs) - {shortestTotalTime} h", headingStyle);
-                stack.Item().Text(string.Join('\n', shortestTotalTimeTours.Select(t => t.Name)));
                 stack.Item().Text($"Tours with most maneuvers - {highestManeuverCount}", headingStyle);
                 stack.Item().Text(string.Join('\n', mostManeuversTours.Select(t => t.Name)));
                 stack.Item().Text($"Tours with least amount of maneuvers - {lowestManeuverCount}", headingStyle);
                 stack.Item().Text(string.Join('\n', leastManeuversTours.Select(t => t.Name)));
-                stack.Item().Text($"Tours with most tour logs - {highestTourLogCount}", headingStyle);
-                stack.Item().Text(string.Join('\n', mostTourLogsTours.Select(t => t.Name)));
-                stack.Item().Text($"Tours with least amount of tour logs - {lowestTourLogCount}", headingStyle);
-                stack.Item().Text(string.Join('\n', leastTourLogsTours.Select(t => t.Name)));
                 stack.Item().Text($"Most common route type - {highestRouteTypeCount}", headingStyle);
                 stack.Item().Text(string.Join('\n', mostCommonRouteTypes));
                 stack.Item().Text($"Least common route type - {lowestRouteTypeCount}", headingStyle);

@@ -32,8 +32,19 @@ namespace DataAccessLayer.DBConnection
         /// </summary>
         private DatabaseConnection()
         {
-            logger = LogHelper.GetLogHelper().GetLogger();
+            logger = LogHelper.GetLogHelper().GetLogger();    
             config = TourPlannerConfig.GetTourPlannerConfig();
+            npgsqlConnection = new Npgsql.NpgsqlConnection(config.DatabaseConnectionString);
+
+        }
+
+        /// <summary>
+        /// Creates a DatabaseConnection instance. Is only called once due to GetDBConnection(ITourPlannerConfig testConfig) and the private access modifier.
+        /// </summary>
+        private DatabaseConnection(ITourPlannerConfig config)
+        {
+            logger = LogHelper.GetLogHelper().GetLogger();
+            this.config = config;
             npgsqlConnection = new Npgsql.NpgsqlConnection(config.DatabaseConnectionString);
         }
         /// <summary>
@@ -45,6 +56,19 @@ namespace DataAccessLayer.DBConnection
             if (dB == null)
             {
                 dB = new DatabaseConnection();
+            }
+            return dB;
+        }
+
+        /// <summary>
+        /// Ensures that the DatabaseConnection constructor only gets called once. Used for testing purposes. The test configuration needs to be passed
+        /// </summary>
+        /// <returns>The only DatabaseConnection instance.</returns>
+        public static IDBConnection GetDBConnection(ITourPlannerConfig testConfig)
+        {
+            if (dB == null)
+            {
+                dB = new DatabaseConnection(testConfig);
             }
             return dB;
         }

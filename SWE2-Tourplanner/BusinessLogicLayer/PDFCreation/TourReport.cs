@@ -1,9 +1,7 @@
-﻿using Common.Config;
-using Common.Entities;
+﻿using Common.Entities;
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
-using System;
 using System.Globalization;
 using System.IO;
 
@@ -105,19 +103,20 @@ namespace BusinessLogicLayer.PDFCreation
 
                 decoration.Content().Stack(stack =>
                 {
+                    var contentStyle = TextStyle.Default.Size(9);
                     foreach(TourLog tl in Tour.TourLogs)
                     {
                         stack.Item().BorderBottom(1).BorderColor("CCC").Padding(5).Row(row =>
                         {
-                            row.RelativeColumn().Text(tl.StartDate.ToString("F",CultureInfo.CreateSpecificCulture("en-US")));
-                            row.RelativeColumn().Text(tl.EndDate.ToString("F", CultureInfo.CreateSpecificCulture("en-US")));
-                            row.RelativeColumn().Text($"{tl.Distance} km");
-                            row.RelativeColumn().Text($"{tl.TotalTime} h");
-                            row.RelativeColumn().Text($"{tl.Temperature} °C");
-                            row.RelativeColumn().Text(tl.Rating);
-                            row.RelativeColumn().Text($"{tl.AverageSpeed} km/h");
-                            row.RelativeColumn().Text(tl.Weather);
-                            row.RelativeColumn().Text(tl.TravelMethod);
+                            row.RelativeColumn().Text(tl.StartDate,contentStyle);
+                            row.RelativeColumn().Text(tl.EndDate, contentStyle);
+                            row.RelativeColumn().Text($"{tl.Distance} km", contentStyle);
+                            row.RelativeColumn().Text($"{tl.TotalTime} h", contentStyle);
+                            row.RelativeColumn().Text($"{tl.Temperature} °C", contentStyle);
+                            row.RelativeColumn().Text(tl.Rating, contentStyle);
+                            row.RelativeColumn().Text($"{tl.AverageSpeed} km/h", contentStyle);
+                            row.RelativeColumn().Text(tl.Weather, contentStyle);
+                            row.RelativeColumn().Text(tl.TravelMethod, contentStyle);
                         });
                     }
                 });

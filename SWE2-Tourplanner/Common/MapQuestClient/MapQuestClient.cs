@@ -47,6 +47,7 @@ namespace Common.MapQuestClient
                 {
                     if (leg["maneuvers"] != null)
                     {
+                        tour.Maneuvers.Clear();
                         foreach (JObject maneuver in leg.SelectToken("maneuvers"))
                         {
                             Maneuver m = new Maneuver()
