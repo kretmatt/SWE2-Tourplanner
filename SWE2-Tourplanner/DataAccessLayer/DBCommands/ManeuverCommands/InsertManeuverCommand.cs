@@ -1,6 +1,6 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBConnection;
-using DataAccessLayer.Entities;
+using Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,16 +32,10 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         /// <param name="tourId">Id of the associated tour</param>
         /// <param name="narrative">Narrative of the new maneuver</param>
         /// <param name="distance">Distance/Length of the maneuver</param>
-        public InsertManeuverCommand(IDBConnection db, int tourId, string narrative, double distance)
+        public InsertManeuverCommand(IDBConnection db, Maneuver maneuver)
         {
             this.db = db;
-            this.maneuver = new Maneuver()
-            {
-                Id=-1,
-                TourId=tourId,
-                Narrative=narrative,
-                Distance=distance
-            };
+            this.maneuver = maneuver;
             logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
@@ -59,7 +53,7 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
 
             if (tourResults.Count != 1)
             {
-                logger.Warn($"Tour with the id {maneuver.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
+                logger.Warn($"A single tour with the id {maneuver.TourId} could not be found. A rollback could be necessary to ensure data consistency.");
                 return insertManeuverResult;
             }
 
@@ -86,7 +80,7 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         {
             int undoResult = 0;
 
-            if (maneuver.Id != -1)
+            if (maneuver.Id > 0)
             {
                 IDbCommand deleteManeuverCommand = new NpgsqlCommand("DELETE FROM maneuver WHERE id=@id;");
                 db.DefineParameter(deleteManeuverCommand, "@id", System.Data.DbType.Int32, maneuver.Id);

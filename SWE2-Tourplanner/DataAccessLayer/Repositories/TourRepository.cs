@@ -1,9 +1,9 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBCommands.TourCommands;
 using DataAccessLayer.DBConnection;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using Common.Entities;
+using Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,6 +96,16 @@ namespace DataAccessLayer.Repositories
 
             return tour;
         }
+
+        private bool CheckDBConstraints(Tour tour)
+        {
+            if (tour.Name.Length<=75 && !string.IsNullOrWhiteSpace(tour.Name) && tour.RouteInfo.Length<=250 && !string.IsNullOrWhiteSpace(tour.RouteInfo) &&
+                tour.StartLocation.Length<=150 && !string.IsNullOrWhiteSpace(tour.StartLocation) && tour.EndLocation.Length<=150 && !string.IsNullOrWhiteSpace(tour.EndLocation)
+                &&tour.Distance>=0)
+                return true;
+            return false;
+        }
+
         /// <summary>
         /// Creates a DeleteTourCommand object if a tour with the specified id exists.
         /// </summary>
@@ -115,9 +125,9 @@ namespace DataAccessLayer.Repositories
         /// <param name="entity">Tour that is supposed to be inserted into the database</param>
         public void Insert(Tour entity)
         {
-            if ((!String.IsNullOrEmpty(entity.Name)) && (!String.IsNullOrEmpty(entity.RouteInfo)) && (!String.IsNullOrEmpty(entity.StartLocation)) && (!String.IsNullOrEmpty(entity.EndLocation)))
+            if (CheckDBConstraints(entity))
             {
-                commitCommands.Add(new InsertTourCommand(db, entity.Name, entity.StartLocation, entity.EndLocation, entity.RouteInfo, entity.Distance, entity.RouteType, entity.Description));
+                commitCommands.Add(new InsertTourCommand(db, entity));
                 logger.Info($"InsertTourCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
@@ -174,7 +184,7 @@ namespace DataAccessLayer.Repositories
         public void Update(Tour entity)
         {
             Tour oldTour = Read(entity.Id);
-            if (oldTour != null)
+            if (oldTour != null && CheckDBConstraints(entity))
             {
                 commitCommands.Add(new UpdateTourCommand(db, entity, oldTour));
                 logger.Info($"InsertTourCommand queued. Amount of commands in the next commit is {commitCommands.Count}");

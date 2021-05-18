@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SWE2-Tourplanner", "SWE2-Tourplanner\SWE2-Tourplanner.csproj", "{9A65C5F8-5268-4D55-9E0F-451B42EBFEB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{AF9734D6-BA5E-42C7-BF03-483D30B5C252}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{AF9734D6-BA5E-42C7-BF03-483D30B5C252}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SWE2-Tourplanner-Tests", "SWE2-Tourplanner-Tests\SWE2-Tourplanner-Tests.csproj", "{03F76A84-2DA5-46EC-8448-6A88D6184B2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SWE2-Tourplanner-Tests", "SWE2-Tourplanner-Tests\SWE2-Tourplanner-Tests.csproj", "{03F76A84-2DA5-46EC-8448-6A88D6184B2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{95CB3602-9333-4853-AD57-2CFE8A2058B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{01722D15-83EA-49F9-86BB-7A6D0463F94B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{3790BDB7-20FE-42FF-B38C-7EFD5EE0FA5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,14 @@ Global
 		{03F76A84-2DA5-46EC-8448-6A88D6184B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03F76A84-2DA5-46EC-8448-6A88D6184B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03F76A84-2DA5-46EC-8448-6A88D6184B2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95CB3602-9333-4853-AD57-2CFE8A2058B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95CB3602-9333-4853-AD57-2CFE8A2058B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95CB3602-9333-4853-AD57-2CFE8A2058B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95CB3602-9333-4853-AD57-2CFE8A2058B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01722D15-83EA-49F9-86BB-7A6D0463F94B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01722D15-83EA-49F9-86BB-7A6D0463F94B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01722D15-83EA-49F9-86BB-7A6D0463F94B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01722D15-83EA-49F9-86BB-7A6D0463F94B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3790BDB7-20FE-42FF-B38C-7EFD5EE0FA5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3790BDB7-20FE-42FF-B38C-7EFD5EE0FA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3790BDB7-20FE-42FF-B38C-7EFD5EE0FA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3790BDB7-20FE-42FF-B38C-7EFD5EE0FA5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

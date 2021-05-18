@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.Repositories;
-using DataAccessLayer.Entities;
+using Common.Entities;
 using DataAccessLayer.DBCommands.ManeuverCommands;
 using DataAccessLayer.UnitOfWork;
+using BusinessLogicLayer.Factories;
 
 namespace SWE2_Tourplanner_Tests.DALTests
 {

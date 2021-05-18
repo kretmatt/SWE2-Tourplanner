@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.Repositories;
@@ -99,6 +99,16 @@ namespace DataAccessLayer.UnitOfWork
             tourRepository = new TourRepository(db,commitCommands);
             logger = LogHelper.GetLogHelper().GetLogger();
         }
+
+        public UnitOfWork(ITourLogRepository tourLogRepository, ITourRepository tourRepository, IManeuverRepository maneuverRepository)
+        {
+            db = DatabaseConnection.GetDBConnection();
+            commitCommands = new List<IDBCommand>();
+            rollbackCommands = new List<IDBCommand>();
+
+            logger = LogHelper.GetLogHelper().GetLogger();
+        }
+
         /// <summary>
         /// A constructor just for testing purposes.
         /// </summary>

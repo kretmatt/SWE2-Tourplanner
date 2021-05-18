@@ -1,6 +1,6 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBConnection;
-using DataAccessLayer.Entities;
+using Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

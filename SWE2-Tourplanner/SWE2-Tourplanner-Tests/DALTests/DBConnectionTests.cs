@@ -2,10 +2,8 @@
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccessLayer.DBConnection;
+using Common.Config;
 
 namespace SWE2_Tourplanner_Tests.DALTests
 {
@@ -14,11 +12,17 @@ namespace SWE2_Tourplanner_Tests.DALTests
         private IDBConnection db;
         private Mock<IDbCommand> mockNpgsqlCommand;
         private Mock<IDataReader> mockNpgsqlDataReader;
+        private Mock<ITourPlannerConfig> mockConfig;
 
         [SetUp]
         public void Setup()
         {
-            db = DatabaseConnection.GetDBConnection();
+            mockConfig = new Mock<ITourPlannerConfig>();
+            mockConfig.Setup(mc => mc.DatabaseConnectionString).Returns("Host=localhost;Port=5432;Username=test;Password=test;Database=test;");
+            mockConfig.Setup(mc => mc.ExportsDirectory).Returns("Mock exports directory");
+            mockConfig.Setup(mc => mc.MapQuestKey).Returns("Mock map quest key");
+            mockConfig.Setup(mc => mc.PictureDirectory).Returns("Mock picture directory");
+            db = DatabaseConnection.GetDBConnection(mockConfig.Object);
             mockNpgsqlDataReader = new Mock<IDataReader>();
             mockNpgsqlDataReader.SetupSequence(dr => dr.Read()).Returns(true).Returns(true).Returns(false);
             mockNpgsqlDataReader.SetupSequence(dr => dr.GetValue(It.IsAny<int>())).Returns("Mock");
@@ -60,7 +64,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
         }
         //Because DeclareParameter is called in DefineParameter, the methods are tested together.
         [Test]
-        public void DefineParameter_ArgumentExceptionThrownTest()
+        public void DefineParameterArgumentExceptionThrownTest()
         {
             //arrange
             IDbCommand command = new NpgsqlCommand("DELETE FROM test WHERE id=@id;");
@@ -68,6 +72,14 @@ namespace SWE2_Tourplanner_Tests.DALTests
             db.DefineParameter(command, "id", System.Data.DbType.String, "1");
             //assert
             Assert.Throws<ArgumentException>(() =>db.DefineParameter(command,"id",System.Data.DbType.String,"2"));
+        }
+
+        [Test]
+        public void OpenConnectionPostgresExceptionThrownTest()
+        {
+            //arrange
+            //act & assert - Throws exception due to incorrect credentials.
+            Assert.Throws<Npgsql.PostgresException>(()=>db.OpenConnection());
         }
     }
 }

@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="App.config" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="QuestPDF" Version="2021.5.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.12" />
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
   </ItemGroup>
 
 </Project>

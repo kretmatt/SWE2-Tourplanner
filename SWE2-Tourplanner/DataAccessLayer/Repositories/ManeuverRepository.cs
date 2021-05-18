@@ -1,8 +1,8 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBCommands;
 using DataAccessLayer.DBCommands.ManeuverCommands;
 using DataAccessLayer.DBConnection;
-using DataAccessLayer.Entities;
+using Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +64,14 @@ namespace DataAccessLayer.Repositories
 
             return maneuver;
         }
+
+        private bool CheckDBConstraints(Maneuver maneuver)
+        {
+            if (maneuver.Distance>=0 && !string.IsNullOrWhiteSpace(maneuver.Narrative))
+                return true;
+            return false;
+        }
+
         /// <summary>
         /// Deletes a maneuver with a specific id.
         /// </summary>
@@ -83,9 +91,9 @@ namespace DataAccessLayer.Repositories
         /// <param name="entity">Maneuver to be created</param>
         public void Insert(Maneuver entity)
         {
-            if (!String.IsNullOrEmpty(entity.Narrative))
+            if (CheckDBConstraints(entity))
             {
-                commitCommands.Add(new InsertManeuverCommand(db,entity.TourId,entity.Narrative,entity.Distance));
+                commitCommands.Add(new InsertManeuverCommand(db,entity));
                 logger.Info($"InsertManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
         }
@@ -139,7 +147,7 @@ namespace DataAccessLayer.Repositories
         public void Update(Maneuver entity)
         {
             Maneuver oldManeuver = Read(entity.Id);
-            if (oldManeuver != null)
+            if (oldManeuver != null && CheckDBConstraints(entity))
             {
                 commitCommands.Add(new UpdateManeuverCommand(db, entity, oldManeuver));
                 logger.Info($"UpdateManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");

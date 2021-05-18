@@ -1,7 +1,7 @@
-﻿using BusinessLogicLayer.Logging;
+﻿using Common.Logging;
 using DataAccessLayer.DBConnection;
-using DataAccessLayer.Entities;
-using DataAccessLayer.Enums;
+using Common.Entities;
+using Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,24 +41,10 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
         /// <param name="travelMethod">Way of travelling.</param>
         /// <param name="report">Short comment on the tour.</param>
         /// <param name="temperature">Temperature during the tour.</param>
-        public InsertTourLogCommand(IDBConnection db, int tourId, DateTime startDate, DateTime endDate, double distance, double totalTime, double rating, double averageSpeed, EWeather weather, ETravelMethod travelMethod, string report, double temperature)
+        public InsertTourLogCommand(IDBConnection db, TourLog tourLog)
         {
             this.db = db;
-            this.tourLog = new TourLog()
-            {
-                Id=-1,
-                TourId=tourId,
-                StartDate=startDate,
-                EndDate=endDate,
-                Distance = distance,
-                TotalTime=totalTime,
-                Rating=rating,
-                AverageSpeed=averageSpeed,
-                Weather=weather,
-                TravelMethod=travelMethod,
-                Report=report,
-                Temperature=temperature
-            };
+            this.tourLog = tourLog;
             logger = LogHelper.GetLogHelper().GetLogger();
         }
         /// <summary>
@@ -113,7 +99,7 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
         {
             int undoResult = 0;
 
-            if (tourLog.Id != -1)
+            if (tourLog.Id > 0)
             {
                 IDbCommand deleteTourLogCommand = new NpgsqlCommand("DELETE FROM tourlog WHERE id=@id;");
                 db.DefineParameter(deleteTourLogCommand, "@id", System.Data.DbType.Int32, tourLog.Id);
