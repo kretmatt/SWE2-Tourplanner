@@ -1,0 +1,153 @@
+﻿<Window x:Class="SWE2_Tourplanner.CreateUpdateTourView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Validators="clr-namespace:SWE2_Tourplanner.ValidationRules"
+        xmlns:local="clr-namespace:SWE2_Tourplanner"
+        mc:Ignorable="d"
+        Title="{Binding HeadingMessage}" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Column="0" Margin="2">
+                    <Label Content="Name: "/>
+                    <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                        <TextBox.Text>
+                            <Binding Path="Name" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <Validators:TextInputValidationRule Min="1" Max="75"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Column="1" Margin="2">
+                    <Label Content="Start location: "/>
+                    <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                        <TextBox.Text>
+                            <Binding Path="StartLocation" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <Validators:TextInputValidationRule Min="1" Max="150"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Column="0" Margin="2">
+                    <Label Content="End location: "/>
+                    <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                        <TextBox.Text>
+                            <Binding Path="EndLocation" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <Validators:TextInputValidationRule Min="1" Max="150"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Column="1" Margin="2">
+                    <Label Content="Route type: "/>
+                    <ComboBox ItemsSource="{Binding RouteTypes}" SelectedItem="{Binding RouteType}"/>
+                </StackPanel>
+
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Description: " Grid.Column="0"/>
+                <TextBox Text="{Binding Description}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Column="1"/>
+            </Grid>
+            <Button Grid.Row="3" Margin="0 5 0 0" Content="Exit" Command="{Binding ExitCommand}"/>
+        </Grid>
+        <Grid Grid.Column="1" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <CheckBox Grid.Row="0" Content="Create/Update Tour manually" IsChecked="{Binding ManualTour}"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Column="0" Margin="2" >
+                    <Label Content="Distance: "/>
+                    <TextBox IsEnabled="{Binding ManualTour}" Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                        <TextBox.Text>
+                            <Binding Path="Distance" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <Validators:NoNegativeDistancesRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Column="1" Margin="2">
+                    <Label Content="Map image path: "/>
+                    <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}" IsEnabled="{Binding ManualTour}">
+                        <TextBox.Text>
+                            <Binding Path="RouteInfo" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                                <Binding.ValidationRules>
+                                    <Validators:TextInputValidationRule Min="1" Max="250"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </Grid>
+            <ScrollViewer Grid.Row="2">
+                <StackPanel Orientation="Vertical" >
+                
+                    <Button Command="{Binding AddManeuverCommand}" Content="+"/>
+                    <DataGrid ItemsSource="{Binding Maneuvers}" IsEnabled="{Binding ManualTour}" AutoGenerateColumns="False" IsReadOnly="False" SelectedItem="{Binding CurrentManeuver}">
+                        <DataGrid.RowValidationRules>
+                            <Validators:ManeuverValidationRule ValidationStep="UpdatedValue"/>
+                        </DataGrid.RowValidationRules>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Narrative" Width="1*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Narrative, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Distance" Width="1*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Distance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </ScrollViewer>
+            <Button Grid.Row="3" Margin="0 5 0 0" Content="{Binding ConfirmButtonMessage}" Command="{Binding CommitCommand}"/>
+        </Grid>
+    </Grid>
+</Window>

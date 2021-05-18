@@ -1,0 +1,114 @@
+﻿<Window x:Class="SWE2_Tourplanner.TourLogCreateUpdateView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Converters="clr-namespace:SWE2_Tourplanner.Converters"
+        xmlns:Validators="clr-namespace:SWE2_Tourplanner.ValidationRules"
+        xmlns:local="clr-namespace:SWE2_Tourplanner"
+        xmlns:rcomponents="clr-namespace:SWE2_Tourplanner.ReusableComponents"
+        mc:Ignorable="d"
+        Title="{Binding HeadingMessage}" MinHeight="400" MinWidth="300">
+    <Window.Resources>
+        <Converters:StringToDateTimeConverter x:Key="StringToDateTimeConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="5">
+                <Label Content="Start date time: "/>
+                <TextBox Text="{Binding StartDate, Converter={StaticResource StringToDateTimeConverter}, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="5">
+                <Label Content="End date time: "/>
+                <TextBox Text="{Binding EndDate, Converter={StaticResource StringToDateTimeConverter}, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="5">
+                <Label Content="Distance: "/>
+                <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                    <TextBox.Text>
+                        <Binding Path="Distance" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <Validators:NoNegativeDistancesRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <!-- Temperatur Control -->
+            <StackPanel Grid.Column="1" Margin="5">
+                <Label Content="Temperature: "/>
+                <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                    <TextBox.Text>
+                        <Binding Path="Temperature" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <Validators:DoubleRangeRule Min="-100.00" Max="65.00"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="5">
+                <Label Content="Weather: "/>
+                <ComboBox ItemsSource="{Binding WeatherTypes}" SelectedItem="{Binding Weather}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="5">
+                <Label Content="Travel method: "/>
+                <ComboBox ItemsSource="{Binding TravelMethods}" SelectedItem="{Binding TravelMethod}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="3">
+            <StackPanel Grid.Column="1" Margin="5">
+                <Label Content="Rating: "/>
+                <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
+                    <TextBox.Text>
+                        <Binding Path="Rating" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                            <Binding.ValidationRules>
+                                <Validators:DoubleRangeRule Min="0.00" Max="10.00"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="6*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Report: " Grid.Column="0"/>
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding Report}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
+        </Grid>
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="5" Grid.Column="0" Content="Exit" Command="{Binding ExitCommand}"/>
+            <Button Margin="5" Grid.Column="1" Content="{Binding ConfirmButtonMessage}" Command="{Binding ConductCreateUpdateCommand}"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SWE2_Tourplanner"
+        xmlns:Converters="clr-namespace:SWE2_Tourplanner.Converters"
         mc:Ignorable="d"
         Title="Tour-Planner" Height="450" Width="500">
-    <Window.DataContext>
-        <local:MainViewModel/>
-    </Window.DataContext>
+    <Window.Resources>
+        <Converters:RouteInfoImageConverter x:Key="RouteInfoImageConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -23,7 +24,14 @@
                         <DockPanel HorizontalAlignment="Stretch"></DockPanel>
                     </ItemsPanelTemplate>
                 </Menu.ItemsPanel>
-                <MenuItem Header="File"></MenuItem>
+                <MenuItem Header="File">
+                    <MenuItem Header="Import JSON" Command="{Binding ConductImportCommand}"/>
+                    <MenuItem Header="Export JSON" CommandParameter="{Binding ElementName=TourListBox,Path=SelectedItems}" Command="{Binding GenerateJSONExportCommand}"/>
+                    <MenuItem Header="PDFs">
+                        <MenuItem Header="Export tour report" Command="{Binding GenerateTourReportCommand}"/>
+                        <MenuItem Header="Export summary report" CommandParameter="{Binding ElementName=TourListBox,Path=SelectedItems}" Command="{Binding GenerateSummaryReportCommand}"/>
+                    </MenuItem>
+                </MenuItem>
                 <MenuItem Header="Edit"></MenuItem>
                 <MenuItem Header="Options"></MenuItem>
                 <MenuItem Header="Help" HorizontalAlignment="Right"></MenuItem>
@@ -34,7 +42,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="0" Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" VerticalAlignment="Center"/>
             <Button Grid.Column="1" Command="{Binding SearchToursCommand}" Content="Search" VerticalAlignment="Center"/>
         </Grid>
         <Grid Grid.Row="2" Margin="5">
@@ -64,17 +72,17 @@
                         <Button Content="[]" Grid.Column="2" Command="{Binding EditTourCommand}"></Button>
                     </Grid>
                 </Grid>
-                <ListBox Grid.Row="1" ItemsSource="{Binding FilteredTours}">
+                <ListBox x:Name="TourListBox" Grid.Row="1" ItemsSource="{Binding FilteredTours}" SelectedItem="{Binding SelectedTour, Mode=TwoWay}" SelectionMode="Multiple">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding}"/>
+                                <TextBlock Text="{Binding Name}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-            
+
             <Grid Grid.Column="1" Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -85,10 +93,34 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <Label Content="Titel: " Grid.Row="0"></Label>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <Label Content="{Binding SelectedTour.Name}" Grid.Row="0"></Label>
+                        <Label Content="{Binding SelectedTour.Distance}">
+                        </Label>
+                    </StackPanel>
                     <TabControl  Grid.Row="1">
-                        <TabItem Header="Route"></TabItem>
-                        <TabItem Header="Description"></TabItem>
+                        <TabItem Header="Route">
+                            <Image Source="{Binding SelectedTour.RouteInfo, Converter={StaticResource RouteInfoImageConverter}}"></Image>
+                        </TabItem>
+                        <TabItem Header="Description">
+                            <TextBlock Text="{Binding SelectedTour.Description}"/>
+                        </TabItem>
+                        <TabItem Header="Maneuvers">
+                            <ListBox ItemsSource="{Binding SelectedTour.Maneuvers}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Narrative}"/>
+                                            <TextBlock Text=" - Distance (km): "/>
+                                            <TextBlock Text="{Binding Distance}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TabItem>
+                        <TabItem Header="Further Details">
+                            
+                        </TabItem>
                     </TabControl>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -113,12 +145,83 @@
                             <Button Content="[]" Grid.Column="2" Command="{Binding EditLogCommand}"></Button>
                         </Grid>
                     </Grid>
-                    <DataGrid  Grid.Row="1">
-                        
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentTourLogs}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTourLog}" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Start date">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding StartDate}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="End date">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding EndDate}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Distance">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Distance}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Total time">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TotalTime}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Average speed">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AverageSpeed}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Temperature">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Temperature}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Rating">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Rating}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Weather">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Weather}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Travel method">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TravelMethod}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Report">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Report}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </Grid>
-            
+
 
         </Grid>
     </Grid>

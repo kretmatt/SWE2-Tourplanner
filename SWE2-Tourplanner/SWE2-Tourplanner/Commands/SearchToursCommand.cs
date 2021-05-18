@@ -28,12 +28,13 @@ namespace SWE2_Tourplanner
 
         public bool CanExecute(object parameter)
         {
-            return _mainViewModel.Tours.Any() && !string.IsNullOrWhiteSpace(_mainViewModel.SearchFilter);
+            return true;
+            //return _mainViewModel.Tours.Any() && !string.IsNullOrWhiteSpace(_mainViewModel.SearchFilter);
         }
 
         public void Execute(object parameter)
         {
-            _mainViewModel.FilteredTours = _mainViewModel.Tours.FindAll(t=>t.Contains(_mainViewModel.SearchFilter)==true);
+            //_mainViewModel.FilteredTours = _mainViewModel.Tours.FindAll(t=>t.Contains(_mainViewModel.SearchFilter)==true);
         }
     }
 }
