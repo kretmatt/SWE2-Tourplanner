@@ -93,11 +93,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0">
-                        <Label Content="{Binding SelectedTour.Name}" Grid.Row="0"></Label>
-                        <Label Content="{Binding SelectedTour.Distance}">
-                        </Label>
-                    </StackPanel>
+                    <Label Content="{Binding SelectedTour.Name}" Grid.Row="0"></Label>
                     <TabControl  Grid.Row="1">
                         <TabItem Header="Route">
                             <Image Source="{Binding SelectedTour.RouteInfo, Converter={StaticResource RouteInfoImageConverter}}"></Image>
@@ -119,7 +115,42 @@
                             </ListBox>
                         </TabItem>
                         <TabItem Header="Further Details">
-                            
+                            <ScrollViewer>
+                                <StackPanel Orientation="Vertical">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="Start location: " FontWeight="Bold"></Label>
+                                        <Label Grid.Column="1" Content="{Binding SelectedTour.StartLocation}"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="End location: " FontWeight="Bold"></Label>
+                                        <Label Grid.Column="1" Content="{Binding SelectedTour.EndLocation}"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="Distance (km): " FontWeight="Bold"></Label>
+                                        <Label Grid.Column="1" Content="{Binding SelectedTour.Distance}"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="Route type: " FontWeight="Bold"></Label>
+                                        <Label Grid.Column="1" Content="{Binding SelectedTour.RouteType}"/>
+                                    </Grid>
+                                </StackPanel>
+                            </ScrollViewer>
                         </TabItem>
                     </TabControl>
                 </Grid>
@@ -221,8 +252,6 @@
                     </DataGrid>
                 </Grid>
             </Grid>
-
-
         </Grid>
     </Grid>
 </Window>

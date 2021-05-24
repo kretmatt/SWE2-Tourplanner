@@ -181,7 +181,7 @@ namespace BusinessLogicLayer.PDFCreation
                 stack.Item().Text($"Shortest distance travelled - {shortestTourLogDistance} km", headingStyle);
                 stack.Item().Text($"Highest rating - {highestRating}", headingStyle);
                 stack.Item().Text($"Lowest rating - {lowestRating}", headingStyle);
-                stack.Item().Text($"Average speed - {averageSpeed} km", headingStyle);
+                stack.Item().Text($"Average speed - {averageSpeed} km/h", headingStyle);
                 stack.Item().Text($"Weather stats", headingStyle);
                 stack.Item().Text(string.Join('\n', weatherGroups.Select(g => $"{g.Key} - {g.Count()}")));
                 stack.Item().Text($"Travel methods stats", headingStyle);

@@ -157,7 +157,7 @@ namespace SWE2_Tourplanner.ViewModels
             );
             ConductCreateUpdateCommand = new RelayCommand(
                 (_) => CloseRequested?.Invoke(this, new DialogCloseRequestedEventArgs(true)),
-                (_) => { return (Rating>=0 && Rating<=10) && (Distance>=0) && (Temperature>=-100 && Temperature<=65) && (StartDate.CompareTo(EndDate)<0); }
+                (_) => { return tourLog.Rating>=0 && tourLog.Rating<=10 && tourLog.Distance>=0 && tourLog.Temperature>=-100 && tourLog.Temperature<=65 &&tourLog.StartDate.CompareTo(tourLog.EndDate)<0; }
             );
         }
     }

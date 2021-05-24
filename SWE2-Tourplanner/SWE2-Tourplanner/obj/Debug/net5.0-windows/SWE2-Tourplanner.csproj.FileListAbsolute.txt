@@ -54,3 +54,5 @@ C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Deb
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\App.baml
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\CreateUpdateTourView.g.cs
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\CreateUpdateTourView.baml
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\ErrorView.g.cs
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\ErrorView.baml

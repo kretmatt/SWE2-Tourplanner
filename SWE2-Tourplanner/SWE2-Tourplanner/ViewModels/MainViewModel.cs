@@ -169,18 +169,26 @@ namespace SWE2_Tourplanner
 
             ConductImportCommand = new RelayCommand(
                 async (_)=> {
-                    ImportViewModel importViewModel = new ImportViewModel(TourPlannerConfig.GetTourPlannerConfig());
-                    bool? result = dialogService.ShowDialog(importViewModel);                    
-                    if (result ?? false)
+                    try
                     {
-                        foreach(string path in importViewModel.JsonPaths)
+                        ImportViewModel importViewModel = new ImportViewModel(TourPlannerConfig.GetTourPlannerConfig());
+                        bool? result = dialogService.ShowDialog(importViewModel);
+                        if (result ?? false)
                         {
-                            foreach(Tour t in await exporterImporter.Import(path))
+                            foreach (string path in importViewModel.JsonPaths)
                             {
-                                Tours.Add(t);
+                                foreach (Tour t in await exporterImporter.Import(path))
+                                {
+                                    Tours.Add(t);
+                                }
                             }
                         }
                     }
+                    catch(Exception e)
+                    {
+                        ErrorViewModel evm = new ErrorViewModel("An error occured during json import. Try again with other files!", e.GetType().ToString());
+                        dialogService.ShowDialog(evm);
+                    }         
                 },
                 (_) => { return true; }
             );
@@ -204,29 +212,36 @@ namespace SWE2_Tourplanner
                 });
             AddTourCommand = new RelayCommand(
                 async (_) => {
-                    Tour addTour = new Tour();
-                    CreateUpdateTourViewModel createUpdateTourViewModel = new CreateUpdateTourViewModel(addTour);
-                    bool? result = dialogService.ShowDialog(createUpdateTourViewModel);
-                    if (result ?? false)
+                    try
                     {
-                        if (createUpdateTourViewModel.ManualTour == false)
+                        Tour addTour = new Tour();
+                        CreateUpdateTourViewModel createUpdateTourViewModel = new CreateUpdateTourViewModel(addTour);
+                        bool? result = dialogService.ShowDialog(createUpdateTourViewModel);
+                        if (result ?? false)
                         {
-                            if(!(addTour.Distance<0 && addTour.Maneuvers.Count==0 && string.IsNullOrEmpty(addTour.RouteInfo)))
+                            if (createUpdateTourViewModel.ManualTour == false)
                             {
-                                await tourPlannerFactory.CreateMapQuestTour(addTour);
-                                Tours.Add(addTour);
+                                if (!(addTour.Distance < 0 && addTour.Maneuvers.Count == 0 && string.IsNullOrEmpty(addTour.RouteInfo)))
+                                {
+                                    await tourPlannerFactory.CreateMapQuestTour(addTour);
+                                    Tours.Add(addTour);
+                                }
                             }
-                        }
-                        else
-                        {
-                            addTour.Maneuvers = createUpdateTourViewModel.Maneuvers.Where(m=>!string.IsNullOrEmpty(m.Narrative)&&m.Distance>=0).ToList();
+                            else
+                            {
+                                addTour.Maneuvers = createUpdateTourViewModel.Maneuvers.Where(m => !string.IsNullOrEmpty(m.Narrative) && m.Distance >= 0).ToList();
 
-                            if (!(addTour.Distance <= 0 && addTour.Maneuvers.Count == 0 && string.IsNullOrEmpty(addTour.RouteInfo)))
-                            {
-                                await tourPlannerFactory.CreateTour(addTour);
-                                Tours.Add(addTour);
+                                if (!(addTour.Distance <= 0 && addTour.Maneuvers.Count == 0 && string.IsNullOrEmpty(addTour.RouteInfo)))
+                                {
+                                    await tourPlannerFactory.CreateTour(addTour);
+                                    Tours.Add(addTour);
+                                }
                             }
                         }
+                    }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show($"Exception handling stub: {e.Message}");
                     }
                 },
                 (_) => {
@@ -248,35 +263,43 @@ namespace SWE2_Tourplanner
             });
             EditTourCommand = new RelayCommand(
                 async(_) => {
-                    List<Maneuver> copiedManeuvers = new List<Maneuver>();
-                    SelectedTour.Maneuvers.ForEach(m => copiedManeuvers.Add(new Maneuver() { Id = m.Id, Distance = m.Distance, Narrative = m.Narrative, TourId = m.TourId }));
-                    Tour editTour = new Tour() { Id=SelectedTour.Id, Description=SelectedTour.Description, Distance=SelectedTour.Distance, EndLocation=SelectedTour.EndLocation, StartLocation=SelectedTour.StartLocation, Name = SelectedTour.Name, RouteInfo=SelectedTour.RouteInfo, RouteType = SelectedTour.RouteType, Maneuvers=copiedManeuvers };
-                    CreateUpdateTourViewModel createUpdateTourViewModel = new CreateUpdateTourViewModel(editTour);
-                    bool? result = dialogService.ShowDialog(createUpdateTourViewModel);
-                    if (result ?? false)
+                    try
                     {
-                        if (createUpdateTourViewModel.ManualTour == false)
+                        List<Maneuver> copiedManeuvers = new List<Maneuver>();
+                        SelectedTour.Maneuvers.ForEach(m => copiedManeuvers.Add(new Maneuver() { Id = m.Id, Distance = m.Distance, Narrative = m.Narrative, TourId = m.TourId }));
+                        Tour editTour = new Tour() { Id = SelectedTour.Id, Description = SelectedTour.Description, Distance = SelectedTour.Distance, EndLocation = SelectedTour.EndLocation, StartLocation = SelectedTour.StartLocation, Name = SelectedTour.Name, RouteInfo = SelectedTour.RouteInfo, RouteType = SelectedTour.RouteType, Maneuvers = copiedManeuvers };
+                        CreateUpdateTourViewModel createUpdateTourViewModel = new CreateUpdateTourViewModel(editTour);
+                        bool? result = dialogService.ShowDialog(createUpdateTourViewModel);
+                        if (result ?? false)
                         {
-                            if (!(editTour.Distance < 0 && editTour.Maneuvers.Count == 0 && string.IsNullOrEmpty(editTour.RouteInfo)))
+                            if (createUpdateTourViewModel.ManualTour == false)
                             {
-                                await tourPlannerFactory.UpdateMapQuestTour(editTour);
-                                Tours.Add(editTour);
-                                Tours.Remove(SelectedTour);
+                                if (!(editTour.Distance < 0 && editTour.Maneuvers.Count == 0 && string.IsNullOrEmpty(editTour.RouteInfo)))
+                                {
+                                    await tourPlannerFactory.UpdateMapQuestTour(editTour);
+                                    editTour.TourLogs = SelectedTour.TourLogs;
+                                    Tours.Add(editTour);
+                                    Tours.Remove(SelectedTour);
+                                }
                             }
-                        }
-                        else
-                        {
-                            editTour.Maneuvers = createUpdateTourViewModel.Maneuvers.Where(m => !string.IsNullOrEmpty(m.Narrative) && m.Distance >= 0).ToList();
-
-                            if (!(editTour.Distance <= 0 && editTour.Maneuvers.Count == 0 && string.IsNullOrEmpty(editTour.RouteInfo)))
+                            else
                             {
-                                await tourPlannerFactory.UpdateTour(editTour);
-                                Tours.Add(editTour);
-                                Tours.Remove(SelectedTour);
-                                SelectedTour = editTour;
+                                editTour.Maneuvers = createUpdateTourViewModel.Maneuvers.Where(m => !string.IsNullOrEmpty(m.Narrative) && m.Distance >= 0).ToList();
+
+                                if (!(editTour.Distance <= 0 && editTour.Maneuvers.Count == 0 && string.IsNullOrEmpty(editTour.RouteInfo)))
+                                {
+                                    await tourPlannerFactory.UpdateTour(editTour);
+                                    Tours.Add(editTour);
+                                    Tours.Remove(SelectedTour);
+                                    SelectedTour = editTour;
+                                }
                             }
                         }
                     }
+                    catch(Exception e)
+                    {
+                        MessageBox.Show("Exception Handling stub -> Tour could not be created. Try again with other values!");
+                    } 
                 },
                 (_) => {
                     return SelectedTour!=null;

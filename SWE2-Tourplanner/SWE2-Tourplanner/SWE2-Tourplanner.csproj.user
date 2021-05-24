@@ -10,6 +10,9 @@
     <Compile Update="CreateUpdateTourView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ErrorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ImportView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -22,6 +25,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="CreateUpdateTourView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ErrorView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ImportView.xaml">

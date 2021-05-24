@@ -6,7 +6,7 @@
         xmlns:Validators="clr-namespace:SWE2_Tourplanner.ValidationRules"
         xmlns:local="clr-namespace:SWE2_Tourplanner"
         mc:Ignorable="d"
-        Title="{Binding HeadingMessage}" Height="450" Width="800">
+        Title="{Binding HeadingMessage}" Height="400" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -99,7 +99,7 @@
                     <Label Content="Distance: "/>
                     <TextBox IsEnabled="{Binding ManualTour}" Validation.ErrorTemplate="{StaticResource errorTemplate}">
                         <TextBox.Text>
-                            <Binding Path="Distance" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                            <Binding Path="Distance" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <Validators:NoNegativeDistancesRule/>
                                 </Binding.ValidationRules>
@@ -139,7 +139,7 @@
                             <DataGridTemplateColumn Header="Distance" Width="1*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Distance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Text="{Binding Distance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

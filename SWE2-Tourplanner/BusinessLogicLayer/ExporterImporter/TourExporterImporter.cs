@@ -69,7 +69,6 @@ namespace BusinessLogicLayer.ExporterImporter
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(writer, tourCopies);
                 }
-                Process.Start("explorer.exe", jsonExportFileName);
             });
         }
 
@@ -78,50 +77,62 @@ namespace BusinessLogicLayer.ExporterImporter
             return await Task.Run(() =>
             {
                 List<Tour> importedTours = new List<Tour>();
-                if (File.Exists(filePath))
+                try
                 {
-                    using (StreamReader reader = File.OpenText(filePath))
+                    if (File.Exists(filePath))
                     {
-                        JsonSerializer serializer = new JsonSerializer();
-                        importedTours = (List<Tour>)serializer.Deserialize(reader, typeof(List<Tour>));
-
-                        using (IUnitOfWork unitOfWork = new UnitOfWork())
+                        using (StreamReader reader = File.OpenText(filePath))
                         {
-                            int predictedAffectedRowCount = 0;
-                            foreach (Tour t in importedTours)
+                            JsonSerializer serializer = new JsonSerializer();
+                            importedTours = (List<Tour>)serializer.Deserialize(reader, typeof(List<Tour>));
+
+                            using (IUnitOfWork unitOfWork = new UnitOfWork())
                             {
-                                if (File.Exists(t.RouteInfo) && t.RouteInfo != $@"{tourPlannerConfig.PictureDirectory}{Path.GetFileName(t.RouteInfo)}")
+                                int predictedAffectedRowCount = 0;
+                                foreach (Tour t in importedTours)
                                 {
-                                    File.Copy(t.RouteInfo, $@"{tourPlannerConfig.PictureDirectory}{Path.GetFileName(t.RouteInfo)}", true);
-                                    t.RouteInfo = $@"{tourPlannerConfig.PictureDirectory}{Path.GetFileName(t.RouteInfo)}";
+                                    if (File.Exists(t.RouteInfo) && t.RouteInfo != $@"{tourPlannerConfig.PictureDirectory}{Path.GetFileName(t.RouteInfo)}")
+                                    {
+                                        File.Copy(t.RouteInfo, $@"{tourPlannerConfig.PictureDirectory}{Path.GetFileName(t.RouteInfo)}", true);
+                                        t.RouteInfo = $@"{tourPlannerConfig.PictureDirectory}{Path.GetFileName(t.RouteInfo)}";
+                                    }
+                                    else
+                                        logger.Warn("Map picture could not be imported to picture directory because it could not be found!");
+
+                                    unitOfWork.TourRepository.Insert(t);
+                                    t.Maneuvers.ForEach(m =>
+                                    {
+                                        unitOfWork.ManeuverRepository.Insert(m);
+                                        predictedAffectedRowCount++;
+                                    });
+                                    t.TourLogs.ForEach(tl => {
+                                        unitOfWork.TourLogRepository.Insert(tl);
+                                        predictedAffectedRowCount++;
+                                    });
+                                    predictedAffectedRowCount++;
                                 }
-                                else
-                                    logger.Warn("Map picture could not be imported to picture directory because it could not be found!");
 
-                                unitOfWork.TourRepository.Insert(t);
-                                t.Maneuvers.ForEach(m =>
+                                if (unitOfWork.Commit() != predictedAffectedRowCount)
                                 {
-                                    unitOfWork.ManeuverRepository.Insert(m);
-                                    predictedAffectedRowCount++;
-                                });
-                                t.TourLogs.ForEach(tl => {
-                                    unitOfWork.TourLogRepository.Insert(tl);
-                                    predictedAffectedRowCount++;
-                                });
-                                predictedAffectedRowCount++;
-                            }
-
-                            if (unitOfWork.Commit() != predictedAffectedRowCount)
-                            {
-                                logger.Error("The commit did not affect as many rows as expected. Rollback to previous state to ensure data consistency. The import could not be conducted properly");
-                                unitOfWork.Rollback();
-                                importedTours.Clear();
+                                    logger.Error("The commit did not affect as many rows as expected. Rollback to previous state to ensure data consistency. The import could not be conducted properly");
+                                    unitOfWork.Rollback();
+                                    importedTours.Clear();
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        logger.Error("The file could not be imported because it couldn't be found!");
+                        throw new FileNotFoundException("The JSON file could not be found!");
+                    }
                 }
-                else
-                    logger.Error("The file could not be imported because it couldn't be found!");
+                catch(Exception e)
+                {
+
+                    
+                    
+                }
                 return importedTours;
             });
         }
