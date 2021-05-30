@@ -25,8 +25,10 @@ namespace SWE2_Tourplanner
 {
     public class MainViewModel:BaseViewModel
     {
-        private TourPlannerFactory tourPlannerFactory;
+        private TourDetailViewModel tourDetailViewModel;
+        private ITourPlannerFactory tourPlannerFactory;
         private readonly IDialogService dialogService;
+
         private ObservableCollection<Tour> _tours = new ObservableCollection<Tour>();
         private Tour _selectedTour;
         private TourLog selectedTourLog;
@@ -35,17 +37,10 @@ namespace SWE2_Tourplanner
         private string searchString;
         private ObservableCollection<Tour> filteredTours;
         private ObservableCollection<TourLog> currentTourLogs;
-        public ObservableCollection<TourLog> CurrentTourLogs
+
+        public TourDetailViewModel TourDetailViewModel
         {
-            get { return currentTourLogs; }
-            set
-            {
-                if (value != currentTourLogs)
-                {
-                    currentTourLogs = value;
-                    OnPropertyChanged();
-                }
-            }
+            get { return tourDetailViewModel; }
         }
         public ObservableCollection<Tour> FilteredTours
         {
@@ -78,40 +73,10 @@ namespace SWE2_Tourplanner
                 return _tours;
             }
         }
-        public Tour SelectedTour
-        {
-            get { return _selectedTour; }
-            set
-            {
-                if (value != _selectedTour)
-                {
-                    _selectedTour = value;
-                    OnPropertyChanged();
-                   
-                    CurrentTourLogs = _selectedTour != null ? new ObservableCollection<TourLog>(_selectedTour.TourLogs) : new ObservableCollection<TourLog>();
-                }
-            }
-        }
-        public TourLog SelectedTourLog
-        {
-            get { return selectedTourLog; }
-            set
-            {
-                if (value != selectedTourLog)
-                {
-                    selectedTourLog = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         public ICommand SearchToursCommand { get; }
         public ICommand AddTourCommand { get; }
         public ICommand RemoveTourCommand { get; }
         public ICommand EditTourCommand { get; }
-        public ICommand AddLogCommand { get; }
-        public ICommand RemoveLogCommand { get; }
-        public ICommand EditLogCommand { get; }
-
         public ICommand GenerateTourReportCommand { get; }
         public ICommand GenerateSummaryReportCommand { get; }
         public ICommand GenerateJSONExportCommand { get; }
@@ -122,6 +87,7 @@ namespace SWE2_Tourplanner
         {
             this.dialogService = dialogService;
             tourPlannerFactory = new TourPlannerFactory();
+            tourDetailViewModel = new TourDetailViewModel(dialogService,tourPlannerFactory);
             pdfGenerator = new TourPlannerReportsGenerator();
             exporterImporter = new TourExporterImporter();
             filteredTours = new ObservableCollection<Tour>();
@@ -129,10 +95,10 @@ namespace SWE2_Tourplanner
             FilteredTours = Tours;
 
             GenerateTourReportCommand = new RelayCommand(
-                async (_) => await pdfGenerator.GenerateTourReport(SelectedTour),
+                async (_) => await pdfGenerator.GenerateTourReport(TourDetailViewModel.SelectedTour),
                 (_) =>
                 {
-                    return SelectedTour != null ? true : false;
+                    return TourDetailViewModel.SelectedTour != null ? true : false;
                 }
             );
 
@@ -154,7 +120,6 @@ namespace SWE2_Tourplanner
             GenerateJSONExportCommand = new RelayCommand(
                     async (object selectedItems) =>
                     {
-                        _selectedTour = null;
                         System.Collections.IList items = (System.Collections.IList)selectedItems;
                         List<Tour> selectedTours = items.Cast<Tour>().ToList();
                         await exporterImporter.Export(selectedTours);
@@ -251,23 +216,24 @@ namespace SWE2_Tourplanner
                 async (_) => {
                     try
                     {
-                        await tourPlannerFactory.DeleteTour(SelectedTour);
-                        Tours.Remove(SelectedTour);
+                        await tourPlannerFactory.DeleteTour(TourDetailViewModel.SelectedTour);
+                        Tours.Remove(TourDetailViewModel.SelectedTour);
+                        TourDetailViewModel.SelectedTour = null;
                     }
                     catch
                     {
                     }
                 },
                 (_) => {
-                    return SelectedTour!=null ? true : false;
+                    return TourDetailViewModel.SelectedTour!=null ? true : false;
             });
             EditTourCommand = new RelayCommand(
                 async(_) => {
                     try
                     {
                         List<Maneuver> copiedManeuvers = new List<Maneuver>();
-                        SelectedTour.Maneuvers.ForEach(m => copiedManeuvers.Add(new Maneuver() { Id = m.Id, Distance = m.Distance, Narrative = m.Narrative, TourId = m.TourId }));
-                        Tour editTour = new Tour() { Id = SelectedTour.Id, Description = SelectedTour.Description, Distance = SelectedTour.Distance, EndLocation = SelectedTour.EndLocation, StartLocation = SelectedTour.StartLocation, Name = SelectedTour.Name, RouteInfo = SelectedTour.RouteInfo, RouteType = SelectedTour.RouteType, Maneuvers = copiedManeuvers };
+                        TourDetailViewModel.SelectedTour.Maneuvers.ForEach(m => copiedManeuvers.Add(new Maneuver() { Id = m.Id, Distance = m.Distance, Narrative = m.Narrative, TourId = m.TourId }));
+                        Tour editTour = new Tour() { Id = TourDetailViewModel.SelectedTour.Id, Description = TourDetailViewModel.SelectedTour.Description, Distance = TourDetailViewModel.SelectedTour.Distance, EndLocation = TourDetailViewModel.SelectedTour.EndLocation, StartLocation = TourDetailViewModel.SelectedTour.StartLocation, Name = TourDetailViewModel.SelectedTour.Name, RouteInfo = TourDetailViewModel.SelectedTour.RouteInfo, RouteType = TourDetailViewModel.SelectedTour.RouteType, Maneuvers = copiedManeuvers };
                         CreateUpdateTourViewModel createUpdateTourViewModel = new CreateUpdateTourViewModel(editTour);
                         bool? result = dialogService.ShowDialog(createUpdateTourViewModel);
                         if (result ?? false)
@@ -277,9 +243,10 @@ namespace SWE2_Tourplanner
                                 if (!(editTour.Distance < 0 && editTour.Maneuvers.Count == 0 && string.IsNullOrEmpty(editTour.RouteInfo)))
                                 {
                                     await tourPlannerFactory.UpdateMapQuestTour(editTour);
-                                    editTour.TourLogs = SelectedTour.TourLogs;
+                                    editTour.TourLogs = TourDetailViewModel.SelectedTour.TourLogs;
                                     Tours.Add(editTour);
-                                    Tours.Remove(SelectedTour);
+                                    Tours.Remove(TourDetailViewModel.SelectedTour);
+                                    TourDetailViewModel.SelectedTour = editTour;
                                 }
                             }
                             else
@@ -290,8 +257,8 @@ namespace SWE2_Tourplanner
                                 {
                                     await tourPlannerFactory.UpdateTour(editTour);
                                     Tours.Add(editTour);
-                                    Tours.Remove(SelectedTour);
-                                    SelectedTour = editTour;
+                                    Tours.Remove(TourDetailViewModel.SelectedTour);
+                                    TourDetailViewModel.SelectedTour = editTour;
                                 }
                             }
                         }
@@ -302,53 +269,7 @@ namespace SWE2_Tourplanner
                     } 
                 },
                 (_) => {
-                    return SelectedTour!=null;
-            });
-            AddLogCommand = new RelayCommand(
-                async (_) => {
-                    TourLog addTourLog = new TourLog() { TourId = SelectedTour.Id };
-                    CreateUpdateTourLogViewModel createUpdateTourLogViewModel = new CreateUpdateTourLogViewModel(addTourLog);
-                    bool? result = dialogService.ShowDialog(createUpdateTourLogViewModel);
-                    if (result ?? false)
-                    {
-                        addTourLog.TotalTime = (addTourLog.EndDate - addTourLog.StartDate).TotalHours;
-                        addTourLog.AverageSpeed = addTourLog.Distance / addTourLog.TotalTime;
-                        await tourPlannerFactory.CreateTourLog(addTourLog);
-                        SelectedTour.TourLogs.Add(addTourLog);
-                        CurrentTourLogs.Add(addTourLog);
-                    }
-                },
-                (_) => {
-                    return SelectedTour!=null?true:false;
-            });
-            RemoveLogCommand = new RelayCommand(
-                async (_) => {
-                    await tourPlannerFactory.DeleteTourLog(SelectedTourLog);
-                    SelectedTour.TourLogs.Remove(SelectedTourLog);
-                    CurrentTourLogs.Remove(SelectedTourLog);
-                },
-                (_) => {
-                    return SelectedTourLog!= null ? true : false;
-            });
-            EditLogCommand = new RelayCommand(
-                async (_) => {
-                    TourLog editTourLog = new TourLog() { Id=SelectedTourLog.Id, TourId=SelectedTourLog.TourId, StartDate=SelectedTourLog.StartDate, EndDate=SelectedTourLog.EndDate, Distance=SelectedTourLog.Distance, Temperature=SelectedTourLog.Temperature, Weather=SelectedTourLog.Weather, TravelMethod = SelectedTourLog.TravelMethod, Rating = SelectedTourLog.Rating, Report=SelectedTourLog.Report };
-                    CreateUpdateTourLogViewModel createUpdateTourLogViewModel = new CreateUpdateTourLogViewModel(editTourLog);
-                    bool? result = dialogService.ShowDialog(createUpdateTourLogViewModel);
-                    if (result.HasValue)
-                    {
-                        editTourLog.TotalTime = (editTourLog.EndDate - editTourLog.StartDate).TotalHours;
-                        editTourLog.AverageSpeed = editTourLog.Distance / editTourLog.TotalTime;
-                        await tourPlannerFactory.UpdateTourLog(editTourLog);
-                        SelectedTour.TourLogs.Remove(SelectedTourLog);
-                        SelectedTour.TourLogs.Add(editTourLog);
-                        CurrentTourLogs.Remove(SelectedTourLog);
-                        CurrentTourLogs.Add(editTourLog);
-                        SelectedTourLog = editTourLog;
-                    }
-                },
-                (_) => {
-                    return (SelectedTourLog != null) ? true : false;
+                    return TourDetailViewModel.SelectedTour!=null;
             });
         }
     }

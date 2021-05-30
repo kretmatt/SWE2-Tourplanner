@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SWE2_Tourplanner"
         xmlns:Converters="clr-namespace:SWE2_Tourplanner.Converters"
+        xmlns:RComponents="clr-namespace:SWE2_Tourplanner.ReusableComponents"
         mc:Ignorable="d"
         Title="Tour-Planner" Height="450" Width="500">
     <Window.Resources>
@@ -24,7 +25,7 @@
                         <DockPanel HorizontalAlignment="Stretch"></DockPanel>
                     </ItemsPanelTemplate>
                 </Menu.ItemsPanel>
-                <MenuItem Header="File">
+                <MenuItem Header="File" >
                     <MenuItem Header="Import JSON" Command="{Binding ConductImportCommand}"/>
                     <MenuItem Header="Export JSON" CommandParameter="{Binding ElementName=TourListBox,Path=SelectedItems}" Command="{Binding GenerateJSONExportCommand}"/>
                     <MenuItem Header="PDFs">
@@ -32,9 +33,27 @@
                         <MenuItem Header="Export summary report" CommandParameter="{Binding ElementName=TourListBox,Path=SelectedItems}" Command="{Binding GenerateSummaryReportCommand}"/>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Edit"></MenuItem>
-                <MenuItem Header="Options"></MenuItem>
-                <MenuItem Header="Help" HorizontalAlignment="Right"></MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Tours">
+                        <MenuItem Header="Create tour" Command="{Binding AddTourCommand}"/>
+                        <MenuItem Header="Edit tour" Command="{Binding EditTourCommand}"/>
+                        <MenuItem Header="Delete tour" Command="{Binding RemoveTourCommand}"/>
+                    </MenuItem>
+                    <MenuItem Header="TourLogs">
+                        <MenuItem Header="Create tourlog" Command="{Binding TourDetailViewModel.AddLogCommand}"/>
+                        <MenuItem Header="Edit tourlog" Command="{Binding TourDetailViewModel.EditLogCommand}"/>
+                        <MenuItem Header="Delete tourlog" Command="{Binding TourDetailViewModel.RemoveLogCommand}"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Options">
+                    <MenuItem Header="Load config from file"/>
+                </MenuItem>
+                <MenuItem Header="Help" HorizontalAlignment="Right">
+                    <RComponents:ExternalResourceControl LinkText="Github repository" Link="https://github.com/kretmatt/SWE2-Tourplanner"></RComponents:ExternalResourceControl>
+                    <RComponents:ExternalResourceControl LinkText="Documentation" Link="https://github.com/kretmatt/SWE2-Tourplanner"></RComponents:ExternalResourceControl>
+                    <RComponents:ExternalResourceControl LinkText="Creator" Link="https://github.com/kretmatt"></RComponents:ExternalResourceControl>
+                    <RComponents:ExternalResourceControl LinkText="Powered by MapQuest" Link="https://www.mapquest.com"></RComponents:ExternalResourceControl>
+                </MenuItem>
             </Menu>
         </Grid>
         <Grid Grid.Row="1" Margin="10">
@@ -72,7 +91,7 @@
                         <Button Content="[]" Grid.Column="2" Command="{Binding EditTourCommand}"></Button>
                     </Grid>
                 </Grid>
-                <ListBox x:Name="TourListBox" Grid.Row="1" ItemsSource="{Binding FilteredTours}" SelectedItem="{Binding SelectedTour, Mode=TwoWay}" SelectionMode="Multiple">
+                <ListBox x:Name="TourListBox" Grid.Row="1" ItemsSource="{Binding FilteredTours}" SelectedItem="{Binding TourDetailViewModel.SelectedTour, Mode=TwoWay}" SelectionMode="Multiple">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -83,7 +102,7 @@
                 </ListBox>
             </Grid>
 
-            <Grid Grid.Column="1" Margin="5">
+            <Grid Grid.Column="1" Margin="5"  DataContext="{Binding Path=TourDetailViewModel}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
