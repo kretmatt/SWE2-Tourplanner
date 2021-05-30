@@ -100,7 +100,7 @@ namespace BusinessLogicLayer.Factories
                                                                    int expectedAffectedRows = 1;
                                                                    uow.TourRepository.Update(tour);
 
-                                                                   if (oldTour.Maneuvers.Count != tour.Maneuvers.Count && Enumerable.SequenceEqual(oldTour.Maneuvers, tour.Maneuvers))
+                                                                   if (!Enumerable.SequenceEqual(oldTour.Maneuvers, tour.Maneuvers))
                                                                    {
                                                                        oldTour.Maneuvers.ForEach(m => uow.ManeuverRepository.Delete(m.Id));
                                                                        tour.Maneuvers.ForEach(m =>
@@ -115,12 +115,12 @@ namespace BusinessLogicLayer.Factories
                                                                    {
                                                                        uow.Rollback();
                                                                        logger.Error("Update did not affect as many rows as expected. Rollback to ensure data consistency.");
-                                                                       if (File.Exists(tour.RouteInfo))
+                                                                       if (oldTour.RouteInfo!=tour.RouteInfo && File.Exists(tour.RouteInfo))
                                                                            File.Delete(tour.RouteInfo);
                                                                    }
                                                                    else
                                                                    {
-                                                                       if (File.Exists(oldTour.RouteInfo))
+                                                                       if (tour.RouteInfo!=oldTour.RouteInfo && File.Exists(oldTour.RouteInfo))
                                                                            File.Delete(oldTour.RouteInfo);
                                                                    }
                                                                }

@@ -22,6 +22,8 @@ namespace SWE2_Tourplanner
             dialogService.Register<ImportViewModel,ImportView>();
             dialogService.Register<CreateUpdateTourViewModel, CreateUpdateTourView>();
             dialogService.Register<ErrorViewModel, ErrorView>();
+            dialogService.Register<ManeuversViewModel, ManeuverManagementWindow>();
+            dialogService.Register<ImportConfigViewModel, ImportConfigView>();
 
             var viewModel = new MainViewModel(dialogService);
             var view = new MainWindow { DataContext = viewModel };

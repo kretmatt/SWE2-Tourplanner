@@ -96,7 +96,7 @@ namespace SWE2_Tourplanner.ViewModels
                     TourLog editTourLog = new TourLog() { Id = SelectedTourLog.Id, TourId = SelectedTourLog.TourId, StartDate = SelectedTourLog.StartDate, EndDate = SelectedTourLog.EndDate, Distance = SelectedTourLog.Distance, Temperature = SelectedTourLog.Temperature, Weather = SelectedTourLog.Weather, TravelMethod = SelectedTourLog.TravelMethod, Rating = SelectedTourLog.Rating, Report = SelectedTourLog.Report };
                     CreateUpdateTourLogViewModel createUpdateTourLogViewModel = new CreateUpdateTourLogViewModel(editTourLog);
                     bool? result = dialogService.ShowDialog(createUpdateTourLogViewModel);
-                    if (result.HasValue)
+                    if (result ?? false)
                     {
                         editTourLog.TotalTime = (editTourLog.EndDate - editTourLog.StartDate).TotalHours;
                         editTourLog.AverageSpeed = editTourLog.Distance / editTourLog.TotalTime;

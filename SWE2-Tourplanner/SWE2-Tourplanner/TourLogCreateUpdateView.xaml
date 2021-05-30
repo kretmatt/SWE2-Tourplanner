@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:SWE2_Tourplanner"
         xmlns:rcomponents="clr-namespace:SWE2_Tourplanner.ReusableComponents"
         mc:Ignorable="d"
-        Title="{Binding HeadingMessage}" MinHeight="400" MinWidth="300">
+        Title="{Binding HeadingMessage}" MinHeight="500" Width="400" SizeToContent="Height">
     <Window.Resources>
         <Converters:StringToDateTimeConverter x:Key="StringToDateTimeConverter"/>
     </Window.Resources>
@@ -44,7 +44,7 @@
                 <Label Content="Distance: "/>
                 <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
                     <TextBox.Text>
-                        <Binding Path="Distance" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                        <Binding Path="Distance" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged" Delay="250">
                             <Binding.ValidationRules>
                                 <Validators:NoNegativeDistancesRule/>
                             </Binding.ValidationRules>
@@ -57,7 +57,7 @@
                 <Label Content="Temperature: "/>
                 <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
                     <TextBox.Text>
-                        <Binding Path="Temperature" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                        <Binding Path="Temperature" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged" Delay="250">
                             <Binding.ValidationRules>
                                 <Validators:DoubleRangeRule Min="-100.00" Max="65.00"/>
                             </Binding.ValidationRules>
@@ -83,9 +83,11 @@
         <Grid Grid.Row="3">
             <StackPanel Grid.Column="1" Margin="5">
                 <Label Content="Rating: "/>
+                
+                
                 <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}">
                     <TextBox.Text>
-                        <Binding Path="Rating" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
+                        <Binding Path="Rating" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged" Delay="250">
                             <Binding.ValidationRules>
                                 <Validators:DoubleRangeRule Min="0.00" Max="10.00"/>
                             </Binding.ValidationRules>

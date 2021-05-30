@@ -46,7 +46,7 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Options">
-                    <MenuItem Header="Load config from file"/>
+                    <MenuItem Header="Load config from file" Command="{Binding LoadConfigCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Help" HorizontalAlignment="Right">
                     <RComponents:ExternalResourceControl LinkText="Github repository" Link="https://github.com/kretmatt/SWE2-Tourplanner"></RComponents:ExternalResourceControl>
@@ -61,8 +61,8 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" VerticalAlignment="Center"/>
-            <Button Grid.Column="1" Command="{Binding SearchToursCommand}" Content="Search" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="0" Text="{Binding ToursViewModel.SearchString, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <Button Grid.Column="1" Command="{Binding ToursViewModel.SearchToursCommand}" Content="Search" VerticalAlignment="Center"/>
         </Grid>
         <Grid Grid.Row="2" Margin="5">
             <Grid.ColumnDefinitions>
@@ -91,7 +91,7 @@
                         <Button Content="[]" Grid.Column="2" Command="{Binding EditTourCommand}"></Button>
                     </Grid>
                 </Grid>
-                <ListBox x:Name="TourListBox" Grid.Row="1" ItemsSource="{Binding FilteredTours}" SelectedItem="{Binding TourDetailViewModel.SelectedTour, Mode=TwoWay}" SelectionMode="Multiple">
+                <ListBox x:Name="TourListBox" Grid.Row="1" ItemsSource="{Binding ToursViewModel.FilteredTours}" SelectedItem="{Binding TourDetailViewModel.SelectedTour, Mode=TwoWay}" SelectionMode="Multiple">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -118,7 +118,9 @@
                             <Image Source="{Binding SelectedTour.RouteInfo, Converter={StaticResource RouteInfoImageConverter}}"></Image>
                         </TabItem>
                         <TabItem Header="Description">
-                            <TextBlock Text="{Binding SelectedTour.Description}"/>
+                            <ScrollViewer>
+                                <TextBlock Text="{Binding SelectedTour.Description}" TextWrapping="Wrap"/>
+                            </ScrollViewer>
                         </TabItem>
                         <TabItem Header="Maneuvers">
                             <ListBox ItemsSource="{Binding SelectedTour.Maneuvers}">

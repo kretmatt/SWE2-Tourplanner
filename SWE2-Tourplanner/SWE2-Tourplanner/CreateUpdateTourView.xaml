@@ -6,7 +6,7 @@
         xmlns:Validators="clr-namespace:SWE2_Tourplanner.ValidationRules"
         xmlns:local="clr-namespace:SWE2_Tourplanner"
         mc:Ignorable="d"
-        Title="{Binding HeadingMessage}" Height="400" Width="600">
+        Title="{Binding HeadingMessage}" Height="350" MinWidth="500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -84,8 +84,8 @@
         </Grid>
         <Grid Grid.Column="1" Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="1.5*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
@@ -99,7 +99,7 @@
                     <Label Content="Distance: "/>
                     <TextBox IsEnabled="{Binding ManualTour}" Validation.ErrorTemplate="{StaticResource errorTemplate}">
                         <TextBox.Text>
-                            <Binding Path="Distance" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Distance" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged" Delay="250">
                                 <Binding.ValidationRules>
                                     <Validators:NoNegativeDistancesRule/>
                                 </Binding.ValidationRules>
@@ -108,45 +108,14 @@
                     </TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Grid.Column="1" Margin="2">
-                    <Label Content="Map image path: "/>
-                    <TextBox Validation.ErrorTemplate="{StaticResource errorTemplate}" IsEnabled="{Binding ManualTour}">
-                        <TextBox.Text>
-                            <Binding Path="RouteInfo" ValidatesOnDataErrors="True" UpdateSourceTrigger="LostFocus">
-                                <Binding.ValidationRules>
-                                    <Validators:TextInputValidationRule Min="1" Max="250"/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
+                    <Label Content="Select image:"></Label>
+                    <Button Content="Open dialog" Command="{Binding SelectRouteInfoCommand}" IsEnabled="{Binding ManualTour}"/>
+                    <TextBlock Text="{Binding RouteInfo}" TextWrapping="Wrap"/>
                 </StackPanel>
             </Grid>
-            <ScrollViewer Grid.Row="2">
-                <StackPanel Orientation="Vertical" >
-                
-                    <Button Command="{Binding AddManeuverCommand}" Content="+"/>
-                    <DataGrid ItemsSource="{Binding Maneuvers}" IsEnabled="{Binding ManualTour}" AutoGenerateColumns="False" IsReadOnly="False" SelectedItem="{Binding CurrentManeuver}">
-                        <DataGrid.RowValidationRules>
-                            <Validators:ManeuverValidationRule ValidationStep="UpdatedValue"/>
-                        </DataGrid.RowValidationRules>
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Narrative" Width="1*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding Narrative, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Distance" Width="1*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding Distance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </ScrollViewer>
+            <StackPanel Grid.Row="2">
+                <Button Content="Manage Maneuvers" Command="{Binding ManageManeuverCommand}"/>
+            </StackPanel>
             <Button Grid.Row="3" Margin="0 5 0 0" Content="{Binding ConfirmButtonMessage}" Command="{Binding CommitCommand}"/>
         </Grid>
     </Grid>
