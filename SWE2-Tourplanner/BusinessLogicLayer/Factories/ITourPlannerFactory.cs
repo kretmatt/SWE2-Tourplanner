@@ -9,7 +9,14 @@ namespace BusinessLogicLayer.Factories
 {
     public interface ITourPlannerFactory
     {
-        public Task<Tour> CreateMapQuestTour(Tour tour);
-        public Task<Tour> CreateTour(Tour tour);
+        public Task CreateMapQuestTour(Tour tour);
+        public Task CreateTour(Tour tour);
+        public Task DeleteTour(Tour tour);
+        public Task UpdateMapQuestTour(Tour tour);
+        public Task UpdateTour(Tour tour);
+        public List<Tour> GetTours();
+        public Task CreateTourLog(TourLog tourLog);
+        public Task UpdateTourLog(TourLog tourLog);
+        public Task DeleteTourLog(TourLog tourLog);
     }
 }

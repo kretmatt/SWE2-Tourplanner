@@ -13,7 +13,7 @@ using Common.Logging;
 
 namespace BusinessLogicLayer.Factories
 {
-    public class TourPlannerFactory
+    public class TourPlannerFactory:ITourPlannerFactory
     {
         private IMapQuestClient mapQuestClient;
         private ILog logger;
