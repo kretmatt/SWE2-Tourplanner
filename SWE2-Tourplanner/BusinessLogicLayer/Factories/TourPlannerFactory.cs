@@ -9,7 +9,8 @@ using DataAccessLayer.UnitOfWork;
 using Common.MapQuestClient;
 using log4net;
 using Common.Logging;
-
+using BusinessLogicLayer.Exceptions;
+using DataAccessLayer.Exceptions;
 
 namespace BusinessLogicLayer.Factories
 {
@@ -36,7 +37,7 @@ namespace BusinessLogicLayer.Factories
                                                                           {
                                                                               logger.Error($"{e.GetType()}: {e.Message}");
                                                                           }
-                                                                          throw;
+                                                                          throw new BLFactoryException($"The request to MapQuest was not successful. Details: {e.Message}");
                                                                       }
                                                                   });
         public async Task CreateMapQuestTour(Tour tour)
@@ -44,129 +45,242 @@ namespace BusinessLogicLayer.Factories
             await RetrieveMapQuestData(tour);
             await CreateTour(tour);
         }
-        public async Task CreateTour(Tour tour) => await Task.Run(() =>
+        public Task CreateTour(Tour tour) => Task.Run(() =>
                                                        {
-                                                           if (File.Exists(tour.RouteInfo))
+                                                           try
                                                            {
-                                                               using (uow)
+                                                               if (File.Exists(tour.RouteInfo))
                                                                {
-                                                                   uow.TourRepository.Insert(tour);
-                                                                   tour.Maneuvers.ForEach(m => uow.ManeuverRepository.Insert(m));
-                                                                   if (uow.Commit() != 1 + tour.Maneuvers.Count)
+                                                                   using (uow)
                                                                    {
-                                                                       uow.Rollback();
-                                                                       logger.Error("The commit did not affect as many rows as expected. Rollback to previous state to ensure data consistency.");
+                                                                       uow.TourRepository.Insert(tour);
+                                                                       tour.Maneuvers.ForEach(m => uow.ManeuverRepository.Insert(m));
+                                                                       if (uow.Commit() != 1 + tour.Maneuvers.Count)
+                                                                       {
+                                                                           uow.Rollback();
+                                                                           logger.Error("The commit did not affect as many rows as expected. Rollback to previous state to ensure data consistency.");
+                                                                       }
                                                                    }
                                                                }
+                                                               else
+                                                               {
+                                                                   logger.Error("Tour map could not be found. Aborting tour creation process.");
+                                                                   throw new FileNotFoundException("Tour map could not be found!");
+                                                               }
                                                            }
-                                                           else
+                                                           catch(Exception e)
                                                            {
-                                                               logger.Error("Tour map could not be found. Aborting tour creation process.");
-                                                               throw new FileNotFoundException("Tour map could not be found!");
-                                                           }
-                                                           return tour;
+                                                               if(e is FileNotFoundException)
+                                                               {
+                                                                   logger.Error("There seems to have been an error downloading the mapquest map image. Stop Insert process!");
+                                                                   throw new BLFactoryException("Tour can't be created because the map image does not exist!");
+                                                               }
+                                                               if(e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
+                                                               {
+                                                                   logger.Error($"Tour data could not be saved. Details: {e.Message}");
+                                                                   throw new BLFactoryException($"Tour data could not be saved due to the following reason: {e.Message}");
+                                                               }
+                                                               logger.Error($"An unhandled exception ocurred! {e.GetType()}: {e.Message}");
+                                                               throw new BLFactoryException("The new tour could not be created! Look up the logs for further information!");
+                                                           }                                                           
                                                        });
-        public async Task DeleteTour(Tour tour) => await Task.Run(() =>
+        public Task DeleteTour(Tour tour) => Task.Run(() =>
                                                       {
-                                                          using (uow)
+                                                          try
                                                           {
-                                                              uow.TourRepository.Delete(tour.Id);
-                                                              int affectedRows = uow.Commit();
-                                                              logger.Info($"Expected max affected rows: {1 + tour.Maneuvers.Count + tour.TourLogs.Count}");
-                                                              if (affectedRows > 1 + tour.Maneuvers.Count + tour.TourLogs.Count)
+                                                              using (uow)
                                                               {
-                                                                  uow.Rollback();
-                                                                  logger.Error("Delete statement affected more rows than expected. Reroll to ensure data consistency.");
-                                                              }
-                                                              else
-                                                              {
-                                                                  if (File.Exists(tour.RouteInfo))
-                                                                      File.Delete(tour.RouteInfo);
+                                                                  uow.TourRepository.Delete(tour.Id);
+                                                                  int affectedRows = uow.Commit();
+                                                                  logger.Info($"Expected max affected rows: {1 + tour.Maneuvers.Count + tour.TourLogs.Count}");
+                                                                  if (affectedRows > 1 + tour.Maneuvers.Count + tour.TourLogs.Count)
+                                                                  {
+                                                                      uow.Rollback();
+                                                                      logger.Error("Delete statement affected more rows than expected. Reroll to ensure data consistency.");
+                                                                  }
+                                                                  else
+                                                                  {
+                                                                      if (File.Exists(tour.RouteInfo))
+                                                                          File.Delete(tour.RouteInfo);
+                                                                  }
                                                               }
                                                           }
+                                                          catch(Exception e)
+                                                          {
+                                                              if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
+                                                              {
+                                                                  logger.Error($"Tour could not be deleted. Details: {e.Message}");
+                                                                  throw new BLFactoryException($"Tour data could not be deleted due to the following reason: {e.Message}");
+                                                              }
+                                                              if(e is UnauthorizedAccessException)
+                                                              {
+                                                                  logger.Error($"Tour could be deleted, but the associated map image could not be deleted due to unauthorized access!");
+                                                                  throw new BLFactoryException($"Tour could be deleted, but the associated map image could not be deleted due to access problems!");
+                                                              }
+                                                              logger.Error($"An unhandled exception ocurred whilst deleting the tour! {e.GetType()}: {e.Message}");
+                                                              throw new BLFactoryException("The tour could not be deleted! Look up the logs for further information!");
+                                                          }
+                                                          
                                                       });
         public async Task UpdateMapQuestTour(Tour tour)
         {
             await RetrieveMapQuestData(tour);
             await UpdateTour(tour);
         }
-        public async Task UpdateTour(Tour tour) => await Task.Run(() =>
+        public Task UpdateTour(Tour tour) => Task.Run(() =>
                                                        {
-                                                           Tour oldTour = uow.TourRepository.Read(tour.Id);
-                                                           if (oldTour != null)
+                                                           try
                                                            {
-                                                               using (uow)
+                                                               Tour oldTour = uow.TourRepository.Read(tour.Id);
+                                                               if (oldTour != null)
                                                                {
-                                                                   int expectedAffectedRows = 1;
-                                                                   uow.TourRepository.Update(tour);
-
-                                                                   if (!Enumerable.SequenceEqual(oldTour.Maneuvers, tour.Maneuvers))
+                                                                   using (uow)
                                                                    {
-                                                                       oldTour.Maneuvers.ForEach(m => uow.ManeuverRepository.Delete(m.Id));
-                                                                       tour.Maneuvers.ForEach(m =>
+                                                                       int expectedAffectedRows = 1;
+                                                                       uow.TourRepository.Update(tour);
+
+                                                                       if (!Enumerable.SequenceEqual(oldTour.Maneuvers, tour.Maneuvers))
                                                                        {
-                                                                           m.TourId = tour.Id;
-                                                                           uow.ManeuverRepository.Insert(m);
-                                                                       });
-                                                                       expectedAffectedRows += oldTour.Maneuvers.Count + tour.Maneuvers.Count;
-                                                                   }
+                                                                           oldTour.Maneuvers.ForEach(m => uow.ManeuverRepository.Delete(m.Id));
+                                                                           tour.Maneuvers.ForEach(m =>
+                                                                           {
+                                                                               m.TourId = tour.Id;
+                                                                               uow.ManeuverRepository.Insert(m);
+                                                                           });
+                                                                           expectedAffectedRows += oldTour.Maneuvers.Count + tour.Maneuvers.Count;
+                                                                       }
 
-                                                                   if (uow.Commit() != expectedAffectedRows)
-                                                                   {
-                                                                       uow.Rollback();
-                                                                       logger.Error("Update did not affect as many rows as expected. Rollback to ensure data consistency.");
-                                                                       if (oldTour.RouteInfo!=tour.RouteInfo && File.Exists(tour.RouteInfo))
-                                                                           File.Delete(tour.RouteInfo);
-                                                                   }
-                                                                   else
-                                                                   {
-                                                                       if (tour.RouteInfo!=oldTour.RouteInfo && File.Exists(oldTour.RouteInfo))
-                                                                           File.Delete(oldTour.RouteInfo);
+                                                                       if (uow.Commit() != expectedAffectedRows)
+                                                                       {
+                                                                           uow.Rollback();
+                                                                           logger.Error("Update did not affect as many rows as expected. Rollback to ensure data consistency.");
+                                                                           if (oldTour.RouteInfo != tour.RouteInfo && File.Exists(tour.RouteInfo))
+                                                                               File.Delete(tour.RouteInfo);
+                                                                       }
+                                                                       else
+                                                                       {
+                                                                           if (tour.RouteInfo != oldTour.RouteInfo && File.Exists(oldTour.RouteInfo))
+                                                                               File.Delete(oldTour.RouteInfo);
+                                                                       }
                                                                    }
                                                                }
                                                            }
+                                                           catch(Exception e)
+                                                           {
+                                                               if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
+                                                               {
+                                                                   logger.Error($"Tour could not be updated. Details: {e.Message}");
+                                                                   throw new BLFactoryException($"Tour data could not be updated due to the following reason: {e.Message}");
+                                                               }
+                                                               if (e is UnauthorizedAccessException)
+                                                               {
+                                                                   logger.Error($"Obsolete map image could not be deleted");
+                                                                   throw new BLFactoryException($"Tour could be updated, but obsolete map image could not be deleted!");
+                                                               }
+                                                               logger.Error($"An unhandled exception ocurred whilst updating the tour! {e.GetType()}: {e.Message}");
+                                                               throw new BLFactoryException("The tour could not be updated properly! Look up the logs for further information!");
+                                                           }
+                                                           
                                                        });
         public List<Tour> GetTours()
         {
-            return uow.TourRepository.ReadAll();
-        }
-        public async Task CreateTourLog(TourLog tourLog) => await Task.Run(() =>
-                                                                   {
-                                                                       using (uow)
-                                                                       {
-                                                                           uow.TourLogRepository.Insert(tourLog);
+            List<Tour> tours = new List<Tour>();
 
-                                                                           if (uow.Commit() != 1)
+            try
+            {
+                tours = uow.TourRepository.ReadAll();
+            }
+            catch (Exception e)
+            {
+                if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
+                {
+                    logger.Error($"Tour data could not be retrieved because: {e.Message}");
+                    throw new BLFactoryException($"Tours could not be retrieved due to following resons: {e.Message}");
+                }
+                logger.Error($"An unhandled exception ocurred whilst retrieving tour data! {e.GetType()}: {e.Message}");
+                throw new BLFactoryException("Tours could not be retrieved from data store!");
+            }
+
+            return tours;
+        }
+        public Task CreateTourLog(TourLog tourLog) => Task.Run(() =>
+                                                                   {
+                                                                       try
+                                                                       {
+                                                                           using (uow)
                                                                            {
-                                                                               uow.Rollback();
-                                                                               logger.Error("The amount of affected rows was not 1. Rollback to ensure data consistency.");
+                                                                               uow.TourLogRepository.Insert(tourLog);
+
+                                                                               if (uow.Commit() != 1)
+                                                                               {
+                                                                                   uow.Rollback();
+                                                                                   logger.Error("The amount of affected rows was not 1. Rollback to ensure data consistency.");
+                                                                               }
                                                                            }
                                                                        }
-                                                                   });
-        public async Task UpdateTourLog(TourLog tourLog) => await Task.Run(() =>
-                                                                {
-                                                                    using (uow)
-                                                                    {
-                                                                        uow.TourLogRepository.Update(tourLog);
+                                                                       catch (Exception e)
+                                                                       {
+                                                                           if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
+                                                                           {
+                                                                               logger.Error($"Tourlog could not be created. Details: {e.Message}");
+                                                                               throw new BLFactoryException($"Tourlog data could not be created due to the following reason: {e.Message}");
+                                                                           }
+                                                                           logger.Error($"An unhandled exception ocurred whilst creating the tourlog! {e.GetType()}: {e.Message}");
+                                                                           throw new BLFactoryException("The tourlog could not be created! Look up the logs for further information!");
+                                                                       }
 
-                                                                        if (uow.Commit() != 1)
-                                                                        {
-                                                                            uow.Rollback();
-                                                                            logger.Error("The amount of affected rows was not 1. Rollback to ensure data consistency.");
-                                                                        }
-                                                                    }
-                                                                });
-        public async Task DeleteTourLog(TourLog tourLog) => await Task.Run(() =>
+                                                                   });
+        public Task UpdateTourLog(TourLog tourLog) => Task.Run(() =>
                                                                 {
-                                                                    using (uow)
+                                                                    try
                                                                     {
-                                                                        uow.TourLogRepository.Delete(tourLog.Id);
-                                                                        if (uow.Commit() != 1)
+                                                                        using (uow)
                                                                         {
-                                                                            uow.Rollback();
-                                                                            logger.Error("Delete statement affected more than 1 row. Reroll to ensure data consistency.");
+                                                                            uow.TourLogRepository.Update(tourLog);
+
+                                                                            if (uow.Commit() != 1)
+                                                                            {
+                                                                                uow.Rollback();
+                                                                                logger.Error("The amount of affected rows was not 1. Rollback to ensure data consistency.");
+                                                                            }
                                                                         }
                                                                     }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
+                                                                        {
+                                                                            logger.Error($"Tourlog could not be updated. Details: {e.Message}");
+                                                                            throw new BLFactoryException($"Tourlog data could not be updated due to the following reason: {e.Message}");
+                                                                        }
+                                                                        logger.Error($"An unhandled exception ocurred whilst updating the tourlog! {e.GetType()}: {e.Message}");
+                                                                        throw new BLFactoryException("The tourlog could not be updated! Look up the logs for further information!");
+                                                                    }  
+                                                                });
+        public Task DeleteTourLog(TourLog tourLog) => Task.Run(() =>
+                                                                {
+                                                                    try
+                                                                    {
+                                                                        using (uow)
+                                                                        {
+                                                                            uow.TourLogRepository.Delete(tourLog.Id);
+                                                                            if (uow.Commit() != 1)
+                                                                            {
+                                                                                uow.Rollback();
+                                                                                logger.Error("Delete statement affected more than 1 row. Reroll to ensure data consistency.");
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
+                                                                        {
+                                                                            logger.Error($"Tourlog could not be deleted. Details: {e.Message}");
+                                                                            throw new BLFactoryException($"Tourlog data could not be deleted due to the following reason: {e.Message}");
+                                                                        }
+                                                                        logger.Error($"An unhandled exception ocurred whilst deleting the tourlog! {e.GetType()}: {e.Message}");
+                                                                        throw new BLFactoryException("The tourlog could not be deleted! Look up the logs for further information!");
+                                                                    }
+                                                                    
                                                                 });
     }
 }
