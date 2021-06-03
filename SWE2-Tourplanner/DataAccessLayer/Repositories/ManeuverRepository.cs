@@ -24,7 +24,9 @@ namespace DataAccessLayer.Repositories
         /// Commands to be committed to the database.
         /// </summary>
         private List<IDBCommand> commitCommands;
-
+        /// <summary>
+        /// ILog object used for logging errors etc.
+        /// </summary>
         private log4net.ILog logger;
         /// <summary>
         /// Creates the ManeuverRepository instance.
@@ -64,7 +66,11 @@ namespace DataAccessLayer.Repositories
 
             return maneuver;
         }
-
+        /// <summary>
+        /// CheckDBConstraints is used to check whether the db constraints are complied with or not.
+        /// </summary>
+        /// <param name="maneuver">The maneuver that needs to be checked.</param>
+        /// <returns>True if constraints are adhered to, false if constraints are not complied with.</returns>
         private bool CheckDBConstraints(Maneuver maneuver)
         {
             if (maneuver.Distance>=0 && !string.IsNullOrWhiteSpace(maneuver.Narrative))

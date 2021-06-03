@@ -33,7 +33,9 @@ namespace DataAccessLayer.Repositories
         /// Repositories for retrieving associated maneuvers
         /// </summary>
         private IManeuverRepository maneuverRepository;
-
+        /// <summary>
+        /// ILog object used for logging errors etc.
+        /// </summary>
         private log4net.ILog logger;
 
         /// <summary>
@@ -96,7 +98,11 @@ namespace DataAccessLayer.Repositories
 
             return tour;
         }
-
+        /// <summary>
+        /// CheckDBConstraints checks whether db constraints are complied with or not.
+        /// </summary>
+        /// <param name="tour">The tour that needs to be checked.</param>
+        /// <returns>True if constraints are adhered to, false if constraints are not complied with.</returns>
         private bool CheckDBConstraints(Tour tour)
         {
             if (tour.Name.Length<=75 && !string.IsNullOrWhiteSpace(tour.Name) && tour.RouteInfo.Length<=250 && !string.IsNullOrWhiteSpace(tour.RouteInfo) &&

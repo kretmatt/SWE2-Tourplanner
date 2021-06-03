@@ -25,7 +25,9 @@ namespace DataAccessLayer.Repositories
         /// Commands to be committed to the database
         /// </summary>
         private List<IDBCommand> commitCommands;
-
+        /// <summary>
+        /// ILog object used for logging errors etc.
+        /// </summary>
         private log4net.ILog logger;
 
         /// <summary>
@@ -73,7 +75,11 @@ namespace DataAccessLayer.Repositories
 
             return tourLog;
         }
-
+        /// <summary>
+        /// CheckDBConstraints is used to check whether a tourlog object complies with db constraints or not.
+        /// </summary>
+        /// <param name="tourLog">The tourlog that needs to be checked.</param>
+        /// <returns>True if constraints are adhered to, false if constraints are not complied with.</returns>
         private bool CheckDBConstraints(TourLog tourLog)
         {
             if (DateTime.Compare(tourLog.StartDate, tourLog.EndDate)<0 && tourLog.Distance>=0 && tourLog.AverageSpeed>0 && tourLog.Temperature>-273.15 && tourLog.Rating>=0 && tourLog.Rating<=10 )

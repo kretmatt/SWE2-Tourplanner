@@ -23,7 +23,9 @@ namespace DataAccessLayer.DBConnection
         /// Connection to the Postgres database
         /// </summary>
         private Npgsql.NpgsqlConnection npgsqlConnection;
-
+        /// <summary>
+        /// Tourplanner config object.
+        /// </summary>
         private ITourPlannerConfig config;
 
         private log4net.ILog logger;
