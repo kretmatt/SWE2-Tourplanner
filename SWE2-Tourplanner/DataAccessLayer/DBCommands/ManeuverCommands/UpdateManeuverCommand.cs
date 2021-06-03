@@ -1,11 +1,7 @@
 ﻿using Common.Logging;
 using DataAccessLayer.DBConnection;
 using Common.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.DBCommands.ManeuverCommands
 {

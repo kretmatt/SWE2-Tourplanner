@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.DBCommands
+﻿namespace DataAccessLayer.DBCommands
 {
     /// <summary>
     /// The IDBCommand interfaces defines two functions - Execute() and Undo() - which are needed for commits and rollbacks. In a commit of a IUnitOfWork, the Execute() function of every issued command is called. In a rollback, the Undo() function is executed. Is the interface for the command pattern.

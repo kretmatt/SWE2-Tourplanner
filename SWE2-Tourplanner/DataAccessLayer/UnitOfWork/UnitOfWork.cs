@@ -5,8 +5,6 @@ using DataAccessLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.UnitOfWork
 {
@@ -39,7 +37,9 @@ namespace DataAccessLayer.UnitOfWork
         /// The provided Maneuver repository for the user. Insert-, Update- and Delete-ManeuverCommands produced by Insert(), Update() and Delete() are saved into the commitCommands collection.
         /// </summary>
         private IManeuverRepository maneuverRepository;
-
+        /// <summary>
+        /// ILog object used for logging errors etc.
+        /// </summary>
         private log4net.ILog logger;
         /// <summary>
         /// A public property for setting and getting the private property tourRepository.

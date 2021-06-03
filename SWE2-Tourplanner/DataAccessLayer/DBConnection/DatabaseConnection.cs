@@ -1,12 +1,7 @@
 ﻿using Common.Config;
 using Common.Logging;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.DBConnection
 {
@@ -24,10 +19,12 @@ namespace DataAccessLayer.DBConnection
         /// </summary>
         private Npgsql.NpgsqlConnection npgsqlConnection;
         /// <summary>
-        /// Tourplanner config object.
+        /// Tourplanner config object. Used to retrieve the newest config data.
         /// </summary>
         private ITourPlannerConfig config;
-
+        /// <summary>
+        /// ILog object used for logging.
+        /// </summary>
         private log4net.ILog logger;
         /// <summary>
         /// Creates a DatabaseConnection instance. Is only called once due to GetDBConnection() and the private access modifier.
