@@ -5,6 +5,7 @@ using DataAccessLayer.DBConnection;
 using Common.Entities;
 using System;
 using System.Collections.Generic;
+using DataAccessLayer.Exceptions;
 
 namespace DataAccessLayer.Repositories
 {
@@ -87,6 +88,11 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new DeleteManeuverCommand(db,maneuver));
                 logger.Info($"DeleteManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
+            else
+            {
+                logger.Warn("Deleting the maneuver is not possible, because the associated data doesn't exist in the data store!");
+                throw new DALRepositoryCommandException("Deleting the maneuver is not possible, because the associated data doesn't exist in the data store!");
+            }
         }
         /// <summary>
         /// Checks if properties are ok. If so, creates a InsertManeuverCommand instance with the specified data.
@@ -98,6 +104,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new InsertManeuverCommand(db,entity));
                 logger.Info($"InsertManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Inserting maneuver data is impossible because constraints are being violated!");
+                throw new DALRepositoryCommandException("The maneuver can't be saved because constraints of the data store are being violated!");
             }
         }
         /// <summary>
@@ -154,6 +165,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new UpdateManeuverCommand(db, entity, oldManeuver));
                 logger.Info($"UpdateManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Updating the maneuver is not possible because constraints are being violated or the associated data doesn't exist in the data store!");
+                throw new DALRepositoryCommandException("Updating the maneuver is impossible, because the constraints of the data store are being violated or the associated data doesn't exist in the data store!");
             }
         }
     }

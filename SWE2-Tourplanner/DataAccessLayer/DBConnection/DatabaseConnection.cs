@@ -2,6 +2,7 @@
 using Common.Logging;
 using System;
 using System.Collections.Generic;
+using DataAccessLayer.Exceptions;
 
 namespace DataAccessLayer.DBConnection
 {
@@ -78,8 +79,17 @@ namespace DataAccessLayer.DBConnection
         /// <returns>Amount of affected rows</returns>
         public int ExecuteStatement(IDbCommand command)
         {
-            command.Connection = npgsqlConnection;
-            int affectedRows = command.ExecuteNonQuery();
+            int affectedRows;
+            try
+            {
+                command.Connection = npgsqlConnection;
+                affectedRows = command.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                logger.Error($"The following error occured during execution of a command: {e.Message}");
+                throw new DALDBConnectionException("Command could not be excuted properly");
+            }
             return affectedRows;
         }
         /// <summary>
@@ -90,19 +100,28 @@ namespace DataAccessLayer.DBConnection
         public List<object[]> QueryDatabase(IDbCommand command)
         {
             List<object[]> results = new List<object[]>();
-            command.Connection = npgsqlConnection;
-            using (IDataReader resultReader = command.ExecuteReader())
+            try
             {
-                while (resultReader.Read())
+                command.Connection = npgsqlConnection;
+                using (IDataReader resultReader = command.ExecuteReader())
                 {
-                    object[] row = new object[resultReader.FieldCount];
-                    for (int i = 0; i < row.Length; i++)
+                    while (resultReader.Read())
                     {
-                        row[i] = resultReader.GetValue(i);
+                        object[] row = new object[resultReader.FieldCount];
+                        for (int i = 0; i < row.Length; i++)
+                        {
+                            row[i] = resultReader.GetValue(i);
+                        }
+                        results.Add(row);
                     }
-                    results.Add(row);
                 }
             }
+            catch(Exception e)
+            {
+                logger.Error($"The following error occured whilst querying the database: {e.Message}");
+                throw new DALDBConnectionException("The wanted data could not be retrieved!");
+            }
+            
             return results;
         }
         /// <summary>
@@ -110,8 +129,16 @@ namespace DataAccessLayer.DBConnection
         /// </summary>
         public void OpenConnection() 
         {
-            npgsqlConnection.ConnectionString = config.DatabaseConnectionString;
-            npgsqlConnection.Open();
+            try
+            {
+                npgsqlConnection.ConnectionString = config.DatabaseConnectionString;
+                npgsqlConnection.Open();
+            }
+            catch(Exception e)
+            {
+                logger.Error($"Could not open connection to database with the current connection string properly. Error: {e.Message}");
+                throw new DALDBConnectionException("A connection to the database could not be established!");
+            }
         }
         /// <summary>
         /// Closes the database connection
@@ -126,13 +153,21 @@ namespace DataAccessLayer.DBConnection
         /// <returns>Parameter index</returns>
         public int DeclareParameter(IDbCommand command, string name, System.Data.DbType type)
         {
-            if (!command.Parameters.Contains(name))
+            try
             {
-                int index = command.Parameters.Add(new Npgsql.NpgsqlParameter(name, type));
-                return index;
+                if (!command.Parameters.Contains(name))
+                {
+                    int index = command.Parameters.Add(new Npgsql.NpgsqlParameter(name, type));
+                    return index;
+                }
+                logger.Error($"Error occured during declaration of parameter. The parameter {name} already exists and can therefore not be declared again.");
+                throw new ArgumentException(string.Format("Parameter {0} already exists", name));
             }
-            logger.Error($"Error occured during declaration of parameter. The parameter {name} already exists and can therefore not be declared again.");
-            throw new ArgumentException(string.Format("Parameter {0} already exists", name));
+            catch(Exception e)
+            {
+                throw new DALParameterException($"Some error occured during declaration process of parameters: {e.Message}");
+            }
+            
         }
         /// <summary>
         /// Declares and defines a parmeter in a command.
@@ -143,8 +178,19 @@ namespace DataAccessLayer.DBConnection
         /// <param name="value">Value of the parameter</param>
         public void DefineParameter(IDbCommand command, string name, System.Data.DbType type, object value)
         {
-            int index = DeclareParameter(command, name, type);
-            command.Parameters[index].Value = value;
+            try
+            {
+                int index = DeclareParameter(command, name, type);
+                command.Parameters[index].Value = value;
+            }
+            catch(Exception e)
+            {
+                if (e is DALParameterException)
+                    throw;
+                logger.Error("Could not set parameter properly!");
+                throw new DALParameterException("Declaration of parameter was successful, but setting the value caused a problem!");
+            }
+            
         }
     }
 }

@@ -5,6 +5,7 @@ using DataAccessLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DataAccessLayer.Exceptions;
 
 namespace DataAccessLayer.UnitOfWork
 {
@@ -133,14 +134,27 @@ namespace DataAccessLayer.UnitOfWork
         {
             int commitCount = 0;
             logger.Info($"Starting database transaction. Commiting {commitCommands.Count} commands.");
-            db.OpenConnection();
-            commitCommands.ForEach(cc =>
+            try
             {
-                commitCount += cc.Execute();
-                rollbackCommands.Add(cc);
-            });
-            db.CloseConnection();
-            logger.Info($"Finished database transaction. {commitCount} rows were affected by the issued commands.");
+                db.OpenConnection();
+                commitCommands.ForEach(cc =>
+                {
+                    commitCount += cc.Execute();
+                    rollbackCommands.Add(cc);
+                });
+                db.CloseConnection();
+                logger.Info($"Finished database transaction. {commitCount} rows were affected by the issued commands.");
+            }
+            catch (Exception e)
+            {
+                db.CloseConnection();
+                logger.Error("An error ocurred during the commit! Automatic rollback!");
+                Rollback();
+                if (e is DALDBConnectionException || e is DALParameterException)
+                    throw;
+                throw new DALUnitOfWorkException("Data could not be saved due to an unexpected error! Data conistency is already restored! Try again with other data!");
+            }
+            
             return commitCount;
         }
         /// <summary>
@@ -159,14 +173,25 @@ namespace DataAccessLayer.UnitOfWork
         {
             int rollbackCount = 0;
             logger.Info($"Starting database rollback. Rolling back {rollbackCommands.Count} commands.");
-            db.OpenConnection();
-            rollbackCommands.Reverse<IDBCommand>().ToList().ForEach(rc => 
+            try
             {
-                rollbackCount+= rc.Undo();
-            });
-            db.CloseConnection();
-            rollbackCommands.Clear();
-            logger.Info($"Finished database rollback. {rollbackCount} rows were affected by the rollback.");
+                db.OpenConnection();
+                rollbackCommands.Reverse<IDBCommand>().ToList().ForEach(rc =>
+                {
+                    rollbackCount += rc.Undo();
+                });
+                db.CloseConnection();
+                rollbackCommands.Clear();
+                logger.Info($"Finished database rollback. {rollbackCount} rows were affected by the rollback.");
+            }
+            catch(Exception e)
+            {
+                logger.Error("Rollback could not be properly conducted! Data consistency could not be ensured!");
+                if (e is DALParameterException || e is DALDBConnectionException)
+                    throw;
+                throw new DALUnitOfWorkException("Rollback of data could not be properly conducted! Data consistency could not be restored!");
+            }
+           
             return rollbackCount;
         }
     }

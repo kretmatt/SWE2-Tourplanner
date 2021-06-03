@@ -7,6 +7,7 @@ using Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DataAccessLayer.Exceptions;
 
 namespace DataAccessLayer.Repositories
 {
@@ -119,8 +120,13 @@ namespace DataAccessLayer.Repositories
             Tour tour = Read(id);
             if (tour != null)
             {
-                commitCommands.Add(new DeleteTourCommand(db,tour));
+                commitCommands.Add(new DeleteTourCommand(db, tour));
                 logger.Info($"DeleteTourCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Delete is not possible because the entity does not exist in the data store!");
+                throw new DALRepositoryCommandException("Delete is not possible because data does not exist in data store");
             }
         }
         /// <summary>
@@ -134,6 +140,11 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new InsertTourCommand(db, entity));
                 logger.Info($"InsertTourCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
+            else
+            {
+                logger.Warn("Inserting new data is not possible because constraints are being violated!");
+                throw new DALRepositoryCommandException("Inserting new data is not possible due to it violating constraints!");
+            }
         }
         /// <summary>
         /// Retrieves a tour with the specified id.
@@ -143,6 +154,7 @@ namespace DataAccessLayer.Repositories
         public Tour Read(int id)
         {
             Tour tour = null;
+            
             if (id > 0)
             {
                 IDbCommand readTourCommand = new NpgsqlCommand("SELECT * FROM tour WHERE id=@id;");
@@ -156,7 +168,7 @@ namespace DataAccessLayer.Repositories
                     tour.Maneuvers = maneuverRepository.ReadAll().Where(m => m.TourId == tour.Id).ToList();
                     tour.TourLogs = tourLogRepository.ReadAll().Where(tl => tl.TourId == tour.Id).ToList();
                 }
-            }
+            }            
             return tour;
         }
         /// <summary>
@@ -192,6 +204,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new UpdateTourCommand(db, entity, oldTour));
                 logger.Info($"InsertTourCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Update is not possible either because constraints are being violated or because the associated data does not exist in the data store");
+                throw new DALRepositoryCommandException("Could not create command because the associated data does not exist in the data store!");
             }
         }
     }

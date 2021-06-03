@@ -6,6 +6,7 @@ using DataAccessLayer.DBConnection;
 using DataAccessLayer.DBCommands;
 using Common.Enums;
 using Common.Logging;
+using DataAccessLayer.Exceptions;
 
 namespace DataAccessLayer.Repositories
 {
@@ -95,6 +96,11 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new DeleteTourLogCommand(db,tourLog));
                 logger.Info($"DeleteTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
+            else
+            {
+                logger.Warn("Delete is not possible because the tourlog entity does not exist in the data store!");
+                throw new DALRepositoryCommandException("Delete is not possible because tourlog data does not exist in data store");
+            }
         }
         /// <summary>
         /// Checks if log data is ok. If so, creates a new InsertTourLogCommand
@@ -106,6 +112,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new InsertTourLogCommand(db, entity));
                 logger.Info($"InsertTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Insert of tourlog data is not possible because constraints are being violated!");
+                throw new DALRepositoryCommandException("Saving the tourlog data is not possible, because constraints are being violated!");
             }
         }
         /// <summary>
@@ -166,6 +177,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new UpdateTourLogCommand(db, entity, oldTourLog));
                 logger.Info($"UpdateTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Updating the tourlog data is not possible, because constraints are being violated or the entity does not exist in the data store!");
+                throw new DALRepositoryCommandException("Updating the tourlog data is not possible, because constraints are being violated or the associated data does not exist in the data store!");
             }
         }
     }
