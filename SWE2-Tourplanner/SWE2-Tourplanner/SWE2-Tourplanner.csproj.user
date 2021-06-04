@@ -13,10 +13,13 @@
     <Compile Update="ErrorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ImportConfigView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ImportView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ReusableComponents\TemperatureSliders.xaml.cs">
+    <Compile Update="ManeuverManagementWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="TourLogCreateUpdateView.xaml.cs">
@@ -30,13 +33,16 @@
     <Page Update="ErrorView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ImportConfigView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ImportView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ReusableComponents\TemperatureSliders.xaml">
+    <Page Update="ManeuverManagementWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TourLogCreateUpdateView.xaml">

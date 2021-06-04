@@ -8,7 +8,7 @@
             <Border BorderBrush="Red" BorderThickness="2">
                 <Grid>
                     <AdornedElementPlaceholder/>
-                    <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,4,0"/>
+                    <TextBlock ToolTip="{Binding [0].ErrorContent}"  Text="!" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,4,0" Width="10"/>
                 </Grid>
             </Border>
         </ControlTemplate>

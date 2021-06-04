@@ -49,14 +49,22 @@ namespace SWE2_Tourplanner.ReusableComponents
         public static readonly DependencyProperty LinkProperty =
             DependencyProperty.Register("Link", typeof(string), typeof(ExternalResourceControl), new PropertyMetadata("", new PropertyChangedCallback(OnLinkChanged)));
 
-        public string Favicon
+        public object Favicon
         {
-            get { return faviconLocation; }
+            get
+            {
+                if (string.IsNullOrEmpty(faviconLocation))
+                    return DependencyProperty.UnsetValue;
+                return faviconLocation; 
+            }
             set
             {
-                if (value != faviconLocation)
+                if (!(value is string))
+                    return;
+
+                if ((string)value != faviconLocation)
                 {
-                    faviconLocation = value;
+                    faviconLocation = (string)value;
                     OnPropertyChanged();
                 }
             }

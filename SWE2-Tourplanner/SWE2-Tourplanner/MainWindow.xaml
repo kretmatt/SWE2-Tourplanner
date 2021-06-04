@@ -7,7 +7,7 @@
         xmlns:Converters="clr-namespace:SWE2_Tourplanner.Converters"
         xmlns:RComponents="clr-namespace:SWE2_Tourplanner.ReusableComponents"
         mc:Ignorable="d"
-        Title="Tour-Planner" Height="450" Width="500">
+        Title="Tour-Planner" Height="600" Width="550">
     <Window.Resources>
         <Converters:RouteInfoImageConverter x:Key="RouteInfoImageConverter"/>
     </Window.Resources>

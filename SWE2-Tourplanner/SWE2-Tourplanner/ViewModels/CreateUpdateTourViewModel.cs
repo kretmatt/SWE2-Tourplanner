@@ -189,7 +189,7 @@ namespace SWE2_Tourplanner.ViewModels
             ManageManeuverCommand = new RelayCommand(
                 (_) =>
                 {
-                    maneuversViewModel = new ManeuversViewModel(Maneuvers.ToList());
+                    maneuversViewModel = new ManeuversViewModel(new List<Maneuver>(Maneuvers.ToList()));
                     bool? result = dialogService.ShowDialog(maneuversViewModel);
                     if (result ?? false)
                     {

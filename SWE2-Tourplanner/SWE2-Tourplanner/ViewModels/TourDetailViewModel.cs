@@ -17,7 +17,7 @@ namespace SWE2_Tourplanner.ViewModels
         private Tour _selectedTour;
         private TourLog selectedTourLog;
         private ObservableCollection<TourLog> currentTourLogs;
-        private ITourPlannerFactory tourPlannerFactory;
+        private ITourLogFactory tourLogFactory;
         private readonly IDialogService dialogService;
         public ObservableCollection<TourLog> CurrentTourLogs
         {
@@ -61,51 +61,79 @@ namespace SWE2_Tourplanner.ViewModels
         public ICommand RemoveLogCommand { get; }
         public ICommand EditLogCommand { get; }
 
-        public TourDetailViewModel(IDialogService dialogService, ITourPlannerFactory tourPlannerFactory)
+        private void ShowException(Exception e)
+        {
+            ErrorViewModel evm = new ErrorViewModel(e.Message, e.GetType().ToString());
+            dialogService.ShowDialog(evm);
+        }
+
+        public TourDetailViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
-            this.tourPlannerFactory = tourPlannerFactory;
+            this.tourLogFactory = new TourLogFactory();
             AddLogCommand = new RelayCommand(
                 async (_) => {
-                    TourLog addTourLog = new TourLog() { TourId = SelectedTour.Id };
-                    CreateUpdateTourLogViewModel createUpdateTourLogViewModel = new CreateUpdateTourLogViewModel(addTourLog);
-                    bool? result = dialogService.ShowDialog(createUpdateTourLogViewModel);
-                    if (result ?? false)
+                    try
                     {
-                        addTourLog.TotalTime = (addTourLog.EndDate - addTourLog.StartDate).TotalHours;
-                        addTourLog.AverageSpeed = addTourLog.Distance / addTourLog.TotalTime;
-                        await tourPlannerFactory.CreateTourLog(addTourLog);
-                        SelectedTour.TourLogs.Add(addTourLog);
-                        CurrentTourLogs.Add(addTourLog);
+                        TourLog addTourLog = new TourLog() { TourId = SelectedTour.Id };
+                        CreateUpdateTourLogViewModel createUpdateTourLogViewModel = new CreateUpdateTourLogViewModel(addTourLog);
+                        bool? result = dialogService.ShowDialog(createUpdateTourLogViewModel);
+                        if (result ?? false)
+                        {
+                            addTourLog.TotalTime = (addTourLog.EndDate - addTourLog.StartDate).TotalHours;
+                            addTourLog.AverageSpeed = addTourLog.Distance / addTourLog.TotalTime;
+                            await tourLogFactory.CreateTourLog(addTourLog);
+                            SelectedTour.TourLogs.Add(addTourLog);
+                            CurrentTourLogs.Add(addTourLog);
+                        }
                     }
+                    catch(Exception e)
+                    {
+                        ShowException(e);
+                    }
+                    
                 },
                 (_) => {
                     return SelectedTour != null ? true : false;
                 });
             RemoveLogCommand = new RelayCommand(
                 async (_) => {
-                    await tourPlannerFactory.DeleteTourLog(SelectedTourLog);
-                    SelectedTour.TourLogs.Remove(SelectedTourLog);
-                    CurrentTourLogs.Remove(SelectedTourLog);
+                    try
+                    {
+                        await tourLogFactory.DeleteTourLog(SelectedTourLog);
+                        SelectedTour.TourLogs.Remove(SelectedTourLog);
+                        CurrentTourLogs.Remove(SelectedTourLog);
+                    }
+                    catch(Exception e)
+                    {
+                        ShowException(e);
+                    }  
                 },
                 (_) => {
                     return SelectedTourLog != null ? true : false;
                 });
             EditLogCommand = new RelayCommand(
                 async (_) => {
-                    TourLog editTourLog = new TourLog() { Id = SelectedTourLog.Id, TourId = SelectedTourLog.TourId, StartDate = SelectedTourLog.StartDate, EndDate = SelectedTourLog.EndDate, Distance = SelectedTourLog.Distance, Temperature = SelectedTourLog.Temperature, Weather = SelectedTourLog.Weather, TravelMethod = SelectedTourLog.TravelMethod, Rating = SelectedTourLog.Rating, Report = SelectedTourLog.Report };
-                    CreateUpdateTourLogViewModel createUpdateTourLogViewModel = new CreateUpdateTourLogViewModel(editTourLog);
-                    bool? result = dialogService.ShowDialog(createUpdateTourLogViewModel);
-                    if (result ?? false)
+                    try
                     {
-                        editTourLog.TotalTime = (editTourLog.EndDate - editTourLog.StartDate).TotalHours;
-                        editTourLog.AverageSpeed = editTourLog.Distance / editTourLog.TotalTime;
-                        await tourPlannerFactory.UpdateTourLog(editTourLog);
-                        SelectedTour.TourLogs.Remove(SelectedTourLog);
-                        SelectedTour.TourLogs.Add(editTourLog);
-                        CurrentTourLogs.Remove(SelectedTourLog);
-                        CurrentTourLogs.Add(editTourLog);
-                        SelectedTourLog = editTourLog;
+                        TourLog editTourLog = new TourLog() { Id = SelectedTourLog.Id, TourId = SelectedTourLog.TourId, StartDate = SelectedTourLog.StartDate, EndDate = SelectedTourLog.EndDate, Distance = SelectedTourLog.Distance, Temperature = SelectedTourLog.Temperature, Weather = SelectedTourLog.Weather, TravelMethod = SelectedTourLog.TravelMethod, Rating = SelectedTourLog.Rating, Report = SelectedTourLog.Report };
+                        CreateUpdateTourLogViewModel createUpdateTourLogViewModel = new CreateUpdateTourLogViewModel(editTourLog);
+                        bool? result = dialogService.ShowDialog(createUpdateTourLogViewModel);
+                        if (result ?? false)
+                        {
+                            editTourLog.TotalTime = (editTourLog.EndDate - editTourLog.StartDate).TotalHours;
+                            editTourLog.AverageSpeed = editTourLog.Distance / editTourLog.TotalTime;
+                            await tourLogFactory.UpdateTourLog(editTourLog);
+                            SelectedTour.TourLogs.Remove(SelectedTourLog);
+                            SelectedTour.TourLogs.Add(editTourLog);
+                            CurrentTourLogs.Remove(SelectedTourLog);
+                            CurrentTourLogs.Add(editTourLog);
+                            SelectedTourLog = editTourLog;
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        ShowException(e);
                     }
                 },
                 (_) => {

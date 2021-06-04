@@ -1,0 +1,91 @@
+21:44:32,458 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - DeleteTourCommand queued. Amount of commands in the next commit is 1
+21:44:32,467 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+21:44:32,475 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+21:44:32,475 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\BusinessLogicLayer\Factories\TourFactory.cs] INFO - Expected max affected rows: 4
+21:44:35,221 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - DeleteTourCommand queued. Amount of commands in the next commit is 1
+21:44:35,221 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+21:44:35,222 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+21:44:35,222 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\BusinessLogicLayer\Factories\TourFactory.cs] INFO - Expected max affected rows: 72
+21:44:43,021 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+21:44:43,021 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 2
+21:44:43,021 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 3
+21:44:43,021 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 4
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 5
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 6
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 7
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 8
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 9
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 10
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 11
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 12
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 13
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 14
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 15
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 16
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 17
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 18
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 19
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 20
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 21
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 22
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 23
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 24
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 25
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 26
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 27
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 28
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 29
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 30
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 31
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 32
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 33
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 34
+21:44:43,022 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 35
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 36
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 37
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 38
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 39
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 40
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 41
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 42
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 43
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 44
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 45
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 46
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 47
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 48
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 49
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 50
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 51
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 52
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 53
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 54
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 55
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 56
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 57
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 58
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 59
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 60
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 61
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 62
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 63
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 64
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 65
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 66
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 67
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 68
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 69
+21:44:43,023 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 70
+21:44:43,025 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - InsertTourLogCommand queued. Amount of commands in the next commit is 71
+21:44:43,025 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - InsertTourLogCommand queued. Amount of commands in the next commit is 72
+21:44:43,025 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\BusinessLogicLayer\ExporterImporter\TourExporterImporter.cs] WARN - Map picture could not be imported to picture directory because it could not be found!
+21:44:43,025 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 73
+21:44:43,025 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 74
+21:44:43,025 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 75
+21:44:43,025 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - InsertTourLogCommand queued. Amount of commands in the next commit is 76
+21:44:43,025 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 76 commands.
+21:44:43,135 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 76 rows were affected by the issued commands.
+21:45:33,871 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+21:45:33,871 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+21:45:33,876 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+22:06:12,588 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The imported file has an invalid format and can therefore not be used!
