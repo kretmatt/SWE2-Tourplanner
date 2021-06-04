@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Factories
 {
-    public interface ITourPlannerFactory
+    public interface ITourFactory
     {
         public Task CreateMapQuestTour(Tour tour);
         public Task CreateTour(Tour tour);
@@ -15,8 +15,5 @@ namespace BusinessLogicLayer.Factories
         public Task UpdateMapQuestTour(Tour tour);
         public Task UpdateTour(Tour tour);
         public List<Tour> GetTours();
-        public Task CreateTourLog(TourLog tourLog);
-        public Task UpdateTourLog(TourLog tourLog);
-        public Task DeleteTourLog(TourLog tourLog);
     }
 }

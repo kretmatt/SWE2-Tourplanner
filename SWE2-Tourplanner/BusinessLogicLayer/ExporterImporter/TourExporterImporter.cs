@@ -46,7 +46,6 @@ namespace BusinessLogicLayer.ExporterImporter
             {
                 try
                 {
-                    throw new Exception("jahahasd");
                     List<Tour> tourCopies = new List<Tour>();
                     foreach (Tour tour in tours)
                     {

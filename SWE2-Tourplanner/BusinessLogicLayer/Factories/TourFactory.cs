@@ -14,12 +14,12 @@ using DataAccessLayer.Exceptions;
 
 namespace BusinessLogicLayer.Factories
 {
-    public class TourPlannerFactory:ITourPlannerFactory
+    public class TourFactory:ITourFactory
     {
         private IMapQuestClient mapQuestClient;
         private ILog logger;
         private IUnitOfWork uow;
-        public TourPlannerFactory()
+        public TourFactory()
         {
             mapQuestClient = new MapQuestClient();
             logger = LogHelper.GetLogHelper().GetLogger();
@@ -42,10 +42,10 @@ namespace BusinessLogicLayer.Factories
                                                                   });
         public async Task CreateMapQuestTour(Tour tour)
         {
-            await RetrieveMapQuestData(tour);
-            await CreateTour(tour);
+                await RetrieveMapQuestData(tour);
+                await CreateTour(tour); 
         }
-        public Task CreateTour(Tour tour) => Task.Run(() =>
+        public async Task CreateTour(Tour tour) => await Task.Run(() =>
                                                        {
                                                            try
                                                            {
@@ -203,84 +203,5 @@ namespace BusinessLogicLayer.Factories
 
             return tours;
         }
-        public Task CreateTourLog(TourLog tourLog) => Task.Run(() =>
-                                                                   {
-                                                                       try
-                                                                       {
-                                                                           using (uow)
-                                                                           {
-                                                                               uow.TourLogRepository.Insert(tourLog);
-
-                                                                               if (uow.Commit() != 1)
-                                                                               {
-                                                                                   uow.Rollback();
-                                                                                   logger.Error("The amount of affected rows was not 1. Rollback to ensure data consistency.");
-                                                                               }
-                                                                           }
-                                                                       }
-                                                                       catch (Exception e)
-                                                                       {
-                                                                           if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
-                                                                           {
-                                                                               logger.Error($"Tourlog could not be created. Details: {e.Message}");
-                                                                               throw new BLFactoryException($"Tourlog data could not be created due to the following reason: {e.Message}");
-                                                                           }
-                                                                           logger.Error($"An unhandled exception ocurred whilst creating the tourlog! {e.GetType()}: {e.Message}");
-                                                                           throw new BLFactoryException("The tourlog could not be created! Look up the logs for further information!");
-                                                                       }
-
-                                                                   });
-        public Task UpdateTourLog(TourLog tourLog) => Task.Run(() =>
-                                                                {
-                                                                    try
-                                                                    {
-                                                                        using (uow)
-                                                                        {
-                                                                            uow.TourLogRepository.Update(tourLog);
-
-                                                                            if (uow.Commit() != 1)
-                                                                            {
-                                                                                uow.Rollback();
-                                                                                logger.Error("The amount of affected rows was not 1. Rollback to ensure data consistency.");
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    catch (Exception e)
-                                                                    {
-                                                                        if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
-                                                                        {
-                                                                            logger.Error($"Tourlog could not be updated. Details: {e.Message}");
-                                                                            throw new BLFactoryException($"Tourlog data could not be updated due to the following reason: {e.Message}");
-                                                                        }
-                                                                        logger.Error($"An unhandled exception ocurred whilst updating the tourlog! {e.GetType()}: {e.Message}");
-                                                                        throw new BLFactoryException("The tourlog could not be updated! Look up the logs for further information!");
-                                                                    }  
-                                                                });
-        public Task DeleteTourLog(TourLog tourLog) => Task.Run(() =>
-                                                                {
-                                                                    try
-                                                                    {
-                                                                        using (uow)
-                                                                        {
-                                                                            uow.TourLogRepository.Delete(tourLog.Id);
-                                                                            if (uow.Commit() != 1)
-                                                                            {
-                                                                                uow.Rollback();
-                                                                                logger.Error("Delete statement affected more than 1 row. Reroll to ensure data consistency.");
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    catch (Exception e)
-                                                                    {
-                                                                        if (e is DALDBConnectionException || e is DALParameterException || e is DALRepositoryCommandException || e is DALUnitOfWorkException)
-                                                                        {
-                                                                            logger.Error($"Tourlog could not be deleted. Details: {e.Message}");
-                                                                            throw new BLFactoryException($"Tourlog data could not be deleted due to the following reason: {e.Message}");
-                                                                        }
-                                                                        logger.Error($"An unhandled exception ocurred whilst deleting the tourlog! {e.GetType()}: {e.Message}");
-                                                                        throw new BLFactoryException("The tourlog could not be deleted! Look up the logs for further information!");
-                                                                    }
-                                                                    
-                                                                });
     }
 }
