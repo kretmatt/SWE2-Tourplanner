@@ -42,9 +42,9 @@ namespace DataAccessLayer.UnitOfWork
         /// ILog object used for logging errors etc.
         /// </summary>
         private log4net.ILog logger;
-        /// <summary>
+        /// <value>
         /// A public property for setting and getting the private property tourRepository.
-        /// </summary>
+        /// </value>
         public ITourRepository TourRepository
         {
             get 
@@ -57,9 +57,9 @@ namespace DataAccessLayer.UnitOfWork
                     tourRepository = value;
             } 
         }
-        /// <summary>
+        /// <value>
         /// A public property for setting and getting the private property tourLogRepository.
-        /// </summary>
+        /// </value>
         public ITourLogRepository TourLogRepository 
         {
             get
@@ -72,9 +72,9 @@ namespace DataAccessLayer.UnitOfWork
                     tourLogRepository = value;
             }
         }
-        /// <summary>
+        /// <value>
         /// A public property for setting and getting the private property maneuverRepository.
-        /// </summary>
+        /// </value>
         public IManeuverRepository ManeuverRepository
         {
             get
@@ -101,15 +101,6 @@ namespace DataAccessLayer.UnitOfWork
             logger = LogHelper.GetLogHelper().GetLogger();
         }
 
-        public UnitOfWork(ITourLogRepository tourLogRepository, ITourRepository tourRepository, IManeuverRepository maneuverRepository)
-        {
-            db = DatabaseConnection.GetDBConnection();
-            commitCommands = new List<IDBCommand>();
-            rollbackCommands = new List<IDBCommand>();
-
-            logger = LogHelper.GetLogHelper().GetLogger();
-        }
-
         /// <summary>
         /// A constructor just for testing purposes.
         /// </summary>
@@ -130,6 +121,7 @@ namespace DataAccessLayer.UnitOfWork
         /// Concrete imlementation of the Commit() function of the IUnitOfWork interface. Takes every issued command for the commit and executes them together.
         /// </summary>
         /// <returns>The amount of rows affected by the commit.</returns>
+        /// <exception cref="DALUnitOfWorkException">Thrown, when an error occurs during the commit</exception>
         public int Commit()
         {
             int commitCount = 0;
@@ -169,6 +161,7 @@ namespace DataAccessLayer.UnitOfWork
         /// Concrete implementation of the Rollback() function of the IUnitOfWork interface. Takes every commited command and executes their Undo() function.
         /// </summary>
         /// <returns>The amount of rows affected by the rollback.</returns>
+        /// <exception cref="DALUnitOfWorkException">Thrown, when an error occurs during the rollback</exception>
         public int Rollback()
         {
             int rollbackCount = 0;

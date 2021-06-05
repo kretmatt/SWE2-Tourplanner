@@ -18,7 +18,9 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         /// The maneuver to be deleted/inserted again.
         /// </summary>
         private Maneuver maneuver;
-
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private log4net.ILog logger;
 
         /// <summary>

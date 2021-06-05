@@ -19,16 +19,16 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         /// The maneuver to be created/deleted.
         /// </summary>
         private Maneuver maneuver;
-
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private log4net.ILog logger;
 
         /// <summary>
         /// Creates a new InsertManeuverCommand instance.
         /// </summary>
+        /// <param name="maneuver">Maneuver to be inserted</param>
         /// <param name="db">Connection to the database</param>
-        /// <param name="tourId">Id of the associated tour</param>
-        /// <param name="narrative">Narrative of the new maneuver</param>
-        /// <param name="distance">Distance/Length of the maneuver</param>
         public InsertManeuverCommand(IDBConnection db, Maneuver maneuver)
         {
             this.db = db;

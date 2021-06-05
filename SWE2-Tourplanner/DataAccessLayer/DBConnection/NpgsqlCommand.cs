@@ -22,13 +22,13 @@ namespace DataAccessLayer.DBConnection
         /// </summary>
         /// <returns>DataReader for retrieval of results</returns>
         public IDataReader ExecuteReader() => Connection != null ? new NpgsqlDataReader(npgsqlCommand.ExecuteReader()) : null;
-        /// <summary>
+        /// <value>
         /// Parameters of the command.
-        /// </summary>
+        /// </value>
         public DbParameterCollection Parameters => npgsqlCommand.Parameters;
-        /// <summary>
+        /// <value>
         /// Connection to the database where the command gets executed.
-        /// </summary>
+        /// </value>
         public DbConnection Connection
         {
             get

@@ -19,24 +19,16 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
         /// The new log to be inserted.
         /// </summary>
         private TourLog tourLog;
-
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private log4net.ILog logger;
 
         /// <summary>
         /// Creates a new InsertTourLogCommand instance.
         /// </summary>
         /// <param name="db">Connection to the database.</param>
-        /// <param name="tourId">Id of the associated tour.</param>
-        /// <param name="startDate">Start date+time of the log.</param>
-        /// <param name="endDate">End date+time of the log.</param>
-        /// <param name="distance">Travelled distance in km.</param>
-        /// <param name="totalTime">Total time needed in h.</param>
-        /// <param name="rating">Rating of the tour.</param>
-        /// <param name="averageSpeed">Average speed of the user.</param>
-        /// <param name="weather">Weather during the tour.</param>
-        /// <param name="travelMethod">Way of travelling.</param>
-        /// <param name="report">Short comment on the tour.</param>
-        /// <param name="temperature">Temperature during the tour.</param>
+        /// <param name="tourLog">Log to be inserted</param>
         public InsertTourLogCommand(IDBConnection db, TourLog tourLog)
         {
             this.db = db;

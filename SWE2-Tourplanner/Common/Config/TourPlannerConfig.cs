@@ -14,16 +14,30 @@ namespace Common.Config
     /// </summary>
     public class TourPlannerConfig : ITourPlannerConfig
     {
-
+        /// <summary>
+        /// The one and only TourPlannerConfig object during execution. Can be accessed through static methods and populated through LoadConfigFromFile() method.
+        /// </summary>
         private static ITourPlannerConfig tourPlannerConfig;
+        /// <summary>
+        /// Path to default configuration file
+        /// </summary>
         private string originalConfigPath = "../../../../../config.json";
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private ILog logger;
+        /// <summary>
+        /// Private constructor that is only called once. Automatically loads default config.
+        /// </summary>
         private TourPlannerConfig()
         {
             logger = LogHelper.GetLogHelper().GetLogger();
             LoadConfigFromFile(originalConfigPath);
         }
-
+        /// <summary>
+        /// Static access method for the only instance of TourPlannerConfig.
+        /// </summary>
+        /// <returns>The only TourPlannerConfig object during execution</returns>
         public static ITourPlannerConfig GetTourPlannerConfig()
         {
             if (tourPlannerConfig == null)
@@ -32,7 +46,11 @@ namespace Common.Config
             }
             return tourPlannerConfig;
         }
-
+        /// <summary>
+        /// LoadConfigFromFile can be used to load different configurations during execution.
+        /// </summary>
+        /// <param name="configPath">Path to the configuration file.</param>
+        /// <exception cref="CommonConfigException">Throw when config file can't be found, when format isn't valid and when config file could't be loaded properly.</exception>
         public void LoadConfigFromFile(string configPath)
         {
             try
@@ -69,7 +87,11 @@ namespace Common.Config
                 throw new CommonConfigException("The configuration for the application could not be loaded properly!");
             }    
         }
-
+        /// <summary>
+        /// SetUpEnvironment ensures that exports and picture directory are created if they don't exist yet.
+        /// </summary>
+        /// <param name="exportsDirectory">Path to new exports directory</param>
+        /// <param name="pictureDirectory">Path to new picture directory</param>
         private void SetUpEnvironment(string exportsDirectory, string pictureDirectory)
         {
             Directory.CreateDirectory($@"{exportsDirectory}");

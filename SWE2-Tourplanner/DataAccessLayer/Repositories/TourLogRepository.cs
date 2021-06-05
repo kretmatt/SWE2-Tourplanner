@@ -88,6 +88,7 @@ namespace DataAccessLayer.Repositories
         /// Creates a DeleteTourLogCommand object, if a tourlog with the specified id exists.
         /// </summary>
         /// <param name="id">Id of the tourlog to be deleted</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when DeleteTourLogCommand can't be created</exception>
         public void Delete(int id)
         {
             TourLog tourLog = Read(id);
@@ -106,6 +107,7 @@ namespace DataAccessLayer.Repositories
         /// Checks if log data is ok. If so, creates a new InsertTourLogCommand
         /// </summary>
         /// <param name="entity">TourLog to be inserted.</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when InsertTourLogCommand can't be created</exception>
         public void Insert(TourLog entity)
         {
             if (CheckDBConstraints(entity))
@@ -169,6 +171,7 @@ namespace DataAccessLayer.Repositories
         /// Creates an UpdateTourLogCommand object if the specified entity (id) exists in the table.
         /// </summary>
         /// <param name="entity">New state of the log</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when UpdateTourLogCommand can't be created</exception>
         public void Update(TourLog entity)
         {
             TourLog oldTourLog = Read(entity.Id);

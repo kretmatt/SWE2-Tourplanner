@@ -35,12 +35,12 @@ namespace DataAccessLayer.DBConnection
             logger = LogHelper.GetLogHelper().GetLogger();    
             config = TourPlannerConfig.GetTourPlannerConfig();
             npgsqlConnection = new Npgsql.NpgsqlConnection(config.DatabaseConnectionString);
-
         }
 
         /// <summary>
         /// Creates a DatabaseConnection instance. Is only called once due to GetDBConnection(ITourPlannerConfig testConfig) and the private access modifier.
         /// </summary>
+        /// <param name="config">Tourplanner configuration used for establishing database connection</param>
         private DatabaseConnection(ITourPlannerConfig config)
         {
             logger = LogHelper.GetLogHelper().GetLogger();
@@ -63,6 +63,7 @@ namespace DataAccessLayer.DBConnection
         /// <summary>
         /// Ensures that the DatabaseConnection constructor only gets called once. Used for testing purposes. The test configuration needs to be passed
         /// </summary>
+        /// <param name="testConfig">Tourplanner configuration used for establishing database connection. Most of the time just some test data</param>
         /// <returns>The only DatabaseConnection instance.</returns>
         public static IDBConnection GetDBConnection(ITourPlannerConfig testConfig)
         {
@@ -77,6 +78,7 @@ namespace DataAccessLayer.DBConnection
         /// </summary>
         /// <param name="command">DML statement to be executed</param>
         /// <returns>Amount of affected rows</returns>
+        /// <exception cref="DALDBConnectionException">Thrown, when the command can't be executed properly</exception>
         public int ExecuteStatement(IDbCommand command)
         {
             int affectedRows;
@@ -97,6 +99,7 @@ namespace DataAccessLayer.DBConnection
         /// </summary>
         /// <param name="command">Query to be executed</param>
         /// <returns>Results of the query as a collection of object arrays</returns>
+        /// <exception cref="DALDBConnectionException">Thrown, when error occurs whilst querying the database</exception>
         public List<object[]> QueryDatabase(IDbCommand command)
         {
             List<object[]> results = new List<object[]>();
@@ -127,6 +130,7 @@ namespace DataAccessLayer.DBConnection
         /// <summary>
         /// Opens the database connection
         /// </summary>
+        /// <exception cref="DALDBConnectionException">Thrown, when connection to the database can't be opened</exception>
         public void OpenConnection() 
         {
             try
@@ -151,6 +155,7 @@ namespace DataAccessLayer.DBConnection
         /// <param name="name">Name of the parameter</param>
         /// <param name="type">Type of the parameter</param>
         /// <returns>Parameter index</returns>
+        /// <exception cref="DALParameterException">Thrown, when parameter can't be declared</exception>
         public int DeclareParameter(IDbCommand command, string name, System.Data.DbType type)
         {
             try
@@ -176,6 +181,7 @@ namespace DataAccessLayer.DBConnection
         /// <param name="name">Name of the parameter</param>
         /// <param name="type">Type of the parameter</param>
         /// <param name="value">Value of the parameter</param>
+        /// <exception cref="DALParameterException">Thrown, when declaration / setting of parameter can't be conducted</exception>
         public void DefineParameter(IDbCommand command, string name, System.Data.DbType type, object value)
         {
             try

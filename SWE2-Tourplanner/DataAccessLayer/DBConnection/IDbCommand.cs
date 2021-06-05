@@ -2,6 +2,9 @@
 
 namespace DataAccessLayer.DBConnection
 {
+    /// <summary>
+    /// Interface used for exposing only necessary methods / properties to the application.
+    /// </summary>
     public interface IDbCommand
     {
         /// <summary>
@@ -14,13 +17,13 @@ namespace DataAccessLayer.DBConnection
         /// </summary>
         /// <returns>DataReader which can be used for getting the results of a query.</returns>
         IDataReader ExecuteReader();
-        /// <summary>
+        /// <value>
         /// Parameters of the command.
-        /// </summary>
+        /// </value>
         DbParameterCollection Parameters { get; }
-        /// <summary>
+        /// <value>
         /// The connection to the database, where the command gets executed.
-        /// </summary>
+        /// </value>
         DbConnection Connection { get; set; }
     }
 }

@@ -18,7 +18,9 @@ namespace DataAccessLayer.DBCommands.TourLogCommands
         /// Log of a tour to be deleted.
         /// </summary>
         private TourLog tourLog;
-
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private log4net.ILog logger;
 
         /// <summary>

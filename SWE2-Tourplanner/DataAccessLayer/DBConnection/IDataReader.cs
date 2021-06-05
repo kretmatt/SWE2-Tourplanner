@@ -2,6 +2,9 @@
 
 namespace DataAccessLayer.DBConnection
 {
+    /// <summary>
+    /// Interface used for exposing only necessary methods / attributes of DataReaders to the application
+    /// </summary>
     public interface IDataReader:IDisposable
     {
         /// <summary>
@@ -15,9 +18,9 @@ namespace DataAccessLayer.DBConnection
         /// <param name="i">Position / Field number</param>
         /// <returns>Value of the field i</returns>
         object GetValue(int i);
-        /// <summary>
+        /// <value>
         /// Returns the amount of fields of a row.
-        /// </summary>
+        /// </value>
         int FieldCount { get; }
     }
 }

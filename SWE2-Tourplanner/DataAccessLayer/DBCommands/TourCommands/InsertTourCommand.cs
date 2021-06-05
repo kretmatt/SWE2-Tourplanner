@@ -23,13 +23,7 @@ namespace DataAccessLayer.DBCommands.TourCommands
         /// Create the InsertTourCommand instance.
         /// </summary>
         /// <param name="db">Connection to the database.</param>
-        /// <param name="name">Name of the tour.</param>
-        /// <param name="startLocation">Start location of the tour.</param>
-        /// <param name="endLocation">End location of the tour.</param>
-        /// <param name="routeInfo">Path to the route image.</param>
-        /// <param name="distance">Length of the tour in km.</param>
-        /// <param name="routeType">Route type of the tour.</param>
-        /// <param name="description">Tour description.</param>
+        /// <param name="tour">Tour to be inserted</param>
         public InsertTourCommand(IDBConnection db, Tour tour)
         {
             this.db = db;

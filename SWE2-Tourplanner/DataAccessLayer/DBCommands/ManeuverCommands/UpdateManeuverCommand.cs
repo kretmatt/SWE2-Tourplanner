@@ -23,7 +23,9 @@ namespace DataAccessLayer.DBCommands.ManeuverCommands
         /// Old state of the maneuver.
         /// </summary>
         private Maneuver oldManeuver;
-
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private log4net.ILog logger;
 
         /// <summary>

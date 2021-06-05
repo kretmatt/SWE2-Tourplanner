@@ -80,6 +80,7 @@ namespace DataAccessLayer.Repositories
         /// Deletes a maneuver with a specific id.
         /// </summary>
         /// <param name="id">Id of the maneuver to be deleted</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when DeleteManeuverCommand can't be created!</exception>
         public void Delete(int id)
         {
             Maneuver maneuver = Read(id);
@@ -98,6 +99,7 @@ namespace DataAccessLayer.Repositories
         /// Checks if properties are ok. If so, creates a InsertManeuverCommand instance with the specified data.
         /// </summary>
         /// <param name="entity">Maneuver to be created</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when InserManeuverCommand can't be created</exception>
         public void Insert(Maneuver entity)
         {
             if (CheckDBConstraints(entity))
@@ -158,6 +160,7 @@ namespace DataAccessLayer.Repositories
         /// Checks whether a maneuver with the same id as the parameter exists. If so, creates an UpdateManeuverCommand with the old and new state of the maneuver.
         /// </summary>
         /// <param name="entity">The new state of a maneuver.</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when UpdateManeuverCommand can't be created</exception>
         public void Update(Maneuver entity)
         {
             Maneuver oldManeuver = Read(entity.Id);

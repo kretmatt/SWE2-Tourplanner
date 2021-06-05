@@ -21,19 +21,19 @@ namespace DataAccessLayer.UnitOfWork
         /// <returns>Amount of affected rows by the rollback.</returns>
         int Rollback();
 
-        /// <summary>
+        /// <value>
         /// Provides the user with a tour repository. 
-        /// </summary>
+        /// </value>
         ITourRepository TourRepository { get; set; }
 
-        /// <summary>
+        /// <value>
         /// Provides the user with a tourlog repository. 
-        /// </summary>
+        /// </value>
         ITourLogRepository TourLogRepository { get; set; }
 
-        /// <summary>
+        /// <value>
         /// Provides the user with a maneuver repository. 
-        /// </summary>
+        /// </value>
         IManeuverRepository ManeuverRepository { get; set; }
     }
 }

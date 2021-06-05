@@ -115,6 +115,7 @@ namespace DataAccessLayer.Repositories
         /// Creates a DeleteTourCommand object if a tour with the specified id exists.
         /// </summary>
         /// <param name="id">Id of the tour to be deleted</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when DeleteTourCommand can't be created</exception>
         public void Delete(int id)
         {
             Tour tour = Read(id);
@@ -133,6 +134,7 @@ namespace DataAccessLayer.Repositories
         /// Checks if the data of the tour is ok. If so, a InsertTourCommand object gets created.
         /// </summary>
         /// <param name="entity">Tour that is supposed to be inserted into the database</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when InsertTourCommand can't be created</exception>
         public void Insert(Tour entity)
         {
             if (CheckDBConstraints(entity))
@@ -197,6 +199,7 @@ namespace DataAccessLayer.Repositories
         /// Creates UpdateTourCommand if the specified entity exists.
         /// </summary>
         /// <param name="entity">New state of the tour.</param>
+        /// <exception cref="DALRepositoryCommandException">Thrown, when UpdateTourCommand can't be created</exception>
         public void Update(Tour entity)
         {
             Tour oldTour = Read(entity.Id);

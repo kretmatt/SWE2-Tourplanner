@@ -17,9 +17,9 @@
         {
             this.npgsqlDataReader = npgsqlDataReader;
         }
-        /// <summary>
+        /// <value>
         /// Specifies how many fields the rows have
-        /// </summary>
+        /// </value>
         public int FieldCount { get { return npgsqlDataReader.FieldCount; } }
         /// <summary>
         /// Checks if reading is possible or not
