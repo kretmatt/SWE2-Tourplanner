@@ -13,15 +13,33 @@ using BusinessLogicLayer.Exceptions;
 
 namespace BusinessLogicLayer.PDFCreation
 {
+    /// <summary>
+    /// TourPlannerReportsGenerator is a concrete implementation of ITourPlannerReportsGenerator. It generates tour- and summary reports as PDF files.
+    /// </summary>
     public class TourPlannerReportsGenerator : ITourPlannerReportsGenerator
     {
+        /// <summary>
+        /// Object of ITourPlannerConfig which provides TourPlannerReportsGenerator with ExportsDirectory.
+        /// </summary>
         ITourPlannerConfig config;
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         ILog logger;
+        /// <summary>
+        /// Default constructor of TourPlannerReportsGenerator
+        /// </summary>
         public TourPlannerReportsGenerator()
         {
             config = TourPlannerConfig.GetTourPlannerConfig();
             logger = LogHelper.GetLogHelper().GetLogger();
         }
+        /// <summary>
+        /// GenerateSummaryReport creates a summary report for the passed tours.
+        /// </summary>
+        /// <param name="tours">Tours used for summary report generation</param>
+        /// <returns>Task, which creates and automatically opens an summary report</returns>
+        /// <exception cref="BLPDFCreationException">Thrown, if there are any errors during creation, saving and opening process of summary report generation</exception>
         public Task GenerateSummaryReport(List<Tour> tours)
         {
             return Task.Run(()=>
@@ -47,7 +65,12 @@ namespace BusinessLogicLayer.PDFCreation
                 }
             });
         }
-
+        /// <summary>
+        /// GenerateTourReport generates a tour report for the passed tour
+        /// </summary>
+        /// <param name="tour">Tour used for tour report generation</param>
+        /// <returns>Task, which generates a tour report and opens it automatically</returns>
+        /// <exception cref="BLPDFCreationException">Thrown, if there are problems during creation, saving and opening process of the pdf file</exception>
         public Task GenerateTourReport(Tour tour)
         {
             return Task.Run(() =>

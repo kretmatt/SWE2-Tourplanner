@@ -8,14 +8,28 @@ using System.IO;
 
 namespace BusinessLogicLayer.PDFCreation
 {
+    /// <summary>
+    /// TourReport defines the creation process of tour reports (PDF)
+    /// </summary>
     public class TourReport : IDocument
     {
+        /// <value>
+        /// Tour used for tour report generation
+        /// </value>
         public Tour Tour { get; }
 
+        /// <summary>
+        /// Default constructor of TourReport
+        /// </summary>
+        /// <param name="tour">Tour used for tour report generation</param>
         public TourReport(Tour tour)
         {
             Tour = tour;
         }
+        /// <summary>
+        /// Compose defines the basic layout of the pdf file
+        /// </summary>
+        /// <param name="container">Container, in which the elements will be placed</param>
         public void Compose(IContainer container)
         {
             container
@@ -29,9 +43,16 @@ namespace BusinessLogicLayer.PDFCreation
 
                 });
         }
-
+        /// <summary>
+        /// Metadata of TourReport pdf files
+        /// </summary>
+        /// <returns>Metadata of the document</returns>
         public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
     
+        /// <summary>
+        /// ComposeHeader defines the structure of the header in the pdf file
+        /// </summary>
+        /// <param name="container">Header container, in which further elements are placed</param>
         void ComposeHeader(IContainer container)
         {
             container.Row(row =>
@@ -44,7 +65,10 @@ namespace BusinessLogicLayer.PDFCreation
                 });
             });
         }
-
+        /// <summary>
+        /// ComposeContent defines the structure of the content in the pdf file
+        /// </summary>
+        /// <param name="container">Content Conainer, in which further content will be placed</param>
         void ComposeContent(IContainer container)
         {
             var headingStyle = TextStyle.Default.Size(16).Bold();
@@ -69,6 +93,10 @@ namespace BusinessLogicLayer.PDFCreation
                 }
             });
         }
+        /// <summary>
+        /// ComposeManeuvers defines how maneuvers will be presented in the document
+        /// </summary>
+        /// <param name="container">Container, in which the maneuvers will be placed</param>
         void ComposeManeuvers(IContainer container)
         {
             int stepCount = 1;
@@ -82,7 +110,10 @@ namespace BusinessLogicLayer.PDFCreation
                 }
             });
         }
-
+        /// <summary>
+        /// ComposeTourLogs defines the way tourlogs are presented in the document
+        /// </summary>
+        /// <param name="container">Container, in which the tourlog content will be placed</param>
         void ComposeTourLogs(IContainer container)
         {
             var headerStyle = TextStyle.Default.SemiBold();
@@ -124,7 +155,10 @@ namespace BusinessLogicLayer.PDFCreation
 
             });
         }
-
+        /// <summary>
+        /// ComposeDetails is responsible for presenting basic Tour data in the document
+        /// </summary>
+        /// <param name="container">Container, in which Tour data is placed</param>
         void ComposeDetails(IContainer container)
         {
             container.Stack(stack => {
@@ -134,7 +168,10 @@ namespace BusinessLogicLayer.PDFCreation
                 stack.Item().Text(Tour.Description);
             });
         }
-
+        /// <summary>
+        /// ComposeReports defines how reports are presented
+        /// </summary>
+        /// <param name="container">Container, in which TourLog reports are displayed</param>
         void ComposeReports(IContainer container)
         {
             container.Stack(stack =>

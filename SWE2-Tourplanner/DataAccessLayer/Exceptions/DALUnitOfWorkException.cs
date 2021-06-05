@@ -9,7 +9,7 @@ namespace DataAccessLayer.Exceptions
     public class DALUnitOfWorkException:Exception
     {
         /// <summary>
-        /// Default constructor for DALUnitOfWorkException. Calls base constructor of Exception class.
+        /// Default constructor for DALUnitOfWorkException.
         /// </summary>
         public DALUnitOfWorkException()
         {

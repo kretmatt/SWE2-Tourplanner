@@ -14,17 +14,38 @@ using DataAccessLayer.Exceptions;
 
 namespace BusinessLogicLayer.Factories
 {
+    /// <summary>
+    /// TourFactory is a concrete implementation of ITourFactory.
+    /// </summary>
     public class TourFactory:ITourFactory
     {
+        /// <summary>
+        /// IMapQuestClient instance used for retrieving data from MapQuest
+        /// </summary>
         private IMapQuestClient mapQuestClient;
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private ILog logger;
+        /// <summary>
+        /// IUnitOfWork instance used for accessing the datastore
+        /// </summary>
         private IUnitOfWork uow;
+        /// <summary>
+        /// Default constructor of TourFactory
+        /// </summary>
         public TourFactory()
         {
             mapQuestClient = new MapQuestClient();
             logger = LogHelper.GetLogHelper().GetLogger();
             uow = new UnitOfWork();
         }
+        /// <summary>
+        /// RetrieveMapQuestData is a helper function for retrieving MapQuest data using the MapQuestClient
+        /// </summary>
+        /// <param name="tour">Tour that needs MapQuest data</param>
+        /// <returns>Task, which retrieves data from MapQuest</returns>
+        /// <exception cref="BLFactoryException">Thrown, when the MapQuest request was not successful or if MapQuest could not generate a route</exception>
         private async Task RetrieveMapQuestData(Tour tour) => await Task.Run(async () =>
                                                                   {
                                                                       try
@@ -40,11 +61,22 @@ namespace BusinessLogicLayer.Factories
                                                                           throw new BLFactoryException($"The request to MapQuest was not successful. Details: {e.Message}");
                                                                       }
                                                                   });
+        /// <summary>
+        /// CreateMapQuestTour is a method for creating new Tours with data from MapQuest
+        /// </summary>
+        /// <param name="tour">Tour to be created</param>
+        /// <returns>Task, which retrieves data from MapQuest API and creates a Tour</returns>
         public async Task CreateMapQuestTour(Tour tour)
         {
                 await RetrieveMapQuestData(tour);
                 await CreateTour(tour); 
         }
+        /// <summary>
+        /// CreateTour is a method for inserting new Tour entities in the datastore
+        /// </summary>
+        /// <param name="tour">Tour that is supposed to be created</param>
+        /// <returns>Task, which inserts a new Tour entity in the datastore</returns>
+        /// <exception cref="BLFactoryException">Thrown, when the map image doesn't exist or if DAL exceptions occur</exception>
         public async Task CreateTour(Tour tour) => await Task.Run(() =>
                                                        {
                                                            try
@@ -84,6 +116,12 @@ namespace BusinessLogicLayer.Factories
                                                                throw new BLFactoryException("The new tour could not be created! Look up the logs for further information!");
                                                            }                                                           
                                                        });
+        /// <summary>
+        /// DeleteTour is a method for deleting Tour entities in the datastore
+        /// </summary>
+        /// <param name="tour">Tour that is supposed to be deleted</param>
+        /// <returns>Task, which deletes a Tour in the datastore</returns>
+        /// <exception cref="BLFactoryException">Thrown, when DAL exceptions occur or if there are problems whilst deleting the map image</exception>
         public Task DeleteTour(Tour tour) => Task.Run(() =>
                                                       {
                                                           try
@@ -122,11 +160,22 @@ namespace BusinessLogicLayer.Factories
                                                           }
                                                           
                                                       });
+        /// <summary>
+        /// UpdateMapQuestTour is a method for updating a MapQuest Tour
+        /// </summary>
+        /// <param name="tour">Updated tour</param>
+        /// <returns>Task, which retrieves data from MapQuest API and updates Tour entity in datastore</returns>
         public async Task UpdateMapQuestTour(Tour tour)
         {
             await RetrieveMapQuestData(tour);
             await UpdateTour(tour);
         }
+        /// <summary>
+        /// UpdateTour is a method for updating Tour entities in the datastore
+        /// </summary>
+        /// <param name="tour">Updated tour data</param>
+        /// <returns>Task, which updates a Tour entity</returns>
+        /// <exception cref="BLFactoryException">Thrown, when there are DAL exceptions or problems copying / deleting map images</exception>
         public Task UpdateTour(Tour tour) => Task.Run(() =>
                                                        {
                                                            try
@@ -182,6 +231,11 @@ namespace BusinessLogicLayer.Factories
                                                            }
                                                            
                                                        });
+        /// <summary>
+        /// GetTours is a method for retrieving Tour entities from the datastore
+        /// </summary>
+        /// <returns>All tours of the data store</returns>
+        /// <exception cref="BLFactoryException">Thrown, if there are DAL exceptions or if other errors occur</exception>
         public List<Tour> GetTours()
         {
             List<Tour> tours = new List<Tour>();

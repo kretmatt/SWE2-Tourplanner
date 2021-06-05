@@ -9,16 +9,27 @@ using System.Linq;
 
 namespace BusinessLogicLayer.PDFCreation
 {
+    /// <summary>
+    /// SummaryReport defines the generation process of Tour Summary Reports as PDF
+    /// </summary>
     class SummaryReport : IDocument
     {
-
+        /// <value>
+        /// Tours included in the summary report
+        /// </value>
         public List<Tour> Tours { get; }
-
+        /// <summary>
+        /// Default constructor of SummaryReport
+        /// </summary>
+        /// <param name="tours">Tours that should be included in the summary report</param>
         public SummaryReport(List<Tour> tours)
         {
             Tours = tours;
         }
-
+        /// <summary>
+        /// Compose defines the base structure of SummaryReport
+        /// </summary>
+        /// <param name="container">Container in which the content will be placed</param>
         public void Compose(IContainer container)
         {
             container
@@ -32,9 +43,15 @@ namespace BusinessLogicLayer.PDFCreation
 
                 });
         }
-
+        /// <summary>
+        /// Document Metadata of SummaryReport
+        /// </summary>
+        /// <returns>Metadata of the PDF file</returns>
         public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
-
+        /// <summary>
+        /// ComposedHeader defines the composition of SummaryReport headers
+        /// </summary>
+        /// <param name="container">Container in which the header will be placed</param>
         void ComposeHeader(IContainer container)
         {
             container.Row(row =>
@@ -46,7 +63,10 @@ namespace BusinessLogicLayer.PDFCreation
                 });
             });
         }
-
+        /// <summary>
+        /// ComposeContent assembles ComposeTourStats, ComposeManeuverStats and ComposeTourLogStats into the main section of SummaryReport
+        /// </summary>
+        /// <param name="container">Container in which the main content will be placed</param>
         void ComposeContent(IContainer container)
         {
             var headingStyle = TextStyle.Default.Size(16).Bold();
@@ -75,7 +95,10 @@ namespace BusinessLogicLayer.PDFCreation
                 
             });
         }
-
+        /// <summary>
+        /// ComposeTourStats defines how stats about Tour entities will be presented in the report
+        /// </summary>
+        /// <param name="container">Container in which stats about Tour entities are placed</param>
         void ComposeTourStats(IContainer container)
         {
 
@@ -138,6 +161,10 @@ namespace BusinessLogicLayer.PDFCreation
                 stack.Item().Text(string.Join('\n', leastCommonRouteTypes));
             });
         }
+        /// <summary>
+        /// ComposerManeuverStats defines the way how stats about Maneuver entities will be presented
+        /// </summary>
+        /// <param name="container">Container in which stats about Maneuver entities will be placed</param>
         void ComposeManeuverStats(IContainer container)
         {
             int overallManeuverCount = Tours.Sum(t => t.Maneuvers.Count);
@@ -157,6 +184,10 @@ namespace BusinessLogicLayer.PDFCreation
                 stack.Item().Text(string.Join('\n', shortestManeuvers.Select(t => t.Narrative)));
             });
         }
+        /// <summary>
+        /// ComposeTourLogStats defines the way stats about TourLog entities of the passed Tours will look like
+        /// </summary>
+        /// <param name="container">Container in which stats about TourLog entities will be placed</param>
         void ComposeTourLogStats(IContainer container)
         {
             int overallTourLogCount = Tours.Sum(t => t.TourLogs.Count);

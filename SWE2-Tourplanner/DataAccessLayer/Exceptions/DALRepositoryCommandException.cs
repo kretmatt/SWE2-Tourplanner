@@ -9,7 +9,7 @@ namespace DataAccessLayer.Exceptions
     public class DALRepositoryCommandException:Exception
     {
         /// <summary>
-        /// Default constructor for DALRepositoryCommandException. Calls base constructor of Exception class.
+        /// Default constructor for DALRepositoryCommandException.
         /// </summary>
         public DALRepositoryCommandException()
         {

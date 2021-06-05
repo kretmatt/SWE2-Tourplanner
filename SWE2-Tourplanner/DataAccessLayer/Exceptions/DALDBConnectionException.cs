@@ -9,7 +9,7 @@ namespace DataAccessLayer.Exceptions
     public class DALDBConnectionException:Exception
     {
         /// <summary>
-        /// Default constructor for DALDBConnectionException. Calls base constructor of Exception class.
+        /// Default constructor for DALDBConnectionException.
         /// </summary>
         public DALDBConnectionException()
         {

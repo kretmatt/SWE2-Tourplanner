@@ -9,15 +9,33 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Factories
 {
+    /// <summary>
+    /// TourLogFactory is a concrete implementation of ITourLogFactory.
+    /// </summary>
     public class TourLogFactory:ITourLogFactory
     {
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private ILog logger;
+        /// <summary>
+        /// IUnitOfWork instance used for accessing the datastore
+        /// </summary>
         private IUnitOfWork uow;
+        /// <summary>
+        /// Default constructor of TourLogFactory
+        /// </summary>
         public TourLogFactory()
         {
             logger = LogHelper.GetLogHelper().GetLogger();
             uow = new UnitOfWork();
         }
+        /// <summary>
+        /// CreateTourLog is a method for crating new TourLog entities in the datastore
+        /// </summary>
+        /// <param name="tourLog">TourLog to be created</param>
+        /// <returns>Task, which creates a new TourLog entity in the datastore</returns>
+        /// <exception cref="BLFactoryException">Thrown, when there are DAL exceptions or other unhandled errors</exception>
         public Task CreateTourLog(TourLog tourLog) => Task.Run(() =>
         {
             try
@@ -45,6 +63,12 @@ namespace BusinessLogicLayer.Factories
             }
 
         });
+        /// <summary>
+        /// UpdateTourLog is a method for updating TourLog entities in the datastore
+        /// </summary>
+        /// <param name="tourLog">Updated TourLog entity</param>
+        /// <returns>Task, which updates a TourLog entity in the database</returns>
+        /// <exception cref="BLFactoryException">Thrown, when there are DAL exceptions or if there are other unhandled errors</exception>
         public Task UpdateTourLog(TourLog tourLog) => Task.Run(() =>
         {
             try
@@ -71,6 +95,12 @@ namespace BusinessLogicLayer.Factories
                 throw new BLFactoryException("The tourlog could not be updated! Look up the logs for further information!");
             }
         });
+        /// <summary>
+        /// DeleteTourLog is a method for deleting TourLog entities in the datastore
+        /// </summary>
+        /// <param name="tourLog">TourLog to be deleted</param>
+        /// <returns>Task, which deletes a TourLog entity in the datastore</returns>
+        /// <exception cref="BLFactoryException">Thrown, when there are DAL exceptions or other unhandled errors</exception>
         public Task DeleteTourLog(TourLog tourLog) => Task.Run(() =>
         {
             try

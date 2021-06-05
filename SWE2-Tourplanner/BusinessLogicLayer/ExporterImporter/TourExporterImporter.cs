@@ -13,16 +13,33 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.ExporterImporter
 {
+    /// <summary>
+    /// Concrete implementation of IExporterImporter for Tour entities
+    /// </summary>
     public class TourExporterImporter:IExporterImporter<Tour>
     {
+        /// <summary>
+        /// TourPlannerConfig object, which provides the class with data about ExportsDirectory and PictureDirectory
+        /// </summary>
         private ITourPlannerConfig tourPlannerConfig;
+        /// <summary>
+        /// ILog instance used for logging errors, warnings etc.
+        /// </summary>
         private ILog logger;
 
+        /// <summary>
+        /// Default constructor of TourExporterImporter
+        /// </summary>
         public TourExporterImporter()
         {
             tourPlannerConfig = TourPlannerConfig.GetTourPlannerConfig();
             logger = LogHelper.GetLogHelper().GetLogger();
         }
+        /// <summary>
+        /// Helper method for exporting pictures
+        /// </summary>
+        /// <param name="originalLocation">Path to the picture</param>
+        /// <param name="exportLocation">New path of the picture</param>
         private void ExportPicture(string originalLocation, string exportLocation)
         {
             if (originalLocation == exportLocation)
@@ -39,7 +56,12 @@ namespace BusinessLogicLayer.ExporterImporter
                 }
             }
         }
-
+        /// <summary>
+        /// Method for exporting tours
+        /// </summary>
+        /// <param name="tours">Tours to be exported</param>
+        /// <returns>Task, which exports the passed tours</returns>
+        /// <exception cref="BLExporterImporterException">Thrown, when errors (especially file / path related errors) occur during export</exception>
         public Task Export(List<Tour> tours)
         {
             return Task.Run(() =>
@@ -91,7 +113,12 @@ namespace BusinessLogicLayer.ExporterImporter
                 }
             });   
         }
-
+        /// <summary>
+        /// Method for importing tours
+        /// </summary>
+        /// <param name="filePath">Path to the file</param>
+        /// <returns>Task, which saves tours to the datastore and returns them as a list</returns>
+        /// <exception cref="BLExporterImporterException">Thrown, when DAL or file (format, access, etc.) errors occur during import</exception>
         public Task<List<Tour>> Import(string filePath)
         {
             return Task.Run(() =>

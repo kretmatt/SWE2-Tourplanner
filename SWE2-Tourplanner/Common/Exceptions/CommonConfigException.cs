@@ -9,7 +9,7 @@ namespace Common.Exceptions
     public class CommonConfigException:Exception
     {
         /// <summary>
-        /// Default constructor for CommonConfigException. Calls base constructor of Exception class.
+        /// Default constructor for CommonConfigException.
         /// </summary>
         public CommonConfigException():base()
         {

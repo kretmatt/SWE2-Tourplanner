@@ -9,7 +9,7 @@ namespace DataAccessLayer.Exceptions
     public class DALParameterException:Exception
     {
         /// <summary>
-        /// Default constructor for DALParameterException. Calls base constructor of Exception class.
+        /// Default constructor for DALParameterException.
         /// </summary>
         public DALParameterException()
         {
