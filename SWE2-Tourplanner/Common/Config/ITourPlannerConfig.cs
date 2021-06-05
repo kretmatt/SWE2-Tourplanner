@@ -11,21 +11,21 @@ namespace Common.Config
     /// </summary>
     public interface ITourPlannerConfig
     {
-        /// <summary>
+        /// <value>
         /// The MapQuestKey is used to retrieve data about tours from mapquest.
-        /// </summary>
+        /// </value>
         string MapQuestKey { get; }
-        /// <summary>
+        /// <value>
         /// PictureDirectory is a path to a directory where MapQuest maps can be saved.
-        /// </summary>
+        /// </value>
         string PictureDirectory { get; }
-        /// <summary>
+        /// <value>
         /// The DatabaseConnectionString defines the database where the data is going to be stored.
-        /// </summary>
+        /// </value>
         string DatabaseConnectionString { get; }
-        /// <summary>
+        /// <value>
         /// ExportsDirectory is a path to a directory where exports and associated images are saved.
-        /// </summary>
+        /// </value>
         string ExportsDirectory { get; }
         /// <summary>
         /// Method used for loading different configurations during the execution of the program.

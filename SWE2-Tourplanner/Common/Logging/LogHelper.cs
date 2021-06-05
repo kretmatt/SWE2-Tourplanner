@@ -13,7 +13,15 @@ namespace Common.Logging
     /// </summary>
     public class LogHelper
     {
+        /// <summary>
+        /// One and only instance of LogHelper during execution.
+        /// </summary>
         private static LogHelper logHelper;
+
+        /// <summary>
+        /// Private constructor that gets called only once.
+        /// </summary>
+        /// <param name="filename">Filename of the code that calls the constructor</param>
         private LogHelper([CallerFilePath] string filename = "")
         {
             if (!log4net.LogManager.GetRepository().Configured)
