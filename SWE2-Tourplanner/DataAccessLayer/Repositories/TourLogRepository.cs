@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common.Entities;
 using DataAccessLayer.DBCommands.TourLogCommands;
 using DataAccessLayer.DBConnection;
 using DataAccessLayer.DBCommands;
 using Common.Enums;
 using Common.Logging;
+using DataAccessLayer.Exceptions;
 
 namespace DataAccessLayer.Repositories
 {
@@ -25,7 +23,9 @@ namespace DataAccessLayer.Repositories
         /// Commands to be committed to the database
         /// </summary>
         private List<IDBCommand> commitCommands;
-
+        /// <summary>
+        /// ILog object used for logging errors etc.
+        /// </summary>
         private log4net.ILog logger;
 
         /// <summary>
@@ -73,7 +73,11 @@ namespace DataAccessLayer.Repositories
 
             return tourLog;
         }
-
+        /// <summary>
+        /// CheckDBConstraints is used to check whether a tourlog object complies with db constraints or not.
+        /// </summary>
+        /// <param name="tourLog">The tourlog that needs to be checked.</param>
+        /// <returns>True if constraints are adhered to, false if constraints are not complied with.</returns>
         private bool CheckDBConstraints(TourLog tourLog)
         {
             if (DateTime.Compare(tourLog.StartDate, tourLog.EndDate)<0 && tourLog.Distance>=0 && tourLog.AverageSpeed>0 && tourLog.Temperature>-273.15 && tourLog.Rating>=0 && tourLog.Rating<=10 )
@@ -92,6 +96,11 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new DeleteTourLogCommand(db,tourLog));
                 logger.Info($"DeleteTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
+            else
+            {
+                logger.Warn("Delete is not possible because the tourlog entity does not exist in the data store!");
+                throw new DALRepositoryCommandException("Delete is not possible because tourlog data does not exist in data store");
+            }
         }
         /// <summary>
         /// Checks if log data is ok. If so, creates a new InsertTourLogCommand
@@ -103,6 +112,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new InsertTourLogCommand(db, entity));
                 logger.Info($"InsertTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Insert of tourlog data is not possible because constraints are being violated!");
+                throw new DALRepositoryCommandException("Saving the tourlog data is not possible, because constraints are being violated!");
             }
         }
         /// <summary>
@@ -163,6 +177,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new UpdateTourLogCommand(db, entity, oldTourLog));
                 logger.Info($"UpdateTourLogCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Updating the tourlog data is not possible, because constraints are being violated or the entity does not exist in the data store!");
+                throw new DALRepositoryCommandException("Updating the tourlog data is not possible, because constraints are being violated or the associated data does not exist in the data store!");
             }
         }
     }

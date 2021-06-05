@@ -5,9 +5,7 @@ using DataAccessLayer.DBConnection;
 using Common.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataAccessLayer.Exceptions;
 
 namespace DataAccessLayer.Repositories
 {
@@ -24,7 +22,9 @@ namespace DataAccessLayer.Repositories
         /// Commands to be committed to the database.
         /// </summary>
         private List<IDBCommand> commitCommands;
-
+        /// <summary>
+        /// ILog object used for logging errors etc.
+        /// </summary>
         private log4net.ILog logger;
         /// <summary>
         /// Creates the ManeuverRepository instance.
@@ -64,7 +64,11 @@ namespace DataAccessLayer.Repositories
 
             return maneuver;
         }
-
+        /// <summary>
+        /// CheckDBConstraints is used to check whether the db constraints are complied with or not.
+        /// </summary>
+        /// <param name="maneuver">The maneuver that needs to be checked.</param>
+        /// <returns>True if constraints are adhered to, false if constraints are not complied with.</returns>
         private bool CheckDBConstraints(Maneuver maneuver)
         {
             if (maneuver.Distance>=0 && !string.IsNullOrWhiteSpace(maneuver.Narrative))
@@ -84,6 +88,11 @@ namespace DataAccessLayer.Repositories
                 commitCommands.Add(new DeleteManeuverCommand(db,maneuver));
                 logger.Info($"DeleteManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
             }
+            else
+            {
+                logger.Warn("Deleting the maneuver is not possible, because the associated data doesn't exist in the data store!");
+                throw new DALRepositoryCommandException("Deleting the maneuver is not possible, because the associated data doesn't exist in the data store!");
+            }
         }
         /// <summary>
         /// Checks if properties are ok. If so, creates a InsertManeuverCommand instance with the specified data.
@@ -95,6 +104,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new InsertManeuverCommand(db,entity));
                 logger.Info($"InsertManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Inserting maneuver data is impossible because constraints are being violated!");
+                throw new DALRepositoryCommandException("The maneuver can't be saved because constraints of the data store are being violated!");
             }
         }
         /// <summary>
@@ -151,6 +165,11 @@ namespace DataAccessLayer.Repositories
             {
                 commitCommands.Add(new UpdateManeuverCommand(db, entity, oldManeuver));
                 logger.Info($"UpdateManeuverCommand queued. Amount of commands in the next commit is {commitCommands.Count}");
+            }
+            else
+            {
+                logger.Warn("Updating the maneuver is not possible because constraints are being violated or the associated data doesn't exist in the data store!");
+                throw new DALRepositoryCommandException("Updating the maneuver is impossible, because the constraints of the data store are being violated or the associated data doesn't exist in the data store!");
             }
         }
     }

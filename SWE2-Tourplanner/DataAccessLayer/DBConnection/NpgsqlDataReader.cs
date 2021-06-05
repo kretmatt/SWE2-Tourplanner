@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.DBConnection
+﻿namespace DataAccessLayer.DBConnection
 {
     /// <summary>
     /// NpgsqlDataReader is the concrete IDataReader implementation for Npgsql package. All functions/properties direct requests to a Npgsql.NpgsqlDataReader object.

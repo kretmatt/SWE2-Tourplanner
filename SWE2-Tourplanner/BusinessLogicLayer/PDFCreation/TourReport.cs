@@ -2,6 +2,7 @@
 using QuestPDF.Drawing;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
+using System;
 using System.Globalization;
 using System.IO;
 
@@ -110,11 +111,11 @@ namespace BusinessLogicLayer.PDFCreation
                         {
                             row.RelativeColumn().Text(tl.StartDate,contentStyle);
                             row.RelativeColumn().Text(tl.EndDate, contentStyle);
-                            row.RelativeColumn().Text($"{tl.Distance} km", contentStyle);
-                            row.RelativeColumn().Text($"{tl.TotalTime} h", contentStyle);
+                            row.RelativeColumn().Text($"{Math.Round(tl.Distance,2)} km", contentStyle);
+                            row.RelativeColumn().Text($"{Math.Round(tl.TotalTime,2)} h", contentStyle);
                             row.RelativeColumn().Text($"{tl.Temperature} °C", contentStyle);
                             row.RelativeColumn().Text(tl.Rating, contentStyle);
-                            row.RelativeColumn().Text($"{tl.AverageSpeed} km/h", contentStyle);
+                            row.RelativeColumn().Text($"{Math.Round(tl.AverageSpeed,2)} km/h", contentStyle);
                             row.RelativeColumn().Text(tl.Weather, contentStyle);
                             row.RelativeColumn().Text(tl.TravelMethod, contentStyle);
                         });

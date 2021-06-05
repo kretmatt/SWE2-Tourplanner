@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Common.Logging;
+using log4net;
 
 namespace SWE2_Tourplanner.Commands
 {
@@ -26,6 +28,6 @@ namespace SWE2_Tourplanner.Commands
 
         public bool CanExecute(object parameter) => _canExecute?.Invoke(parameter) ?? true;
 
-        public void Execute(object parameter) => _execute.Invoke(parameter);
+        public virtual void Execute(object parameter)=>_execute.Invoke(parameter);
     }
 }

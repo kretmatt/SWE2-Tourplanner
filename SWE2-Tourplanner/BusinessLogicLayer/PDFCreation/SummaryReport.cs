@@ -174,14 +174,11 @@ namespace BusinessLogicLayer.PDFCreation
 
             container.Stack(stack =>
             {
-                stack.Item().Text($"Tour log count - {overallTourLogCount}", headingStyle);
-                stack.Item().Text($"Longest time needed - {longestTotalTime} h", headingStyle);
-                stack.Item().Text($"Shortest time needed - {shortestTotalTime} h", headingStyle);
-                stack.Item().Text($"Longest distance travelled - {longestTourLogDistance} km", headingStyle);
-                stack.Item().Text($"Shortest distance travelled - {shortestTourLogDistance} km", headingStyle);
-                stack.Item().Text($"Highest rating - {highestRating}", headingStyle);
-                stack.Item().Text($"Lowest rating - {lowestRating}", headingStyle);
-                stack.Item().Text($"Average speed - {averageSpeed} km", headingStyle);
+                stack.Item().Text($"Tour log count - {overallTourLogCount}");
+                stack.Item().Text($"Time range: {shortestTourLogDistance} - {longestTotalTime} h");
+                stack.Item().Text($"Distance range: {shortestTourLogDistance} - {longestTourLogDistance} km");
+                stack.Item().Text($"Rating range: {lowestRating} - {highestRating}");
+                stack.Item().Text($"Average speed - {averageSpeed} km/h");
                 stack.Item().Text($"Weather stats", headingStyle);
                 stack.Item().Text(string.Join('\n', weatherGroups.Select(g => $"{g.Key} - {g.Count()}")));
                 stack.Item().Text($"Travel methods stats", headingStyle);

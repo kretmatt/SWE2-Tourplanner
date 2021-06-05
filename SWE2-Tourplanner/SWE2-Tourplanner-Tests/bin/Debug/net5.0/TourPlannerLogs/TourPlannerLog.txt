@@ -1,0 +1,57 @@
+12:37:41,958 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\DBConnection\DatabaseConnection.cs] ERROR - Error occured during declaration of parameter. The parameter id already exists and can therefore not be declared again.
+12:37:42,287 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\DBConnection\DatabaseConnection.cs] ERROR - Could not open connection to database with the current connection string properly. Error: 28P01: Passwort-Authentifizierung f�r Benutzer �test� fehlgeschlagen
+12:37:42,407 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - DeleteManeuverCommand queued. Amount of commands in the next commit is 1
+12:37:42,413 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 1
+12:37:42,420 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - UpdateManeuverCommand queued. Amount of commands in the next commit is 1
+12:37:42,424 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - DeleteTourLogCommand queued. Amount of commands in the next commit is 1
+12:37:42,432 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - InsertTourLogCommand queued. Amount of commands in the next commit is 1
+12:37:42,467 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - UpdateTourLogCommand queued. Amount of commands in the next commit is 1
+12:37:42,498 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - DeleteTourCommand queued. Amount of commands in the next commit is 1
+12:37:42,501 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+12:37:42,531 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+12:37:42,547 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+12:37:42,548 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+12:37:42,548 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database rollback. Rolling back 2 commands.
+12:37:42,551 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database rollback. 2 rows were affected by the rollback.
+12:37:42,552 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+12:37:42,552 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+12:37:42,553 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database rollback. Rolling back 1 commands.
+12:37:42,553 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database rollback. 1 rows were affected by the rollback.
+12:39:01,908 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\DBConnection\DatabaseConnection.cs] ERROR - Error occured during declaration of parameter. The parameter id already exists and can therefore not be declared again.
+12:39:02,225 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\DBConnection\DatabaseConnection.cs] ERROR - Could not open connection to database with the current connection string properly. Error: 28P01: Passwort-Authentifizierung f�r Benutzer �test� fehlgeschlagen
+12:39:02,287 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - DeleteManeuverCommand queued. Amount of commands in the next commit is 1
+12:39:02,302 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 1
+12:39:02,320 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - UpdateManeuverCommand queued. Amount of commands in the next commit is 1
+12:39:02,333 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - DeleteTourLogCommand queued. Amount of commands in the next commit is 1
+12:39:02,336 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - InsertTourLogCommand queued. Amount of commands in the next commit is 1
+12:39:02,361 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - UpdateTourLogCommand queued. Amount of commands in the next commit is 1
+12:39:02,382 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - DeleteTourCommand queued. Amount of commands in the next commit is 1
+12:39:02,386 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+12:39:02,403 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+12:39:02,449 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+12:39:02,450 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+12:39:02,451 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database rollback. Rolling back 2 commands.
+12:39:02,452 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database rollback. 2 rows were affected by the rollback.
+12:39:02,520 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+12:39:02,520 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+12:39:02,573 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database rollback. Rolling back 1 commands.
+12:39:02,573 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database rollback. 1 rows were affected by the rollback.
+12:39:12,703 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\DBConnection\DatabaseConnection.cs] ERROR - Error occured during declaration of parameter. The parameter id already exists and can therefore not be declared again.
+12:39:13,000 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\DBConnection\DatabaseConnection.cs] ERROR - Could not open connection to database with the current connection string properly. Error: 28P01: Passwort-Authentifizierung f�r Benutzer �test� fehlgeschlagen
+12:39:13,074 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - DeleteManeuverCommand queued. Amount of commands in the next commit is 1
+12:39:13,080 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 1
+12:39:13,110 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - UpdateManeuverCommand queued. Amount of commands in the next commit is 1
+12:39:13,118 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - DeleteTourLogCommand queued. Amount of commands in the next commit is 1
+12:39:13,141 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - InsertTourLogCommand queued. Amount of commands in the next commit is 1
+12:39:13,226 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourLogRepository.cs] INFO - UpdateTourLogCommand queued. Amount of commands in the next commit is 1
+12:39:13,268 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - DeleteTourCommand queued. Amount of commands in the next commit is 1
+12:39:13,287 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+12:39:13,301 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+12:39:13,346 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+12:39:13,347 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+12:39:13,347 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database rollback. Rolling back 2 commands.
+12:39:13,348 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database rollback. 2 rows were affected by the rollback.
+12:39:13,399 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
+12:39:13,408 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
+12:39:13,435 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database rollback. Rolling back 1 commands.
+12:39:13,435 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database rollback. 1 rows were affected by the rollback.
