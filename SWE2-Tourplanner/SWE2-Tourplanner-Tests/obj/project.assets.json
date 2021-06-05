@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {
+    "net5.0-windows7.0": {
       "Castle.Core/4.4.0": {
         "type": "package",
         "dependencies": {
@@ -1498,6 +1498,24 @@
         "runtime": {
           "bin/placeholder/DataAccessLayer.dll": {}
         }
+      },
+      "SWE2-Tourplanner/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "BusinessLogicLayer": "1.0.0",
+          "Common": "1.0.0",
+          "log4net": "2.0.12"
+        },
+        "compile": {
+          "bin/placeholder/SWE2-Tourplanner.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SWE2-Tourplanner.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
       }
     }
   },
@@ -5301,16 +5319,23 @@
       "type": "project",
       "path": "../DataAccessLayer/DataAccessLayer.csproj",
       "msbuildProject": "../DataAccessLayer/DataAccessLayer.csproj"
+    },
+    "SWE2-Tourplanner/1.0.0": {
+      "type": "project",
+      "path": "../SWE2-Tourplanner/SWE2-Tourplanner.csproj",
+      "msbuildProject": "../SWE2-Tourplanner/SWE2-Tourplanner.csproj"
     }
   },
   "projectFileDependencyGroups": {
-    "net5.0": [
+    "net5.0-windows7.0": [
       "BusinessLogicLayer >= 1.0.0",
+      "Common >= 1.0.0",
       "DataAccessLayer >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 16.5.0",
       "Moq >= 4.16.1",
       "NUnit >= 3.12.0",
       "NUnit3TestAdapter >= 3.16.1",
+      "SWE2-Tourplanner >= 1.0.0",
       "log4net >= 2.0.12"
     ]
   },
@@ -5331,21 +5356,27 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net5.0"
+        "net5.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows7.0",
           "projectReferences": {
             "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
               "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
             },
+            "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj": {
+              "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj"
+            },
             "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj": {
               "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj"
+            },
+            "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner.csproj": {
+              "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner.csproj"
             }
           }
         }
@@ -5357,8 +5388,8 @@
       }
     },
     "frameworks": {
-      "net5.0": {
-        "targetAlias": "net5.0",
+      "net5.0-windows7.0": {
+        "targetAlias": "net5.0-windows7.0",
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",

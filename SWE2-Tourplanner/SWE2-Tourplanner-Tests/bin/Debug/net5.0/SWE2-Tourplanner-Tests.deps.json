@@ -9,6 +9,7 @@
       "SWE2-Tourplanner-Tests/1.0.0": {
         "dependencies": {
           "BusinessLogicLayer": "1.0.0",
+          "Common": "1.0.0",
           "DataAccessLayer": "1.0.0",
           "Microsoft.NET.Test.Sdk": "16.5.0",
           "Moq": "4.16.1",

@@ -125,3 +125,6 @@ C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner-Tests\b
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner-Tests\bin\Debug\net5.0\runtimes\win-arm64\native\libSkiaSharp.dll
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner-Tests\bin\Debug\net5.0\runtimes\win-x64\native\libSkiaSharp.dll
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner-Tests\bin\Debug\net5.0\runtimes\win-x86\native\libSkiaSharp.dll
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner-Tests\bin\Debug\net5.0\config.json
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner-Tests\bin\Debug\net5.0\badformat.json
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner-Tests\bin\Debug\net5.0\testpic.png
