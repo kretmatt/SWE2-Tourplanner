@@ -45,11 +45,15 @@ namespace Common.Config
                 IConfiguration config = new ConfigurationBuilder().AddJsonFile(Path.GetFullPath(configPath)).Build();
                 if (config.GetChildren().Any(c => c.Key == "dbsettings") && config.GetChildren().Any(c => c.Key == "mapQuestKey") && config.GetChildren().Any(c => c.Key == "pictureDirectory") && config.GetChildren().Any(c => c.Key == "exportsDirectory"))
                 {
-                    DatabaseConnectionString = $"Host={config.GetSection("dbsettings:host").Value};Port={config.GetSection("dbsettings:port").Value};Username={config.GetSection("dbsettings:username").Value};Password={config.GetSection("dbsettings:password").Value};Database={config.GetSection("dbsettings:database").Value};";
-                    MapQuestKey = $"{config.GetSection("mapQuestKey").Value}";
-                    PictureDirectory = $"{config.GetSection("pictureDirectory").Value}";
-                    ExportsDirectory = $"{config.GetSection("exportsDirectory").Value}";
-                    SetUpEnvironment();
+                    string dbConnectionString = $"Host={config.GetSection("dbsettings:host").Value};Port={config.GetSection("dbsettings:port").Value};Username={config.GetSection("dbsettings:username").Value};Password={config.GetSection("dbsettings:password").Value};Database={config.GetSection("dbsettings:database").Value};";
+                    string mapQuestKey = $"{config.GetSection("mapQuestKey").Value}";
+                    string exportsDirectory = $"{config.GetSection("exportsDirectory").Value}";
+                    string pictureDirectory = $"{config.GetSection("pictureDirectory").Value}";
+                    SetUpEnvironment(exportsDirectory, pictureDirectory);
+                    DatabaseConnectionString = dbConnectionString;
+                    MapQuestKey = mapQuestKey;
+                    PictureDirectory = pictureDirectory;
+                    ExportsDirectory = exportsDirectory;
                 }
                 else
                 {
@@ -66,10 +70,10 @@ namespace Common.Config
             }    
         }
 
-        private void SetUpEnvironment()
+        private void SetUpEnvironment(string exportsDirectory, string pictureDirectory)
         {
-            Directory.CreateDirectory($@"{ExportsDirectory}");
-            Directory.CreateDirectory($@"{PictureDirectory}");
+            Directory.CreateDirectory($@"{exportsDirectory}");
+            Directory.CreateDirectory($@"{pictureDirectory}");
         }
         public string MapQuestKey { get; private set; }
 

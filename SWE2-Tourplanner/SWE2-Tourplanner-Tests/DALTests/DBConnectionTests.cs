@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using DataAccessLayer.DBConnection;
 using Common.Config;
+using DataAccessLayer.Exceptions;
 
 namespace SWE2_Tourplanner_Tests.DALTests
 {
@@ -71,7 +72,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
             //act
             db.DefineParameter(command, "id", System.Data.DbType.String, "1");
             //assert
-            Assert.Throws<ArgumentException>(() =>db.DefineParameter(command,"id",System.Data.DbType.String,"2"));
+            Assert.Throws<DALParameterException>(() =>db.DefineParameter(command,"id",System.Data.DbType.String,"2"));
         }
 
         [Test]
@@ -79,7 +80,7 @@ namespace SWE2_Tourplanner_Tests.DALTests
         {
             //arrange
             //act & assert - Throws exception due to incorrect credentials.
-            Assert.Throws<Npgsql.PostgresException>(()=>db.OpenConnection());
+            Assert.Throws<DALDBConnectionException>(()=>db.OpenConnection());
         }
     }
 }
