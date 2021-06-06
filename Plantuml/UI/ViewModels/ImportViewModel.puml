@@ -1,0 +1,16 @@
+@startuml
+class ImportViewModel {
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + ImportViewModel(config:ITourPlannerConfig)
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- ImportViewModel
+IDialogRequestClose <|-- ImportViewModel
+ImportViewModel --> "jsonPaths<string>" "ObservableCollection`1"
+ImportViewModel --> "config" ITourPlannerConfig
+ImportViewModel --> "JsonPaths<string>" "ObservableCollection`1"
+ImportViewModel --> "SelectPathsCommand" ICommand
+ImportViewModel --> "ExitCommand" ICommand
+ImportViewModel --> "ConfirmImportCommand" ICommand
+@enduml

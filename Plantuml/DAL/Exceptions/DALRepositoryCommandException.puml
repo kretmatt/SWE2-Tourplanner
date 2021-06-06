@@ -1,0 +1,8 @@
+@startuml
+class DALRepositoryCommandException {
+    + DALRepositoryCommandException()
+    + DALRepositoryCommandException(message:string)
+    + DALRepositoryCommandException(message:string, inner:Exception)
+}
+Exception <|-- DALRepositoryCommandException
+@enduml

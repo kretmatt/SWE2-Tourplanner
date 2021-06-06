@@ -1,0 +1,15 @@
+@startuml
+class TourReport {
+    + TourReport(tour:Tour)
+    + Compose(container:IContainer) : void
+    + GetMetadata() : DocumentMetadata
+    ComposeHeader(container:IContainer) : void
+    ComposeContent(container:IContainer) : void
+    ComposeManeuvers(container:IContainer) : void
+    ComposeTourLogs(container:IContainer) : void
+    ComposeDetails(container:IContainer) : void
+    ComposeReports(container:IContainer) : void
+}
+IDocument <|-- TourReport
+TourReport --> "Tour" Tour
+@enduml

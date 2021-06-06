@@ -1,0 +1,8 @@
+@startuml
+class DALDBConnectionException {
+    + DALDBConnectionException()
+    + DALDBConnectionException(message:string)
+    + DALDBConnectionException(message:string, inner:Exception)
+}
+Exception <|-- DALDBConnectionException
+@enduml

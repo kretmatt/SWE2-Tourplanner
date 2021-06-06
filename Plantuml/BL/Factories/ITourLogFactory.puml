@@ -1,0 +1,7 @@
+@startuml
+interface ITourLogFactory {
+    + CreateTourLog(tourLog:TourLog) : Task
+    + UpdateTourLog(tourLog:TourLog) : Task
+    + DeleteTourLog(tourLog:TourLog) : Task
+}
+@enduml

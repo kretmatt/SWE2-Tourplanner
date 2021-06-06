@@ -1,0 +1,8 @@
+@startuml
+class LogHelper {
+    - LogHelper(filename:string)
+    + {static} GetLogHelper() : LogHelper
+    + GetLogger(filename:string) : log4net.ILog
+}
+LogHelper --> "logHelper" LogHelper
+@enduml

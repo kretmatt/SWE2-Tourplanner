@@ -1,0 +1,7 @@
+@startuml
+class DialogCloseRequestedEventArgs {
+    + DialogCloseRequestedEventArgs(dialogResult:bool?)
+    + DialogResult : bool? <<get>>
+}
+EventArgs <|-- DialogCloseRequestedEventArgs
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+class Maneuver {
+    + Id : int <<get>> <<set>>
+    + TourId : int <<get>> <<set>>
+    + Narrative : string <<get>> <<set>>
+    + Distance : double <<get>> <<set>>
+    + <<override>> Equals(obj:object) : bool
+    + <<override>> GetHashCode() : int
+}
+@enduml

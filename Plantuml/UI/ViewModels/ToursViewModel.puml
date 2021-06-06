@@ -1,0 +1,17 @@
+@startuml
+class ToursViewModel {
+    - searchString : string
+    + SearchString : string <<get>> <<set>>
+    + ToursViewModel(tourPlannerFactory:ITourFactory, dialogService:IDialogService)
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- ToursViewModel
+ToursViewModel --> "tourPlannerFactory" ITourFactory
+ToursViewModel --> "dialogService" IDialogService
+ToursViewModel --> "filteredTours<Tour>" "ObservableCollection`1"
+ToursViewModel --> "_tours<Tour>" "ObservableCollection`1"
+ToursViewModel --> "FilteredTours<Tour>" "ObservableCollection`1"
+ToursViewModel --> "Tours<Tour>" "ObservableCollection`1"
+ToursViewModel --> "SearchToursCommand" ICommand
+@enduml

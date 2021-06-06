@@ -1,0 +1,8 @@
+@startuml
+class TextInputValidationRule {
+    + Min : int <<get>> <<set>>
+    + Max : int <<get>> <<set>>
+    + <<override>> Validate(value:object, cultureInfo:CultureInfo) : ValidationResult
+}
+ValidationRule <|-- TextInputValidationRule
+@enduml

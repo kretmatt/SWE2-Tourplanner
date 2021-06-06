@@ -1,0 +1,8 @@
+@startuml
+class DALParameterException {
+    + DALParameterException()
+    + DALParameterException(message:string)
+    + DALParameterException(message:string, inner:Exception)
+}
+Exception <|-- DALParameterException
+@enduml

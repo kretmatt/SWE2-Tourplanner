@@ -1,0 +1,6 @@
+@startuml
+class NoNegativeDistancesRule {
+    + <<override>> Validate(value:object, cultureInfo:CultureInfo) : ValidationResult
+}
+ValidationRule <|-- NoNegativeDistancesRule
+@enduml

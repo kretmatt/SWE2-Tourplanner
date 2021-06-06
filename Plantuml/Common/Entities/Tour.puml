@@ -1,0 +1,17 @@
+@startuml
+class Tour {
+    + Tour()
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+    + StartLocation : string <<get>> <<set>>
+    + EndLocation : string <<get>> <<set>>
+    + RouteInfo : string <<get>> <<set>>
+    + Distance : double <<get>> <<set>>
+    + Description : string <<get>> <<set>>
+}
+class "List`1"<T> {
+}
+Tour --> "RouteType" ERouteType
+Tour --> "Maneuvers<Maneuver>" "List`1"
+Tour --> "TourLogs<TourLog>" "List`1"
+@enduml

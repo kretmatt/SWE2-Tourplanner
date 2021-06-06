@@ -1,0 +1,16 @@
+@startuml
+class SummaryReport {
+    + SummaryReport(tours:List<Tour>)
+    + Compose(container:IContainer) : void
+    + GetMetadata() : DocumentMetadata
+    ComposeHeader(container:IContainer) : void
+    ComposeContent(container:IContainer) : void
+    ComposeTourStats(container:IContainer) : void
+    ComposeManeuverStats(container:IContainer) : void
+    ComposeTourLogStats(container:IContainer) : void
+}
+class "List`1"<T> {
+}
+IDocument <|-- SummaryReport
+SummaryReport --> "Tours<Tour>" "List`1"
+@enduml

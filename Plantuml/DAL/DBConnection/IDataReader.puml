@@ -1,0 +1,8 @@
+@startuml
+interface IDataReader {
+    Read() : bool
+    GetValue(i:int) : object
+    FieldCount : int <<get>>
+}
+IDisposable <|-- IDataReader
+@enduml

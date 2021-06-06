@@ -1,0 +1,9 @@
+@startuml
+interface IDialog {
+    DataContext : object <<get>> <<set>>
+    DialogResult : bool? <<get>> <<set>>
+    Close() : void
+    ShowDialog() : bool?
+}
+IDialog --> "Owner" Window
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+interface ITourFactory {
+    + CreateMapQuestTour(tour:Tour) : Task
+    + CreateTour(tour:Tour) : Task
+    + DeleteTour(tour:Tour) : Task
+    + UpdateMapQuestTour(tour:Tour) : Task
+    + UpdateTour(tour:Tour) : Task
+    + GetTours() : List<Tour>
+}
+@enduml

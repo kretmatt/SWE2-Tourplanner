@@ -1,0 +1,7 @@
+@startuml
+class ImportView <<partial>> {
+    + ImportView()
+}
+Window <|-- ImportView
+IDialog <|-- ImportView
+@enduml

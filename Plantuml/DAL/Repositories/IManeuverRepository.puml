@@ -1,0 +1,7 @@
+@startuml
+interface IManeuverRepository {
+}
+class "IRepository`1"<T> {
+}
+"IRepository`1" "<Maneuver>" <|-- IManeuverRepository
+@enduml

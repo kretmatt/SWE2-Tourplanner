@@ -1,0 +1,7 @@
+@startuml
+class TourLogCreateUpdateView <<partial>> {
+    + TourLogCreateUpdateView()
+}
+Window <|-- TourLogCreateUpdateView
+IDialog <|-- TourLogCreateUpdateView
+@enduml

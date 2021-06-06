@@ -1,0 +1,11 @@
+@startuml
+class UpdateTourCommand {
+    + UpdateTourCommand(db:IDBConnection, tour:Tour, oldTour:Tour)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- UpdateTourCommand
+UpdateTourCommand --> "db" IDBConnection
+UpdateTourCommand --> "tour" Tour
+UpdateTourCommand --> "oldTour" Tour
+@enduml

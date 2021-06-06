@@ -1,0 +1,7 @@
+@startuml
+enum ETravelMethod {
+    RUNNING,
+    HIKING,
+    BIKING,
+}
+@enduml

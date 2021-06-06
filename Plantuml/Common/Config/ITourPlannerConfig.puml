@@ -1,0 +1,9 @@
+@startuml
+interface ITourPlannerConfig {
+    MapQuestKey : string <<get>>
+    PictureDirectory : string <<get>>
+    DatabaseConnectionString : string <<get>>
+    ExportsDirectory : string <<get>>
+    LoadConfigFromFile(configPath:string) : void
+}
+@enduml

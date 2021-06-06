@@ -1,0 +1,13 @@
+@startuml
+class TourExporterImporter {
+    + TourExporterImporter()
+    - ExportPicture(originalLocation:string, exportLocation:string) : void
+    + Export(tours:List<Tour>) : Task
+    + Import(filePath:string) : Task<List<Tour>>
+}
+class "IExporterImporter`1"<T> {
+}
+"IExporterImporter`1" "<Tour>" <|-- TourExporterImporter
+TourExporterImporter --> "tourPlannerConfig" ITourPlannerConfig
+TourExporterImporter --> "logger" ILog
+@enduml

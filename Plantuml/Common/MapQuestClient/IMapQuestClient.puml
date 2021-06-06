@@ -1,0 +1,6 @@
+@startuml
+interface IMapQuestClient {
+    RetrieveRouteImage(storeId:string, sessionId:string, boundingBox:string) : Task<string>
+    GetRouteDataFromMapQuest(tour:Tour) : Task
+}
+@enduml

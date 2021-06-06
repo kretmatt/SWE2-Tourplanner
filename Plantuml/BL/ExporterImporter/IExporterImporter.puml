@@ -1,0 +1,6 @@
+@startuml
+interface "IExporterImporter`1"<T> {
+    Import(filePath:string) : Task<List<T>>
+    Export(entites:List<T>) : Task
+}
+@enduml

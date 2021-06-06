@@ -1,0 +1,112 @@
+@startuml
+class BLExporterImporterException {
+    + BLExporterImporterException()
+    + BLExporterImporterException(message:string)
+    + BLExporterImporterException(message:string, inner:Exception)
+}
+Exception <|-- BLExporterImporterException
+class BLFactoryException {
+    + BLFactoryException()
+    + BLFactoryException(message:string)
+    + BLFactoryException(message:string, inner:Exception)
+}
+Exception <|-- BLFactoryException
+class BLPDFCreationException {
+    + BLPDFCreationException()
+    + BLPDFCreationException(message:string)
+    + BLPDFCreationException(message:string, inner:Exception)
+}
+Exception <|-- BLPDFCreationException
+interface "IExporterImporter`1"<T> {
+    Import(filePath:string) : Task<List<T>>
+    Export(entites:List<T>) : Task
+}
+class TourExporterImporter {
+    + TourExporterImporter()
+    - ExportPicture(originalLocation:string, exportLocation:string) : void
+    + Export(tours:List<Tour>) : Task
+    + Import(filePath:string) : Task<List<Tour>>
+}
+class "IExporterImporter`1"<T> {
+}
+"IExporterImporter`1" "<Tour>" <|-- TourExporterImporter
+TourExporterImporter --> "tourPlannerConfig" ITourPlannerConfig
+TourExporterImporter --> "logger" ILog
+interface ITourFactory {
+    + CreateMapQuestTour(tour:Tour) : Task
+    + CreateTour(tour:Tour) : Task
+    + DeleteTour(tour:Tour) : Task
+    + UpdateMapQuestTour(tour:Tour) : Task
+    + UpdateTour(tour:Tour) : Task
+    + GetTours() : List<Tour>
+}
+interface ITourLogFactory {
+    + CreateTourLog(tourLog:TourLog) : Task
+    + UpdateTourLog(tourLog:TourLog) : Task
+    + DeleteTourLog(tourLog:TourLog) : Task
+}
+class TourFactory {
+    + TourFactory()
+    + TourFactory(uow:IUnitOfWork)
+    - <<async>> RetrieveMapQuestData(tour:Tour) : Task
+    + <<async>> CreateMapQuestTour(tour:Tour) : Task
+    + <<async>> CreateTour(tour:Tour) : Task
+    + DeleteTour(tour:Tour) : Task
+    + <<async>> UpdateMapQuestTour(tour:Tour) : Task
+    + UpdateTour(tour:Tour) : Task
+    + GetTours() : List<Tour>
+}
+ITourFactory <|-- TourFactory
+TourFactory --> "mapQuestClient" IMapQuestClient
+TourFactory --> "logger" ILog
+TourFactory --> "uow" IUnitOfWork
+class TourLogFactory {
+    + TourLogFactory()
+    + TourLogFactory(uow:IUnitOfWork)
+    + CreateTourLog(tourLog:TourLog) : Task
+    + UpdateTourLog(tourLog:TourLog) : Task
+    + DeleteTourLog(tourLog:TourLog) : Task
+}
+ITourLogFactory <|-- TourLogFactory
+TourLogFactory --> "logger" ILog
+TourLogFactory --> "uow" IUnitOfWork
+interface ITourPlannerReportsGenerator {
+    GenerateTourReport(tour:Tour) : Task
+    GenerateSummaryReport(tours:List<Tour>) : Task
+}
+class SummaryReport {
+    + SummaryReport(tours:List<Tour>)
+    + Compose(container:IContainer) : void
+    + GetMetadata() : DocumentMetadata
+    ComposeHeader(container:IContainer) : void
+    ComposeContent(container:IContainer) : void
+    ComposeTourStats(container:IContainer) : void
+    ComposeManeuverStats(container:IContainer) : void
+    ComposeTourLogStats(container:IContainer) : void
+}
+class "List`1"<T> {
+}
+IDocument <|-- SummaryReport
+SummaryReport --> "Tours<Tour>" "List`1"
+class TourPlannerReportsGenerator {
+    + TourPlannerReportsGenerator()
+    + GenerateSummaryReport(tours:List<Tour>) : Task
+    + GenerateTourReport(tour:Tour) : Task
+}
+ITourPlannerReportsGenerator <|-- TourPlannerReportsGenerator
+TourPlannerReportsGenerator --> "config" ITourPlannerConfig
+TourPlannerReportsGenerator --> "logger" ILog
+class TourReport {
+    + TourReport(tour:Tour)
+    + Compose(container:IContainer) : void
+    + GetMetadata() : DocumentMetadata
+    ComposeHeader(container:IContainer) : void
+    ComposeContent(container:IContainer) : void
+    ComposeManeuvers(container:IContainer) : void
+    ComposeTourLogs(container:IContainer) : void
+    ComposeDetails(container:IContainer) : void
+    ComposeReports(container:IContainer) : void
+}
+IDocument <|-- TourReport
+TourReport --> "Tour" Tour
+@enduml

@@ -1,0 +1,6 @@
+@startuml
+class ManeuverValidationRule {
+    + <<override>> Validate(value:object, cultureInfo:CultureInfo) : ValidationResult
+}
+ValidationRule <|-- ManeuverValidationRule
+@enduml

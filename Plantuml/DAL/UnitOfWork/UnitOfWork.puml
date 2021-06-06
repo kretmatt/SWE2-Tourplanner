@@ -1,0 +1,21 @@
+@startuml
+class UnitOfWork {
+    + UnitOfWork()
+    + UnitOfWork(db:IDBConnection, commitCommands:List<IDBCommand>, rollbackCommands:List<IDBCommand>)
+    + Commit() : int
+    + Dispose() : void
+    + Rollback() : int
+}
+class "List`1"<T> {
+}
+IUnitOfWork <|-- UnitOfWork
+UnitOfWork --> "commitCommands<IDBCommand>" "List`1"
+UnitOfWork --> "rollbackCommands<IDBCommand>" "List`1"
+UnitOfWork --> "db" IDBConnection
+UnitOfWork --> "tourRepository" ITourRepository
+UnitOfWork --> "tourLogRepository" ITourLogRepository
+UnitOfWork --> "maneuverRepository" IManeuverRepository
+UnitOfWork --> "TourRepository" ITourRepository
+UnitOfWork --> "TourLogRepository" ITourLogRepository
+UnitOfWork --> "ManeuverRepository" IManeuverRepository
+@enduml

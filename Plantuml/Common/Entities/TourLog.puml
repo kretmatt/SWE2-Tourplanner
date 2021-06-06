@@ -1,0 +1,16 @@
+@startuml
+class TourLog {
+    + Id : int <<get>> <<set>>
+    + TourId : int <<get>> <<set>>
+    + Distance : double <<get>> <<set>>
+    + TotalTime : double <<get>> <<set>>
+    + Temperature : double <<get>> <<set>>
+    + Rating : double <<get>> <<set>>
+    + AverageSpeed : double <<get>> <<set>>
+    + Report : string <<get>> <<set>>
+}
+TourLog --> "StartDate" DateTime
+TourLog --> "EndDate" DateTime
+TourLog --> "Weather" EWeather
+TourLog --> "TravelMethod" ETravelMethod
+@enduml

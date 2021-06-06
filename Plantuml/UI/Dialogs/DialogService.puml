@@ -1,0 +1,12 @@
+@startuml
+class DialogService {
+    + DialogService(owner:Window)
+    + Register() : void
+    + ShowDialog(viewModel:TViewModel) : bool?
+}
+class "IDictionary`2"<T1,T2> {
+}
+IDialogService <|-- DialogService
+DialogService --> "owner" Window
+DialogService --> "Mappings<Type,Type>" "IDictionary`2"
+@enduml

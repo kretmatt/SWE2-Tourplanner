@@ -1,0 +1,7 @@
+@startuml
+class ErrorView <<partial>> {
+    + ErrorView()
+}
+Window <|-- ErrorView
+IDialog <|-- ErrorView
+@enduml

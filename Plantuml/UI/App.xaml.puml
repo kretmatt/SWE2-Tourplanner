@@ -1,0 +1,6 @@
+@startuml
+class App <<partial>> {
+    # <<override>> OnStartup(e:StartupEventArgs) : void
+}
+Application <|-- App
+@enduml

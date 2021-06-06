@@ -1,0 +1,112 @@
+@startuml
+class Extensions <<static>> {
+    + {static} CIContains(text:string, value:string, stringComparison:StringComparison) : bool
+}
+interface ITourPlannerConfig {
+    MapQuestKey : string <<get>>
+    PictureDirectory : string <<get>>
+    DatabaseConnectionString : string <<get>>
+    ExportsDirectory : string <<get>>
+    LoadConfigFromFile(configPath:string) : void
+}
+class TourPlannerConfig {
+    - originalConfigPath : string = "config.json"
+    - TourPlannerConfig()
+    + {static} GetTourPlannerConfig() : ITourPlannerConfig
+    + LoadConfigFromFile(configPath:string) : void
+    - SetUpEnvironment(exportsDirectory:string, pictureDirectory:string) : void
+    + MapQuestKey : string <<get>>
+    + PictureDirectory : string <<get>>
+    + DatabaseConnectionString : string <<get>>
+    + ExportsDirectory : string <<get>>
+}
+ITourPlannerConfig <|-- TourPlannerConfig
+TourPlannerConfig --> "tourPlannerConfig" ITourPlannerConfig
+TourPlannerConfig --> "logger" ILog
+class Maneuver {
+    + Id : int <<get>> <<set>>
+    + TourId : int <<get>> <<set>>
+    + Narrative : string <<get>> <<set>>
+    + Distance : double <<get>> <<set>>
+    + <<override>> Equals(obj:object) : bool
+    + <<override>> GetHashCode() : int
+}
+class Tour {
+    + Tour()
+    + Id : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+    + StartLocation : string <<get>> <<set>>
+    + EndLocation : string <<get>> <<set>>
+    + RouteInfo : string <<get>> <<set>>
+    + Distance : double <<get>> <<set>>
+    + Description : string <<get>> <<set>>
+}
+class "List`1"<T> {
+}
+Tour --> "RouteType" ERouteType
+Tour --> "Maneuvers<Maneuver>" "List`1"
+Tour --> "TourLogs<TourLog>" "List`1"
+class TourLog {
+    + Id : int <<get>> <<set>>
+    + TourId : int <<get>> <<set>>
+    + Distance : double <<get>> <<set>>
+    + TotalTime : double <<get>> <<set>>
+    + Temperature : double <<get>> <<set>>
+    + Rating : double <<get>> <<set>>
+    + AverageSpeed : double <<get>> <<set>>
+    + Report : string <<get>> <<set>>
+}
+TourLog --> "StartDate" DateTime
+TourLog --> "EndDate" DateTime
+TourLog --> "Weather" EWeather
+TourLog --> "TravelMethod" ETravelMethod
+enum ERouteType {
+    FASTEST,
+    SHORTEST,
+    PEDESTRIAN,
+    MULTIMODAL,
+    BICYCLE,
+}
+enum ETravelMethod {
+    RUNNING,
+    HIKING,
+    BIKING,
+}
+enum EWeather {
+    SUNNY,
+    RAINY,
+    CLOUDY,
+    HAIL,
+    SNOWY,
+    STORMY,
+}
+class CommonConfigException {
+    + CommonConfigException()
+    + CommonConfigException(message:string)
+    + CommonConfigException(message:string, inner:Exception)
+}
+Exception <|-- CommonConfigException
+class LogHelper {
+    - LogHelper(filename:string)
+    + {static} GetLogHelper() : LogHelper
+    + GetLogger(filename:string) : log4net.ILog
+}
+LogHelper --> "logHelper" LogHelper
+interface IMapQuestClient {
+    RetrieveRouteImage(storeId:string, sessionId:string, boundingBox:string) : Task<string>
+    GetRouteDataFromMapQuest(tour:Tour) : Task
+}
+class MapQuestClient {
+    - {static} routeBaseURL : string = "http://www.mapquestapi.com/directions/v2/route"
+    - {static} staticmapBaseURL : string = "http://www.mapquestapi.com/staticmap/v5/map"
+    - {static} pictureWidth : int = 1920
+    - {static} pictureHeight : int = 1080
+    + MapQuestClient()
+    + <<async>> GetRouteDataFromMapQuest(tour:Tour) : Task
+    + <<async>> RetrieveRouteImage(storeId:string, sessionId:string, boundingBox:string) : Task<string>
+}
+IMapQuestClient <|-- MapQuestClient
+MapQuestClient --> "client" HttpClient
+MapQuestClient --> "config" ITourPlannerConfig
+MapQuestClient --> "logger" ILog
+@enduml

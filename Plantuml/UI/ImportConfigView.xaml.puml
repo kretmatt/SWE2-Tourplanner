@@ -1,0 +1,7 @@
+@startuml
+class ImportConfigView <<partial>> {
+    + ImportConfigView()
+}
+Window <|-- ImportConfigView
+IDialog <|-- ImportConfigView
+@enduml

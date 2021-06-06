@@ -1,0 +1,12 @@
+@startuml
+class TourLogFactory {
+    + TourLogFactory()
+    + TourLogFactory(uow:IUnitOfWork)
+    + CreateTourLog(tourLog:TourLog) : Task
+    + UpdateTourLog(tourLog:TourLog) : Task
+    + DeleteTourLog(tourLog:TourLog) : Task
+}
+ITourLogFactory <|-- TourLogFactory
+TourLogFactory --> "logger" ILog
+TourLogFactory --> "uow" IUnitOfWork
+@enduml

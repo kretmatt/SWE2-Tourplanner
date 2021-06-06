@@ -1,0 +1,25 @@
+@startuml
+class CreateUpdateTourLogViewModel {
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + Distance : double <<get>> <<set>>
+    + Temperature : double <<get>> <<set>>
+    + Rating : double <<get>> <<set>>
+    + Report : string <<get>> <<set>>
+    + ConfirmButtonMessage : string <<get>>
+    + HeadingMessage : string <<get>>
+    + CreateUpdateTourLogViewModel(tourLog:TourLog)
+}
+class "IEnumerable`1"<T> {
+}
+BaseViewModel <|-- CreateUpdateTourLogViewModel
+IDialogRequestClose <|-- CreateUpdateTourLogViewModel
+CreateUpdateTourLogViewModel --> "tourLog" TourLog
+CreateUpdateTourLogViewModel --> "StartDate" DateTime
+CreateUpdateTourLogViewModel --> "EndDate" DateTime
+CreateUpdateTourLogViewModel --> "Weather" EWeather
+CreateUpdateTourLogViewModel --> "TravelMethod" ETravelMethod
+CreateUpdateTourLogViewModel --> "WeatherTypes<EWeather>" "IEnumerable`1"
+CreateUpdateTourLogViewModel --> "TravelMethods<ETravelMethod>" "IEnumerable`1"
+CreateUpdateTourLogViewModel --> "ExitCommand" ICommand
+CreateUpdateTourLogViewModel --> "ConductCreateUpdateCommand" ICommand
+@enduml

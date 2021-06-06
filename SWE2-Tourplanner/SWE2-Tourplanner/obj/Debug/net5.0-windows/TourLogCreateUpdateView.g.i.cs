@@ -56,7 +56,7 @@ namespace SWE2_Tourplanner {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SWE2-Tourplanner;component/tourlogcreateupdateview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SWE2-Tourplanner;V1.0.0.0;component/tourlogcreateupdateview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\TourLogCreateUpdateView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

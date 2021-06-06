@@ -1,0 +1,10 @@
+@startuml
+class InsertManeuverCommand {
+    + InsertManeuverCommand(db:IDBConnection, maneuver:Maneuver)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- InsertManeuverCommand
+InsertManeuverCommand --> "db" IDBConnection
+InsertManeuverCommand --> "maneuver" Maneuver
+@enduml
