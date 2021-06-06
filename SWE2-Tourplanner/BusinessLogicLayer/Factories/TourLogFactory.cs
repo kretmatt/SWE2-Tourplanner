@@ -30,6 +30,12 @@ namespace BusinessLogicLayer.Factories
             logger = LogHelper.GetLogHelper().GetLogger();
             uow = new UnitOfWork();
         }
+
+        public TourLogFactory(IUnitOfWork uow)
+        {
+            logger = LogHelper.GetLogHelper().GetLogger();
+            this.uow = uow;
+        }
         /// <summary>
         /// CreateTourLog is a method for crating new TourLog entities in the datastore
         /// </summary>

@@ -21,7 +21,7 @@ namespace Common.Config
         /// <summary>
         /// Path to default configuration file
         /// </summary>
-        private string originalConfigPath = "../../../../../config.json";
+        private string originalConfigPath = "config.json";
         /// <summary>
         /// ILog instance used for logging errors, warnings etc.
         /// </summary>

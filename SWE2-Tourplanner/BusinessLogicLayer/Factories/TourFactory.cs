@@ -40,6 +40,13 @@ namespace BusinessLogicLayer.Factories
             logger = LogHelper.GetLogHelper().GetLogger();
             uow = new UnitOfWork();
         }
+
+        public TourFactory(IUnitOfWork uow)
+        {
+            mapQuestClient = new MapQuestClient();
+            logger = LogHelper.GetLogHelper().GetLogger();
+            this.uow = uow;
+        }
         /// <summary>
         /// RetrieveMapQuestData is a helper function for retrieving MapQuest data using the MapQuestClient
         /// </summary>
