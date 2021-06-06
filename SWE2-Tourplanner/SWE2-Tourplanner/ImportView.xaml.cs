@@ -6,7 +6,7 @@ using System.Windows;
 namespace SWE2_Tourplanner
 {
     /// <summary>
-    /// Interaktionslogik für ImportView.xaml
+    /// Interaction logic for ImportView
     /// </summary>
     public partial class ImportView : Window, IDialog
     {

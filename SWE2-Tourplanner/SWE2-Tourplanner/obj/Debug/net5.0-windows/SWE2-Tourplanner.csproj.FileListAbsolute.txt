@@ -60,3 +60,5 @@ C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Deb
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\ManeuverManagementWindow.baml
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\ImportConfigView.g.cs
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\ImportConfigView.baml
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\bin\Debug\net5.0-windows\config.json
+C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\obj\Debug\net5.0-windows\SWE2-Tourplanner_Content.g.cs

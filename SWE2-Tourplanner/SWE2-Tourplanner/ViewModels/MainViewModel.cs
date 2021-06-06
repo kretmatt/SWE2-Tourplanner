@@ -16,39 +16,94 @@ using System.IO;
 
 namespace SWE2_Tourplanner
 {
+    /// <summary>
+    /// MainViewModel is core of the application and is used for executing several different actions triggered by other ViewModels
+    /// </summary>
     public class MainViewModel:BaseViewModel
     {
+        /// <summary>
+        /// TourDetailViewModel contains the currently selected Tour and several different commands for managing its TourLog entities
+        /// </summary>
         private TourDetailViewModel tourDetailViewModel;
+        /// <summary>
+        /// ToursViewModel provides Tour entities and a search command 
+        /// </summary>
         private ToursViewModel toursViewModel;
+        /// <summary>
+        /// Object used for creating, updating and deleting tours.
+        /// </summary>
         private ITourFactory tourPlannerFactory;
+        /// <summary>
+        /// Used for opening dialogs and handling the results
+        /// </summary>
         private readonly IDialogService dialogService;
+        /// <summary>
+        /// PDF Generator for Summary and Tour Reports
+        /// </summary>
         private ITourPlannerReportsGenerator pdfGenerator;
+        /// <summary>
+        /// Used for exporting / importing data to / from JSON files
+        /// </summary>
         private IExporterImporter<Tour> exporterImporter;
+        /// <value>
+        /// TourDetailViewModel contains the currently selected Tour and several different commands for managing its TourLog entities
+        /// </value>
         public TourDetailViewModel TourDetailViewModel
         {
             get { return tourDetailViewModel; }
         }
-
+        /// <value>
+        /// ToursViewModel provides Tour entities and a search command 
+        /// </value>
         public ToursViewModel ToursViewModel
         {
             get { return toursViewModel; }
         }
-        public ICommand SearchToursCommand { get; }
+        /// <value>
+        /// Command for creating new tours
+        /// </value>
         public ICommand AddTourCommand { get; }
+        /// <value>
+        /// Command for deleting tours
+        /// </value>
         public ICommand RemoveTourCommand { get; }
+        /// <value>
+        /// TCommand for updating tours
+        /// </value>
         public ICommand EditTourCommand { get; }
+        /// <value>
+        /// Command for generating a Tour report
+        /// </value>
         public ICommand GenerateTourReportCommand { get; }
+        /// <value>
+        /// Command for generating a Summary report
+        /// </value>
         public ICommand GenerateSummaryReportCommand { get; }
+        /// <value>
+        /// Command for exporting data as JSON file
+        /// </value>
         public ICommand GenerateJSONExportCommand { get; }
+        /// <value>
+        /// Command for importing data from JSON files
+        /// </value>
         public ICommand ConductImportCommand { get; }
+        /// <value>
+        /// Command for loading a new configuration during execution
+        /// </value>
         public ICommand LoadConfigCommand { get; }
-
+        /// <summary>
+        /// Helper method for displaying exceptions
+        /// </summary>
+        /// <param name="e">Thrown Exception</param>
         private void ShowException(Exception e)
         {
             ErrorViewModel evm = new ErrorViewModel(e.Message, e.GetType().ToString());
             dialogService.ShowDialog(evm);
         }
-
+        /// <summary>
+        /// Default constructor for MainViewModel
+        /// </summary>
+        /// <param name="dialogService">Service used for handling Dialogs and their results</param>
         public MainViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;

@@ -16,7 +16,7 @@ using SWE2_Tourplanner.Dialogs;
 namespace SWE2_Tourplanner
 {
     /// <summary>
-    /// Interaktionslogik für ManeuverManagementWindow.xaml
+    /// Interaction logic for ManeuverManagementWindow
     /// </summary>
     public partial class ManeuverManagementWindow : Window, IDialog
     {

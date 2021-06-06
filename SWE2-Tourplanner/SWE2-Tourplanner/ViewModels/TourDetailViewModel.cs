@@ -12,13 +12,34 @@ using System.Windows.Input;
 
 namespace SWE2_Tourplanner.ViewModels
 {
+    /// <summary>
+    /// TourDetailViewModel provides a Tour and commands for managing its TourLogs
+    /// </summary>
     public class TourDetailViewModel:BaseViewModel
     {
+        /// <summary>
+        /// Currently selected Tour
+        /// </summary>
         private Tour _selectedTour;
+        /// <summary>
+        /// Currently selected TourLog
+        /// </summary>
         private TourLog selectedTourLog;
+        /// <summary>
+        /// TourLogs of the currently selected tour
+        /// </summary>
         private ObservableCollection<TourLog> currentTourLogs;
+        /// <summary>
+        /// Object used for creating, updating and deleting tourlogs
+        /// </summary>
         private ITourLogFactory tourLogFactory;
+        /// <summary>
+        /// Service used for opening TourLog related Dialogs
+        /// </summary>
         private readonly IDialogService dialogService;
+        /// <value>
+        /// TourLogs of the currently selected tour
+        /// </value>
         public ObservableCollection<TourLog> CurrentTourLogs
         {
             get { return currentTourLogs; }
@@ -31,6 +52,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Currently selected tour
+        /// </value>
         public Tour SelectedTour
         {
             get { return _selectedTour; }
@@ -45,6 +69,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Currently selected tourlog
+        /// </value>
         public TourLog SelectedTourLog
         {
             get { return selectedTourLog; }
@@ -57,16 +84,31 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Command for adding new TourLogs to the currently selected tour
+        /// </value>
         public ICommand AddLogCommand { get; }
+        /// <value>
+        /// Command for deleting TourLogs from the currently selected tour
+        /// </value>
         public ICommand RemoveLogCommand { get; }
+        /// <value>
+        /// Command for updating currently selected tourlog
+        /// </value>
         public ICommand EditLogCommand { get; }
-
+        /// <summary>
+        /// Helper method for displayin exceptions / errors
+        /// </summary>
+        /// <param name="e">Thrown exception</param>
         private void ShowException(Exception e)
         {
             ErrorViewModel evm = new ErrorViewModel(e.Message, e.GetType().ToString());
             dialogService.ShowDialog(evm);
         }
-
+        /// <summary>
+        /// Default constructor of TourDetailViewModel
+        /// </summary>
+        /// <param name="dialogService">Service used for opening TourLog related Dialogs</param>
         public TourDetailViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;

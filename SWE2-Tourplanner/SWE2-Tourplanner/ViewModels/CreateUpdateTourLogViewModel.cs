@@ -11,11 +11,23 @@ using System.Windows.Input;
 
 namespace SWE2_Tourplanner.ViewModels
 {
+    /// <summary>
+    /// CreateUpdateTourLogViewModel is used for creating and updating TourLog entities. To be precise, it is used for setting the values and initiating creation / update process in another class.
+    /// </summary>
     public class CreateUpdateTourLogViewModel:BaseViewModel, IDialogRequestClose
     {
+        /// <summary>
+        /// The TourLog entity, whose values need to be set.
+        /// </summary>
         private TourLog tourLog;
 
+        /// <summary>
+        /// Event for closing the Dialog
+        /// </summary>
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
+        /// <value>
+        /// DateTime value when the TourLog started.
+        /// </value>
         public DateTime StartDate
         {
             get { return tourLog.StartDate; }
@@ -28,6 +40,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// DateTime value when the TourLog ended.
+        /// </value>
         public DateTime EndDate
         {
             get { return tourLog.EndDate; }
@@ -40,6 +55,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Distance is the amount of km travelled.
+        /// </value>
         public double Distance
         {
             get { return tourLog.Distance; }
@@ -52,6 +70,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Temperature in Celsius during the tour.
+        /// </value>
         public double Temperature
         {
             get { return tourLog.Temperature; }
@@ -64,6 +85,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Rating of the tour from 0 - 10
+        /// </value>
         public double Rating
         {
             get { return tourLog.Rating; }
@@ -76,6 +100,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Weather during the tour.
+        /// </value>
         public EWeather Weather
         {
             get { return tourLog.Weather; }
@@ -88,6 +115,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Travel method used for the tour.
+        /// </value>
         public ETravelMethod TravelMethod
         {
             get { return tourLog.TravelMethod; }
@@ -100,6 +130,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Additional comment on the tour.
+        /// </value>
         public string Report
         {
             get { return tourLog.Report; }
@@ -112,14 +145,23 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Text on the Confirm Button
+        /// </value>
         public string ConfirmButtonMessage
         {
             get;
         }
+        /// <value>
+        /// Text in the heading.
+        /// </value>
         public string HeadingMessage
         {
             get;
         }
+        /// <value>
+        /// All available weather values.
+        /// </value>
         public IEnumerable<EWeather> WeatherTypes
         {
             get
@@ -127,6 +169,9 @@ namespace SWE2_Tourplanner.ViewModels
                 return Enum.GetValues(typeof(EWeather)).Cast<EWeather>();
             }
         }
+        /// <value>
+        /// All available travel methods.
+        /// </value>
         public IEnumerable<ETravelMethod> TravelMethods
         {
             get
@@ -134,9 +179,18 @@ namespace SWE2_Tourplanner.ViewModels
                 return Enum.GetValues(typeof(ETravelMethod)).Cast<ETravelMethod>();
             }
         }
+        /// <value>
+        /// Command to stop the create / update process.
+        /// </value>
         public ICommand ExitCommand { get; }
+        /// <value>
+        /// Command to start create / update process.
+        /// </value>
         public ICommand ConductCreateUpdateCommand { get; }
-
+        /// <summary>
+        /// Default constructor of CreateUpdateTourLogViewModel
+        /// </summary>
+        /// <param name="tourLog">TourLog to be created / updated</param>
         public CreateUpdateTourLogViewModel(TourLog tourLog)
         {
             this.tourLog = tourLog;

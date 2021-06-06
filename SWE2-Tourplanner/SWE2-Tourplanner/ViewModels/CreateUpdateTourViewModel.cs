@@ -14,15 +14,34 @@ using System.Windows.Input;
 
 namespace SWE2_Tourplanner.ViewModels
 {
+    /// <summary>
+    /// CreateUpdateTourViewModel is used for creating / updating tours with MapQuest or manually. To be precise, it can start the creation / update process of tours.
+    /// </summary>
     public class CreateUpdateTourViewModel:BaseViewModel, IDialogRequestClose
     {
+        /// <summary>
+        /// Tour to be created / updated
+        /// </summary>
         private Tour tour;
+        /// <summary>
+        /// Flag that determines if Tour will be created / updated manually or with MapQuest
+        /// </summary>
         private bool manualTour = false;
+        /// <summary>
+        /// Collection of maneuvers of the tour
+        /// </summary>
         private ObservableCollection<Maneuver> maneuvers;
-        private Maneuver currentManeuver;
+        /// <summary>
+        /// ViewModel for the managing maneuvers
+        /// </summary>
         private ManeuversViewModel maneuversViewModel;
-
+        /// <summary>
+        /// Event for closing the dialog
+        /// </summary>
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
+        /// <value>
+        /// Name of the tour
+        /// </value>
         public string Name
         {
             get { return tour.Name; }
@@ -35,6 +54,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Start location of the tour
+        /// </value>
         public string StartLocation
         {
             get { return tour.StartLocation; }
@@ -47,6 +69,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// End location of the tour
+        /// </value>
         public string EndLocation
         {
             get { return tour.EndLocation; }
@@ -59,6 +84,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Description of the tour
+        /// </value>
         public string Description
         {
             get { return tour.Description; }
@@ -71,6 +99,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Route type of the tour
+        /// </value>
         public ERouteType RouteType
         {
             get { return tour.RouteType; }
@@ -83,6 +114,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Length (km) of the tour
+        /// </value>
         public double Distance 
         {
             get 
@@ -98,6 +132,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Maneuvers of the tour
+        /// </value>
         public ObservableCollection<Maneuver> Maneuvers
         {
             get
@@ -113,23 +150,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
-
-        public Maneuver CurrentManeuver
-        {
-            get
-            {
-                return currentManeuver;
-            }
-            set
-            {
-                if (currentManeuver != value)
-                {
-                    currentManeuver = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
+        /// <value>
+        /// Path to the map image of the tour
+        /// </value>
         public string RouteInfo
         {
             get { return tour.RouteInfo; }
@@ -142,7 +165,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
-
+        /// <value>
+        /// All available route types
+        /// </value>
         public IEnumerable<ERouteType> RouteTypes
         {
             get
@@ -150,8 +175,17 @@ namespace SWE2_Tourplanner.ViewModels
                 return Enum.GetValues(typeof(ERouteType)).Cast<ERouteType>();
             }
         }
+        /// <value>
+        /// Text in the heading
+        /// </value>
         public string HeadingMessage { get; }
+        /// <value>
+        /// Text on the confirm button
+        /// </value>
         public string ConfirmButtonMessage { get; }
+        /// <value>
+        /// Flag that indicates whether the tour should be created manually or not
+        /// </value>
         public bool ManualTour
         {
             get { return manualTour; }
@@ -164,12 +198,27 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Command to exit the dialog
+        /// </value>
         public ICommand ExitCommand { get; }
+        /// <value>
+        /// Command to initiate the creation / update process
+        /// </value>
         public ICommand CommitCommand { get; }
+        /// <value>
+        /// Command to open ManeuverManagement Dialog
+        /// </value>
         public ICommand ManageManeuverCommand { get; }
-        public ICommand AddManeuverCommand { get; }
+        /// <value>
+        /// Command to select path to map image
+        /// </value>
         public ICommand SelectRouteInfoCommand { get; }
-
+        /// <summary>
+        /// Default constructor of CreateUpdateTourViewModel
+        /// </summary>
+        /// <param name="tour">Tour to be updated / created</param>
+        /// <param name="dialogService">DialogService used for opening ManeuverManagementWindow</param>
         public CreateUpdateTourViewModel(Tour tour, IDialogService dialogService)
         {
             this.tour = tour;

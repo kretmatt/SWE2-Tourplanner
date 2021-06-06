@@ -13,14 +13,34 @@ using System.Windows.Input;
 
 namespace SWE2_Tourplanner.ViewModels
 {
+    /// <summary>
+    /// TourViewModel provides tours and a way to search / filter tours
+    /// </summary>
     public class ToursViewModel:BaseViewModel
     {
+        /// <summary>
+        /// Object used for retrieving tours
+        /// </summary>
         private ITourFactory tourPlannerFactory;
+        /// <summary>
+        /// Service used for displaying exceptions / errors
+        /// </summary>
         private IDialogService dialogService;
+        /// <summary>
+        /// Search term
+        /// </summary>
         private string searchString;
+        /// <summary>
+        /// Tours filtered by search term
+        /// </summary>
         private ObservableCollection<Tour> filteredTours;
+        /// <summary>
+        /// All tours found in datastore
+        /// </summary>
         private ObservableCollection<Tour> _tours;
-
+        /// <value>
+        /// Tours filtered by search term
+        /// </value>
         public ObservableCollection<Tour> FilteredTours
         {
             get { return filteredTours; }
@@ -33,6 +53,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Search term
+        /// </value>
         public string SearchString
         {
             get { return searchString; }
@@ -45,6 +68,9 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// All tours from the datastore
+        /// </value>
         public ObservableCollection<Tour> Tours
         {
             get
@@ -60,10 +86,16 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
-
+        /// <value>
+        /// Command for searching / filtering tours
+        /// </value>
         public ICommand SearchToursCommand { get; }
 
-
+        /// <summary>
+        /// Default constructor of ToursViewModel
+        /// </summary>
+        /// <param name="tourPlannerFactory">Object used for retrieving tours from datastore</param>
+        /// <param name="dialogService">Service used for opening dialogs and handling their results</param>
         public ToursViewModel(ITourFactory tourPlannerFactory, IDialogService dialogService)
         {
             this.tourPlannerFactory = tourPlannerFactory;

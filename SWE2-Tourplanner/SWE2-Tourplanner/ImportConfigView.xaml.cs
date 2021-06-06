@@ -16,7 +16,7 @@ using SWE2_Tourplanner.Dialogs;
 namespace SWE2_Tourplanner
 {
     /// <summary>
-    /// Interaktionslogik für ImportConfigView.xaml
+    /// Interaction logic for ImportConfigView
     /// </summary>
     public partial class ImportConfigView : Window, IDialog
     {

@@ -11,10 +11,10 @@ false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\SWE2-Tourplanner\App.xaml
 8906525508
-
-351045955028
+1539709803
+34-1767998527
 2091505685603
 CreateUpdateTourView.xaml;ErrorView.xaml;ImportConfigView.xaml;ImportView.xaml;MainWindow.xaml;ManeuverManagementWindow.xaml;ReusableComponents\ExternalResourceControl.xaml;TourLogCreateUpdateView.xaml;
 
-False
+True
 

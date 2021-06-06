@@ -17,7 +17,7 @@
             <Button Command="{Binding RemoveManeuverCommand}" Content="-" Grid.Column="1" Margin="5"/>
         </Grid>
         <ScrollViewer Grid.Row="2" Height="250" Margin="5">
-            <DataGrid ItemsSource="{Binding Maneuvers}" AutoGenerateColumns="False" IsReadOnly="False" SelectedItem="{Binding CurrentManeuver}">
+            <DataGrid ItemsSource="{Binding Maneuvers}" AutoGenerateColumns="False" IsReadOnly="False" SelectedItem="{Binding CurrentManeuver}" CanUserAddRows="False">
                 <DataGrid.RowValidationRules>
                     <Validators:ManeuverValidationRule ValidationStep="UpdatedValue"/>
                 </DataGrid.RowValidationRules>

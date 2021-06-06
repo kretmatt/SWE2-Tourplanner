@@ -1,0 +1,1 @@
+21:19:49,448 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!

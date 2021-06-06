@@ -89,3 +89,15 @@
 21:45:33,871 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 1 commands.
 21:45:33,876 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 1 rows were affected by the issued commands.
 22:06:12,588 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The imported file has an invalid format and can therefore not be used!
+20:18:53,974 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!
+20:26:17,761 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!
+20:37:35,380 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!
+20:39:00,877 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!
+21:03:15,917 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!
+21:07:44,593 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!
+21:09:55,837 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!
+21:12:00,545 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\Common\Config\TourPlannerConfig.cs] ERROR - The config file could not be found and therefore the application could not be started!
+10:43:32,118 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\TourRepository.cs] INFO - InsertTourCommand queued. Amount of commands in the next commit is 1
+10:43:32,132 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\Repositories\ManeuverRepository.cs] INFO - InsertManeuverCommand queued. Amount of commands in the next commit is 2
+10:43:32,132 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Starting database transaction. Commiting 2 commands.
+10:43:32,190 [C:\Users\swe2\Desktop\SWE2-Tourplanner\SWE2-Tourplanner\DataAccessLayer\UnitOfWork\UnitOfWork.cs] INFO - Finished database transaction. 2 rows were affected by the issued commands.

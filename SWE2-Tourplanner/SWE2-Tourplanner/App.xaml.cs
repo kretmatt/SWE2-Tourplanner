@@ -15,6 +15,10 @@ namespace SWE2_Tourplanner
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// OnStartup registers ViewModels and their associated Views. It also opens a new MainWindow instance
+        /// </summary>
+        /// <param name="e">EventArgs related to the startup of the application</param>
         protected override void OnStartup(StartupEventArgs e)
         {
             IDialogService dialogService = new DialogService(MainWindow);

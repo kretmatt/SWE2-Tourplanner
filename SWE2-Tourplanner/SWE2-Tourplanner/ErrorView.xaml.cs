@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace SWE2_Tourplanner
 {
     /// <summary>
-    /// Interaktionslogik für ErrorView.xaml
+    /// Interaction logic for ErrorView
     /// </summary>
     public partial class ErrorView : Window,IDialog
     {

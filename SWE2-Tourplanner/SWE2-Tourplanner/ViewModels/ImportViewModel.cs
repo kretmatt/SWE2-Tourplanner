@@ -12,13 +12,26 @@ using System.Windows.Input;
 
 namespace SWE2_Tourplanner.ViewModels
 {
+    /// <summary>
+    /// ImportViewModel is used for selecting JSON files for the import process
+    /// </summary>
     public class ImportViewModel:BaseViewModel, IDialogRequestClose
     {
+        /// <summary>
+        /// All selected JSON files for the import process
+        /// </summary>
         private ObservableCollection<string> jsonPaths;
+        /// <summary>
+        /// ITourPlannerConfig instance for starting the OpenFileDialog in an appropriate folder
+        /// </summary>
         private ITourPlannerConfig config;
-
+        /// <summary>
+        /// Event used for closing the dialog
+        /// </summary>
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
-
+        /// <value>
+        /// All selected JSON files for the import process
+        /// </value>
         public ObservableCollection<string> JsonPaths
         {
             get { return jsonPaths; }
@@ -31,9 +44,22 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
+        /// <value>
+        /// Command for selecting JSON files
+        /// </value>
         public ICommand SelectPathsCommand { get; }
+        /// <value>
+        /// Command for closing the dialog
+        /// </value>
         public ICommand ExitCommand { get; }
+        /// <value>
+        /// Command for starting the import process
+        /// </value>
         public ICommand ConfirmImportCommand { get; }
+        /// <summary>
+        /// Default constructor for ImportViewModel
+        /// </summary>
+        /// <param name="config">Configuration instance used for OpenFileDialog</param>
         public ImportViewModel(ITourPlannerConfig config)
         {
             jsonPaths = new ObservableCollection<string>();

@@ -11,12 +11,22 @@ using System.Windows.Input;
 
 namespace SWE2_Tourplanner.ViewModels
 {
+    /// <summary>
+    /// ImportConfigViewModel is used for importing / selecting new configuration files during the execution
+    /// </summary>
     public class ImportConfigViewModel:BaseViewModel, IDialogRequestClose
     {
+        /// <summary>
+        /// Path to the new configuration
+        /// </summary>
         private string configPath;
-
+        /// <summary>
+        /// Even used for closing the dialog
+        /// </summary>
         public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
-
+        /// <value>
+        /// Path to the new configuration
+        /// </value>
         public string ConfigPath
         {
             get { return configPath; }
@@ -29,11 +39,21 @@ namespace SWE2_Tourplanner.ViewModels
                 }
             }
         }
-
+        /// <value>
+        /// Command for selecting a new configuration
+        /// </value>
         public ICommand SelectConfigCommand { get; }
+        /// <value>
+        /// Command for closing the dialog
+        /// </value>
         public ICommand ExitCommand { get; }
+        /// <summary>
+        /// Command for initiating the load config process
+        /// </summary>
         public ICommand ConfirmCommand { get; }
-
+        /// <summary>
+        /// Default constructor of ImportConfigViewModel
+        /// </summary>
         public ImportConfigViewModel()
         {
             ExitCommand = new RelayCommand(

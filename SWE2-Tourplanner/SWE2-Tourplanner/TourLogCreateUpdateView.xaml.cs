@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace SWE2_Tourplanner
 {
     /// <summary>
-    /// Interaktionslogik für TourLogCreateUpdateView.xaml
+    /// Interaction logic for TourLogCreateUpdateView
     /// </summary>
     public partial class TourLogCreateUpdateView : Window, IDialog
     {

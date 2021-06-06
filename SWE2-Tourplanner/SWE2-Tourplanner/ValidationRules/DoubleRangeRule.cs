@@ -8,11 +8,25 @@ using System.Windows.Controls;
 
 namespace SWE2_Tourplanner.ValidationRules
 {
+    /// <summary>
+    /// DoubleRangeRule is a ValidationRule for validating whether a string converted to a double value is within a Min and Max Value
+    /// </summary>
     public class DoubleRangeRule : ValidationRule
     {
+        /// <value>
+        /// Lower Bound of the validation rule
+        /// </value>
         public double Min { get; set; }
+        /// <value>
+        /// Upper Bound of the validation rule
+        /// </value>
         public double Max { get; set; }
-
+        /// <summary>
+        /// Validates if the input value is between Min and Max
+        /// </summary>
+        /// <param name="value">Input value</param>
+        /// <param name="cultureInfo">CultureInfo used for convertig the value</param>
+        /// <returns>ValidationResult. Returns valid result if value is within bounds, invalid result if value is out of bounds</returns>
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             double inputValue;
