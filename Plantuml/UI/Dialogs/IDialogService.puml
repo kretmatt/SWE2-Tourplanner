@@ -1,0 +1,6 @@
+@startuml
+interface IDialogService {
+    Register() : void
+    ShowDialog(viewModel:TViewModel) : bool?
+}
+@enduml

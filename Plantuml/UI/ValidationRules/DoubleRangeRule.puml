@@ -1,0 +1,8 @@
+@startuml
+class DoubleRangeRule {
+    + Min : double <<get>> <<set>>
+    + Max : double <<get>> <<set>>
+    + <<override>> Validate(value:object, cultureInfo:CultureInfo) : ValidationResult
+}
+ValidationRule <|-- DoubleRangeRule
+@enduml

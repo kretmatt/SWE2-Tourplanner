@@ -1,0 +1,7 @@
+@startuml
+class ManeuverManagementWindow <<partial>> {
+    + ManeuverManagementWindow()
+}
+Window <|-- ManeuverManagementWindow
+IDialog <|-- ManeuverManagementWindow
+@enduml

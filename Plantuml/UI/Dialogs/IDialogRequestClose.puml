@@ -1,0 +1,5 @@
+@startuml
+interface IDialogRequestClose {
+     <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+}
+@enduml

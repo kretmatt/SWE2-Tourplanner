@@ -1,0 +1,16 @@
+@startuml
+class TourPlannerConfig {
+    - originalConfigPath : string = "config.json"
+    - TourPlannerConfig()
+    + {static} GetTourPlannerConfig() : ITourPlannerConfig
+    + LoadConfigFromFile(configPath:string) : void
+    - SetUpEnvironment(exportsDirectory:string, pictureDirectory:string) : void
+    + MapQuestKey : string <<get>>
+    + PictureDirectory : string <<get>>
+    + DatabaseConnectionString : string <<get>>
+    + ExportsDirectory : string <<get>>
+}
+ITourPlannerConfig <|-- TourPlannerConfig
+TourPlannerConfig --> "tourPlannerConfig" ITourPlannerConfig
+TourPlannerConfig --> "logger" ILog
+@enduml

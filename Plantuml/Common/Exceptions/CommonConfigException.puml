@@ -1,0 +1,8 @@
+@startuml
+class CommonConfigException {
+    + CommonConfigException()
+    + CommonConfigException(message:string)
+    + CommonConfigException(message:string, inner:Exception)
+}
+Exception <|-- CommonConfigException
+@enduml

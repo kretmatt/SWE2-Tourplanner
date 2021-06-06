@@ -1,0 +1,8 @@
+@startuml
+class BLExporterImporterException {
+    + BLExporterImporterException()
+    + BLExporterImporterException(message:string)
+    + BLExporterImporterException(message:string, inner:Exception)
+}
+Exception <|-- BLExporterImporterException
+@enduml

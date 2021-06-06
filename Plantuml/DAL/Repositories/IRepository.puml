@@ -1,0 +1,9 @@
+@startuml
+interface "IRepository`1"<T> {
+    Insert(entity:T) : void
+    Read(id:int) : T
+    ReadAll() : List<T>
+    Update(entity:T) : void
+    Delete(id:int) : void
+}
+@enduml

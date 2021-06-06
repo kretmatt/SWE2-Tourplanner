@@ -4,9 +4,275 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SWE2_Tourplanner"
+        xmlns:Converters="clr-namespace:SWE2_Tourplanner.Converters"
+        xmlns:RComponents="clr-namespace:SWE2_Tourplanner.ReusableComponents"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Tour-Planner" Height="600" Width="550">
+    <Window.Resources>
+        <Converters:RouteInfoImageConverter x:Key="RouteInfoImageConverter"/>
+    </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <Menu>
+                <Menu.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DockPanel HorizontalAlignment="Stretch"></DockPanel>
+                    </ItemsPanelTemplate>
+                </Menu.ItemsPanel>
+                <MenuItem Header="File" >
+                    <MenuItem Header="Import JSON" Command="{Binding ConductImportCommand}"/>
+                    <MenuItem Header="Export JSON" CommandParameter="{Binding ElementName=TourListBox,Path=SelectedItems}" Command="{Binding GenerateJSONExportCommand}"/>
+                    <MenuItem Header="PDFs">
+                        <MenuItem Header="Export tour report" Command="{Binding GenerateTourReportCommand}"/>
+                        <MenuItem Header="Export summary report" CommandParameter="{Binding ElementName=TourListBox,Path=SelectedItems}" Command="{Binding GenerateSummaryReportCommand}"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Tours">
+                        <MenuItem Header="Create tour" Command="{Binding AddTourCommand}"/>
+                        <MenuItem Header="Edit tour" Command="{Binding EditTourCommand}"/>
+                        <MenuItem Header="Delete tour" Command="{Binding RemoveTourCommand}"/>
+                    </MenuItem>
+                    <MenuItem Header="TourLogs">
+                        <MenuItem Header="Create tourlog" Command="{Binding TourDetailViewModel.AddLogCommand}"/>
+                        <MenuItem Header="Edit tourlog" Command="{Binding TourDetailViewModel.EditLogCommand}"/>
+                        <MenuItem Header="Delete tourlog" Command="{Binding TourDetailViewModel.RemoveLogCommand}"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Options">
+                    <MenuItem Header="Load config from file" Command="{Binding LoadConfigCommand}"/>
+                </MenuItem>
+                <MenuItem Header="Help" HorizontalAlignment="Right">
+                    <RComponents:ExternalResourceControl LinkText="Github repository" Link="https://github.com/kretmatt/SWE2-Tourplanner"></RComponents:ExternalResourceControl>
+                    <RComponents:ExternalResourceControl LinkText="Documentation" Link="https://github.com/kretmatt/SWE2-Tourplanner"></RComponents:ExternalResourceControl>
+                    <RComponents:ExternalResourceControl LinkText="Creator" Link="https://github.com/kretmatt"></RComponents:ExternalResourceControl>
+                    <RComponents:ExternalResourceControl LinkText="Powered by MapQuest" Link="https://www.mapquest.com"></RComponents:ExternalResourceControl>
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding ToursViewModel.SearchString, UpdateSourceTrigger=PropertyChanged}"  TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <Button Grid.Column="1" Command="{Binding ToursViewModel.SearchToursCommand}" Content="Search" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Row="2" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="25*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0"  Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Tours: " Grid.Column="0"></Label>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="+" Grid.Column="0" Command="{Binding AddTourCommand}"></Button>
+                        <Button Content="-" Grid.Column="1" Command="{Binding RemoveTourCommand}"></Button>
+                        <Button Content="[]" Grid.Column="2" Command="{Binding EditTourCommand}"></Button>
+                    </Grid>
+                </Grid>
+                <ListBox x:Name="TourListBox" Grid.Row="1" ItemsSource="{Binding ToursViewModel.FilteredTours}" SelectedItem="{Binding TourDetailViewModel.SelectedTour, Mode=TwoWay}" SelectionMode="Multiple">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="5"  DataContext="{Binding Path=TourDetailViewModel}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="{Binding SelectedTour.Name}" Grid.Row="0"></Label>
+                    <TabControl  Grid.Row="1">
+                        <TabItem Header="Route">
+                            <Image Source="{Binding SelectedTour.RouteInfo, Converter={StaticResource RouteInfoImageConverter}}"></Image>
+                        </TabItem>
+                        <TabItem Header="Description">
+                            <ScrollViewer>
+                                <TextBlock Text="{Binding SelectedTour.Description}" TextWrapping="Wrap"/>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="Maneuvers">
+                            <ListBox ItemsSource="{Binding SelectedTour.Maneuvers}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Narrative}"/>
+                                            <TextBlock Text=" - Distance (km): "/>
+                                            <TextBlock Text="{Binding Distance}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </TabItem>
+                        <TabItem Header="Further Details">
+                            <ScrollViewer>
+                                <StackPanel Orientation="Vertical">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="Start location: " FontWeight="Bold"></Label>
+                                        <Label Grid.Column="1" Content="{Binding SelectedTour.StartLocation}"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="End location: " FontWeight="Bold"></Label>
+                                        <Label Grid.Column="1" Content="{Binding SelectedTour.EndLocation}"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="Distance (km): " FontWeight="Bold"></Label>
+                                        <Label Grid.Column="1" Content="{Binding SelectedTour.Distance}"/>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="Route type: " FontWeight="Bold"></Label>
+                                        <Label Grid.Column="1" Content="{Binding SelectedTour.RouteType}"/>
+                                    </Grid>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Logs: " Grid.Column="0"></Label>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="+" Grid.Column="0" Command="{Binding AddLogCommand}"></Button>
+                            <Button Content="-" Grid.Column="1" Command="{Binding RemoveLogCommand}"></Button>
+                            <Button Content="[]" Grid.Column="2" Command="{Binding EditLogCommand}"></Button>
+                        </Grid>
+                    </Grid>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding CurrentTourLogs}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTourLog}" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Start date">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding StartDate}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="End date">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding EndDate}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Distance">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Distance}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Total time">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TotalTime}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Average speed">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AverageSpeed}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Temperature">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Temperature}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Rating">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Rating}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Weather">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Weather}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Travel method">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TravelMethod}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Report">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Report}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

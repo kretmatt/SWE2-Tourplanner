@@ -1,0 +1,10 @@
+@startuml
+class InsertTourLogCommand {
+    + InsertTourLogCommand(db:IDBConnection, tourLog:TourLog)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- InsertTourLogCommand
+InsertTourLogCommand --> "db" IDBConnection
+InsertTourLogCommand --> "tourLog" TourLog
+@enduml

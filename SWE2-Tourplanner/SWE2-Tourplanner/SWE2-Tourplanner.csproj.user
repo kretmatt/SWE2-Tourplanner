@@ -7,7 +7,45 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="CreateUpdateTourView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ErrorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportConfigView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ImportView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ManeuverManagementWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TourLogCreateUpdateView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="CreateUpdateTourView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ErrorView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportConfigView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ImportView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ManeuverManagementWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TourLogCreateUpdateView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

@@ -1,0 +1,394 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner-Tests\\SWE2-Tourplanner-Tests.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+        "projectName": "BusinessLogicLayer",
+        "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+        "packagesPath": "C:\\Users\\swe2\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\swe2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj"
+              },
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2021.5.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj",
+        "projectName": "Common",
+        "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj",
+        "packagesPath": "C:\\Users\\swe2\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\swe2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.12, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectName": "DataAccessLayer",
+        "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\swe2\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\swe2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.FileExtensions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[5.0.4, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.12, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner-Tests\\SWE2-Tourplanner-Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner-Tests\\SWE2-Tourplanner-Tests.csproj",
+        "projectName": "SWE2-Tourplanner-Tests",
+        "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner-Tests\\SWE2-Tourplanner-Tests.csproj",
+        "packagesPath": "C:\\Users\\swe2\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner-Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\swe2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0-windows7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0-windows7.0": {
+            "targetAlias": "net5.0-windows7.0",
+            "projectReferences": {
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
+              },
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj"
+              },
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\DataAccessLayer\\DataAccessLayer.csproj"
+              },
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows7.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.5.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.16.1, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.12.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[3.16.1, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.12, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner.csproj",
+        "projectName": "SWE2-Tourplanner",
+        "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner.csproj",
+        "packagesPath": "C:\\Users\\swe2\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\SWE2-Tourplanner\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\swe2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0-windows7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0-windows7.0": {
+            "targetAlias": "net5.0-windows",
+            "projectReferences": {
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
+              },
+              "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\swe2\\Desktop\\SWE2-Tourplanner\\SWE2-Tourplanner\\Common\\Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows",
+          "dependencies": {
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.12, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

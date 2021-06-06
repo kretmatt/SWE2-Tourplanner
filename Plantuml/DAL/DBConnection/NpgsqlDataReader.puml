@@ -1,0 +1,10 @@
+@startuml
+class NpgsqlDataReader {
+    + NpgsqlDataReader(npgsqlDataReader:Npgsql.NpgsqlDataReader)
+    + FieldCount : int <<get>>
+    + Read() : bool
+    + GetValue(i:int) : object
+    + Dispose() : void
+}
+IDataReader <|-- NpgsqlDataReader
+@enduml

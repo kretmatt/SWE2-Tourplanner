@@ -1,0 +1,21 @@
+@startuml
+class TourRepository {
+    + TourRepository()
+    + TourRepository(db:IDBConnection, commitCommands:List<IDBCommand>)
+    + TourRepository(db:IDBConnection, commitCommands:List<IDBCommand>, tourLogRepository:ITourLogRepository, maneuverRepository:IManeuverRepository)
+    - ConvertToTour(row:object[]) : Tour
+    - CheckDBConstraints(tour:Tour) : bool
+    + Delete(id:int) : void
+    + Insert(entity:Tour) : void
+    + Read(id:int) : Tour
+    + ReadAll() : List<Tour>
+    + Update(entity:Tour) : void
+}
+class "List`1"<T> {
+}
+ITourRepository <|-- TourRepository
+TourRepository --> "db" IDBConnection
+TourRepository --> "commitCommands<IDBCommand>" "List`1"
+TourRepository --> "tourLogRepository" ITourLogRepository
+TourRepository --> "maneuverRepository" IManeuverRepository
+@enduml

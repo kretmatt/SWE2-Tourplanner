@@ -1,0 +1,10 @@
+@startuml
+class TourPlannerReportsGenerator {
+    + TourPlannerReportsGenerator()
+    + GenerateSummaryReport(tours:List<Tour>) : Task
+    + GenerateTourReport(tour:Tour) : Task
+}
+ITourPlannerReportsGenerator <|-- TourPlannerReportsGenerator
+TourPlannerReportsGenerator --> "config" ITourPlannerConfig
+TourPlannerReportsGenerator --> "logger" ILog
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+class CreateUpdateTourViewModel {
+    - manualTour : bool = false
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + Name : string <<get>> <<set>>
+    + StartLocation : string <<get>> <<set>>
+    + EndLocation : string <<get>> <<set>>
+    + Description : string <<get>> <<set>>
+    + Distance : double <<get>> <<set>>
+    + RouteInfo : string <<get>> <<set>>
+    + HeadingMessage : string <<get>>
+    + ConfirmButtonMessage : string <<get>>
+    + ManualTour : bool <<get>> <<set>>
+    + CreateUpdateTourViewModel(tour:Tour, dialogService:IDialogService)
+}
+class "ObservableCollection`1"<T> {
+}
+class "IEnumerable`1"<T> {
+}
+BaseViewModel <|-- CreateUpdateTourViewModel
+IDialogRequestClose <|-- CreateUpdateTourViewModel
+CreateUpdateTourViewModel --> "tour" Tour
+CreateUpdateTourViewModel --> "maneuvers<Maneuver>" "ObservableCollection`1"
+CreateUpdateTourViewModel --> "maneuversViewModel" ManeuversViewModel
+CreateUpdateTourViewModel --> "RouteType" ERouteType
+CreateUpdateTourViewModel --> "Maneuvers<Maneuver>" "ObservableCollection`1"
+CreateUpdateTourViewModel --> "RouteTypes<ERouteType>" "IEnumerable`1"
+CreateUpdateTourViewModel --> "ExitCommand" ICommand
+CreateUpdateTourViewModel --> "CommitCommand" ICommand
+CreateUpdateTourViewModel --> "ManageManeuverCommand" ICommand
+CreateUpdateTourViewModel --> "SelectRouteInfoCommand" ICommand
+@enduml

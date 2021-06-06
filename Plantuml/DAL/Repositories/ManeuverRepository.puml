@@ -1,0 +1,18 @@
+@startuml
+class ManeuverRepository {
+    + ManeuverRepository()
+    + ManeuverRepository(db:IDBConnection, commitCommands:List<IDBCommand>)
+    - ConvertToManeuver(row:object[]) : Maneuver
+    - CheckDBConstraints(maneuver:Maneuver) : bool
+    + Delete(id:int) : void
+    + Insert(entity:Maneuver) : void
+    + Read(id:int) : Maneuver
+    + ReadAll() : List<Maneuver>
+    + Update(entity:Maneuver) : void
+}
+class "List`1"<T> {
+}
+IManeuverRepository <|-- ManeuverRepository
+ManeuverRepository --> "db" IDBConnection
+ManeuverRepository --> "commitCommands<IDBCommand>" "List`1"
+@enduml

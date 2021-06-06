@@ -1,0 +1,10 @@
+@startuml
+interface IDBConnection {
+    ExecuteStatement(command:IDbCommand) : int
+    QueryDatabase(command:IDbCommand) : List<object[]>
+    DeclareParameter(command:IDbCommand, name:string, type:DbType) : int
+    DefineParameter(command:IDbCommand, name:string, type:DbType, value:object) : void
+    OpenConnection() : void
+    CloseConnection() : void
+}
+@enduml

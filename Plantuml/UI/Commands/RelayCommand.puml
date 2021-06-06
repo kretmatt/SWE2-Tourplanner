@@ -1,0 +1,14 @@
+@startuml
+class RelayCommand {
+    + RelayCommand(execute:Action<object>, canExecute:Predicate<object>)
+    + CanExecute(parameter:object) : bool
+    + <<virtual>> Execute(parameter:object) : void
+}
+class "Action`1"<T> {
+}
+class "Predicate`1"<T> {
+}
+ICommand <|-- RelayCommand
+RelayCommand --> "_execute<object>" "Action`1"
+RelayCommand --> "_canExecute<object>" "Predicate`1"
+@enduml

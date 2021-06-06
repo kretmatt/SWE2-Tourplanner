@@ -1,0 +1,20 @@
+@startuml
+class TourDetailViewModel {
+    - ShowException(e:Exception) : void
+    + TourDetailViewModel(dialogService:IDialogService)
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- TourDetailViewModel
+TourDetailViewModel --> "_selectedTour" Tour
+TourDetailViewModel --> "selectedTourLog" TourLog
+TourDetailViewModel --> "currentTourLogs<TourLog>" "ObservableCollection`1"
+TourDetailViewModel --> "tourLogFactory" ITourLogFactory
+TourDetailViewModel --> "dialogService" IDialogService
+TourDetailViewModel --> "CurrentTourLogs<TourLog>" "ObservableCollection`1"
+TourDetailViewModel --> "SelectedTour" Tour
+TourDetailViewModel --> "SelectedTourLog" TourLog
+TourDetailViewModel --> "AddLogCommand" ICommand
+TourDetailViewModel --> "RemoveLogCommand" ICommand
+TourDetailViewModel --> "EditLogCommand" ICommand
+@enduml

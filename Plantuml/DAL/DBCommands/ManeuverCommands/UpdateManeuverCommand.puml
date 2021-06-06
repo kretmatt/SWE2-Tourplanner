@@ -1,0 +1,11 @@
+@startuml
+class UpdateManeuverCommand {
+    + UpdateManeuverCommand(db:IDBConnection, maneuver:Maneuver, oldManeuver:Maneuver)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- UpdateManeuverCommand
+UpdateManeuverCommand --> "db" IDBConnection
+UpdateManeuverCommand --> "maneuver" Maneuver
+UpdateManeuverCommand --> "oldManeuver" Maneuver
+@enduml

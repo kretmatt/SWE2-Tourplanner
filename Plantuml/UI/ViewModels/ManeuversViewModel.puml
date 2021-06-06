@@ -1,0 +1,18 @@
+@startuml
+class ManeuversViewModel {
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + ManeuversViewModel(maneuvers:List<Maneuver>)
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- ManeuversViewModel
+IDialogRequestClose <|-- ManeuversViewModel
+ManeuversViewModel --> "maneuvers<Maneuver>" "ObservableCollection`1"
+ManeuversViewModel --> "currentManeuver" Maneuver
+ManeuversViewModel --> "Maneuvers<Maneuver>" "ObservableCollection`1"
+ManeuversViewModel --> "CurrentManeuver" Maneuver
+ManeuversViewModel --> "AddManeuverCommand" ICommand
+ManeuversViewModel --> "RemoveManeuverCommand" ICommand
+ManeuversViewModel --> "ConfirmCommand" ICommand
+ManeuversViewModel --> "ExitCommand" ICommand
+@enduml

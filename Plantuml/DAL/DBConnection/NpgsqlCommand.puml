@@ -1,0 +1,10 @@
+@startuml
+class NpgsqlCommand {
+    + ExecuteNonQuery() : int
+    + ExecuteReader() : IDataReader
+    + NpgsqlCommand(cmdText:string)
+}
+IDbCommand <|-- NpgsqlCommand
+NpgsqlCommand --> "Parameters" DbParameterCollection
+NpgsqlCommand --> "Connection" DbConnection
+@enduml

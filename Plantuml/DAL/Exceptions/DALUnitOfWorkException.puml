@@ -1,0 +1,8 @@
+@startuml
+class DALUnitOfWorkException {
+    + DALUnitOfWorkException()
+    + DALUnitOfWorkException(message:string)
+    + DALUnitOfWorkException(message:string, inner:Exception)
+}
+Exception <|-- DALUnitOfWorkException
+@enduml

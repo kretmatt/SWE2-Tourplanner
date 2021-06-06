@@ -1,0 +1,13 @@
+@startuml
+class ImportConfigViewModel {
+    - configPath : string
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + ConfigPath : string <<get>> <<set>>
+    + ImportConfigViewModel()
+}
+BaseViewModel <|-- ImportConfigViewModel
+IDialogRequestClose <|-- ImportConfigViewModel
+ImportConfigViewModel --> "SelectConfigCommand" ICommand
+ImportConfigViewModel --> "ExitCommand" ICommand
+ImportConfigViewModel --> "ConfirmCommand" ICommand
+@enduml

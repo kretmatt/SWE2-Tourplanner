@@ -1,0 +1,15 @@
+@startuml
+class MapQuestClient {
+    - {static} routeBaseURL : string = "http://www.mapquestapi.com/directions/v2/route"
+    - {static} staticmapBaseURL : string = "http://www.mapquestapi.com/staticmap/v5/map"
+    - {static} pictureWidth : int = 1920
+    - {static} pictureHeight : int = 1080
+    + MapQuestClient()
+    + <<async>> GetRouteDataFromMapQuest(tour:Tour) : Task
+    + <<async>> RetrieveRouteImage(storeId:string, sessionId:string, boundingBox:string) : Task<string>
+}
+IMapQuestClient <|-- MapQuestClient
+MapQuestClient --> "client" HttpClient
+MapQuestClient --> "config" ITourPlannerConfig
+MapQuestClient --> "logger" ILog
+@enduml

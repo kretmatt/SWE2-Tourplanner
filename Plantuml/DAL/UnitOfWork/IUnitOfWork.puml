@@ -1,0 +1,10 @@
+@startuml
+interface IUnitOfWork {
+    Commit() : int
+    Rollback() : int
+}
+IDisposable <|-- IUnitOfWork
+IUnitOfWork --> "TourRepository" ITourRepository
+IUnitOfWork --> "TourLogRepository" ITourLogRepository
+IUnitOfWork --> "ManeuverRepository" IManeuverRepository
+@enduml

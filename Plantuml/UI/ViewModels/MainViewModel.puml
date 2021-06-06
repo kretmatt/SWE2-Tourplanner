@@ -1,0 +1,25 @@
+@startuml
+class MainViewModel {
+    - ShowException(e:Exception) : void
+    + MainViewModel(dialogService:IDialogService)
+}
+class "IExporterImporter`1"<T> {
+}
+BaseViewModel <|-- MainViewModel
+MainViewModel --> "tourDetailViewModel" TourDetailViewModel
+MainViewModel --> "toursViewModel" ToursViewModel
+MainViewModel --> "tourPlannerFactory" ITourFactory
+MainViewModel --> "dialogService" IDialogService
+MainViewModel --> "pdfGenerator" ITourPlannerReportsGenerator
+MainViewModel --> "exporterImporter<Tour>" "IExporterImporter`1"
+MainViewModel --> "TourDetailViewModel" TourDetailViewModel
+MainViewModel --> "ToursViewModel" ToursViewModel
+MainViewModel --> "AddTourCommand" ICommand
+MainViewModel --> "RemoveTourCommand" ICommand
+MainViewModel --> "EditTourCommand" ICommand
+MainViewModel --> "GenerateTourReportCommand" ICommand
+MainViewModel --> "GenerateSummaryReportCommand" ICommand
+MainViewModel --> "GenerateJSONExportCommand" ICommand
+MainViewModel --> "ConductImportCommand" ICommand
+MainViewModel --> "LoadConfigCommand" ICommand
+@enduml

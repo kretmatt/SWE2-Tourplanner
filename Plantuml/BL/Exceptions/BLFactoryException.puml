@@ -1,0 +1,8 @@
+@startuml
+class BLFactoryException {
+    + BLFactoryException()
+    + BLFactoryException(message:string)
+    + BLFactoryException(message:string, inner:Exception)
+}
+Exception <|-- BLFactoryException
+@enduml

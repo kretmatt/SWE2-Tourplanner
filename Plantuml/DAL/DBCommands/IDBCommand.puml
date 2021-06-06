@@ -1,0 +1,6 @@
+@startuml
+interface IDBCommand {
+    Execute() : int
+    Undo() : int
+}
+@enduml

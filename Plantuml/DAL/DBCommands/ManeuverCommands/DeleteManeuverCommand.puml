@@ -1,0 +1,10 @@
+@startuml
+class DeleteManeuverCommand {
+    + DeleteManeuverCommand(db:IDBConnection, maneuver:Maneuver)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- DeleteManeuverCommand
+DeleteManeuverCommand --> "db" IDBConnection
+DeleteManeuverCommand --> "maneuver" Maneuver
+@enduml

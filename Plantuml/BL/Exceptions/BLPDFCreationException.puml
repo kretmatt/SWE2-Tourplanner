@@ -1,0 +1,8 @@
+@startuml
+class BLPDFCreationException {
+    + BLPDFCreationException()
+    + BLPDFCreationException(message:string)
+    + BLPDFCreationException(message:string, inner:Exception)
+}
+Exception <|-- BLPDFCreationException
+@enduml

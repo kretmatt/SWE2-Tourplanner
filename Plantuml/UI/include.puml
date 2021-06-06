@@ -1,0 +1,293 @@
+@startuml
+class App <<partial>> {
+    # <<override>> OnStartup(e:StartupEventArgs) : void
+}
+Application <|-- App
+class CreateUpdateTourView <<partial>> {
+    + CreateUpdateTourView()
+}
+Window <|-- CreateUpdateTourView
+IDialog <|-- CreateUpdateTourView
+class ErrorView <<partial>> {
+    + ErrorView()
+}
+Window <|-- ErrorView
+IDialog <|-- ErrorView
+class ImportConfigView <<partial>> {
+    + ImportConfigView()
+}
+Window <|-- ImportConfigView
+IDialog <|-- ImportConfigView
+class ImportView <<partial>> {
+    + ImportView()
+}
+Window <|-- ImportView
+IDialog <|-- ImportView
+class MainWindow <<partial>> {
+    + MainWindow()
+}
+Window <|-- MainWindow
+class ManeuverManagementWindow <<partial>> {
+    + ManeuverManagementWindow()
+}
+Window <|-- ManeuverManagementWindow
+IDialog <|-- ManeuverManagementWindow
+class TourLogCreateUpdateView <<partial>> {
+    + TourLogCreateUpdateView()
+}
+Window <|-- TourLogCreateUpdateView
+IDialog <|-- TourLogCreateUpdateView
+class RelayCommand {
+    + RelayCommand(execute:Action<object>, canExecute:Predicate<object>)
+    + CanExecute(parameter:object) : bool
+    + <<virtual>> Execute(parameter:object) : void
+}
+class "Action`1"<T> {
+}
+class "Predicate`1"<T> {
+}
+ICommand <|-- RelayCommand
+RelayCommand --> "_execute<object>" "Action`1"
+RelayCommand --> "_canExecute<object>" "Predicate`1"
+class RouteInfoImageConverter {
+    + Convert(value:object, targetType:Type, parameter:object, culture:CultureInfo) : object
+    + ConvertBack(value:object, targetType:Type, parameter:object, culture:CultureInfo) : object
+}
+IValueConverter <|-- RouteInfoImageConverter
+class StringToDateTimeConverter {
+    + Convert(value:object, targetType:Type, parameter:object, culture:CultureInfo) : object
+    + ConvertBack(value:object, targetType:Type, parameter:object, culture:CultureInfo) : object
+}
+IValueConverter <|-- StringToDateTimeConverter
+class DialogCloseRequestedEventArgs {
+    + DialogCloseRequestedEventArgs(dialogResult:bool?)
+    + DialogResult : bool? <<get>>
+}
+EventArgs <|-- DialogCloseRequestedEventArgs
+class DialogService {
+    + DialogService(owner:Window)
+    + Register() : void
+    + ShowDialog(viewModel:TViewModel) : bool?
+}
+class "IDictionary`2"<T1,T2> {
+}
+IDialogService <|-- DialogService
+DialogService --> "owner" Window
+DialogService --> "Mappings<Type,Type>" "IDictionary`2"
+interface IDialog {
+    DataContext : object <<get>> <<set>>
+    DialogResult : bool? <<get>> <<set>>
+    Close() : void
+    ShowDialog() : bool?
+}
+IDialog --> "Owner" Window
+interface IDialogRequestClose {
+     <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+}
+interface IDialogService {
+    Register() : void
+    ShowDialog(viewModel:TViewModel) : bool?
+}
+class ExternalResourceControl <<partial>> {
+    - {static} <<readonly>> googleFaviconCrawler : string = @"https://www.google.com/s2/favicons?domain"
+    - faviconLocation : string
+    + LinkText : string <<get>> <<set>>
+    + Link : string <<get>> <<set>>
+    + Favicon : object <<get>> <<set>>
+    + ExternalResourceControl()
+    - ExternalResource_MouseDown(sender:object, e:MouseButtonEventArgs) : void
+    - {static} OnLinkChanged(d:DependencyObject, e:DependencyPropertyChangedEventArgs) : void
+    +  <<event>> PropertyChanged : PropertyChangedEventHandler 
+    # <<virtual>> OnPropertyChanged(propertyName:string) : void
+}
+UserControl <|-- ExternalResourceControl
+INotifyPropertyChanged <|-- ExternalResourceControl
+ExternalResourceControl o-> "LinkTextProperty" DependencyProperty
+ExternalResourceControl o-> "LinkProperty" DependencyProperty
+class DoubleRangeRule {
+    + Min : double <<get>> <<set>>
+    + Max : double <<get>> <<set>>
+    + <<override>> Validate(value:object, cultureInfo:CultureInfo) : ValidationResult
+}
+ValidationRule <|-- DoubleRangeRule
+class ManeuverValidationRule {
+    + <<override>> Validate(value:object, cultureInfo:CultureInfo) : ValidationResult
+}
+ValidationRule <|-- ManeuverValidationRule
+class NoNegativeDistancesRule {
+    + <<override>> Validate(value:object, cultureInfo:CultureInfo) : ValidationResult
+}
+ValidationRule <|-- NoNegativeDistancesRule
+class TextInputValidationRule {
+    + Min : int <<get>> <<set>>
+    + Max : int <<get>> <<set>>
+    + <<override>> Validate(value:object, cultureInfo:CultureInfo) : ValidationResult
+}
+ValidationRule <|-- TextInputValidationRule
+abstract class BaseViewModel {
+    +  <<event>> PropertyChanged : PropertyChangedEventHandler 
+    # <<virtual>> OnPropertyChanged(propertyName:string) : void
+}
+INotifyPropertyChanged <|-- BaseViewModel
+class CreateUpdateTourLogViewModel {
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + Distance : double <<get>> <<set>>
+    + Temperature : double <<get>> <<set>>
+    + Rating : double <<get>> <<set>>
+    + Report : string <<get>> <<set>>
+    + ConfirmButtonMessage : string <<get>>
+    + HeadingMessage : string <<get>>
+    + CreateUpdateTourLogViewModel(tourLog:TourLog)
+}
+class "IEnumerable`1"<T> {
+}
+BaseViewModel <|-- CreateUpdateTourLogViewModel
+IDialogRequestClose <|-- CreateUpdateTourLogViewModel
+CreateUpdateTourLogViewModel --> "tourLog" TourLog
+CreateUpdateTourLogViewModel --> "StartDate" DateTime
+CreateUpdateTourLogViewModel --> "EndDate" DateTime
+CreateUpdateTourLogViewModel --> "Weather" EWeather
+CreateUpdateTourLogViewModel --> "TravelMethod" ETravelMethod
+CreateUpdateTourLogViewModel --> "WeatherTypes<EWeather>" "IEnumerable`1"
+CreateUpdateTourLogViewModel --> "TravelMethods<ETravelMethod>" "IEnumerable`1"
+CreateUpdateTourLogViewModel --> "ExitCommand" ICommand
+CreateUpdateTourLogViewModel --> "ConductCreateUpdateCommand" ICommand
+class CreateUpdateTourViewModel {
+    - manualTour : bool = false
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + Name : string <<get>> <<set>>
+    + StartLocation : string <<get>> <<set>>
+    + EndLocation : string <<get>> <<set>>
+    + Description : string <<get>> <<set>>
+    + Distance : double <<get>> <<set>>
+    + RouteInfo : string <<get>> <<set>>
+    + HeadingMessage : string <<get>>
+    + ConfirmButtonMessage : string <<get>>
+    + ManualTour : bool <<get>> <<set>>
+    + CreateUpdateTourViewModel(tour:Tour, dialogService:IDialogService)
+}
+class "ObservableCollection`1"<T> {
+}
+class "IEnumerable`1"<T> {
+}
+BaseViewModel <|-- CreateUpdateTourViewModel
+IDialogRequestClose <|-- CreateUpdateTourViewModel
+CreateUpdateTourViewModel --> "tour" Tour
+CreateUpdateTourViewModel --> "maneuvers<Maneuver>" "ObservableCollection`1"
+CreateUpdateTourViewModel --> "maneuversViewModel" ManeuversViewModel
+CreateUpdateTourViewModel --> "RouteType" ERouteType
+CreateUpdateTourViewModel --> "Maneuvers<Maneuver>" "ObservableCollection`1"
+CreateUpdateTourViewModel --> "RouteTypes<ERouteType>" "IEnumerable`1"
+CreateUpdateTourViewModel --> "ExitCommand" ICommand
+CreateUpdateTourViewModel --> "CommitCommand" ICommand
+CreateUpdateTourViewModel --> "ManageManeuverCommand" ICommand
+CreateUpdateTourViewModel --> "SelectRouteInfoCommand" ICommand
+class ErrorViewModel {
+    - errorHandlingMessage : string
+    - errorType : string
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + ErrorHandlingMessage : string <<get>>
+    + ErrorType : string <<get>>
+    + ErrorViewModel(errorHandlingMessage:string, errorType:string)
+}
+BaseViewModel <|-- ErrorViewModel
+IDialogRequestClose <|-- ErrorViewModel
+ErrorViewModel --> "CloseCommand" ICommand
+class ImportConfigViewModel {
+    - configPath : string
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + ConfigPath : string <<get>> <<set>>
+    + ImportConfigViewModel()
+}
+BaseViewModel <|-- ImportConfigViewModel
+IDialogRequestClose <|-- ImportConfigViewModel
+ImportConfigViewModel --> "SelectConfigCommand" ICommand
+ImportConfigViewModel --> "ExitCommand" ICommand
+ImportConfigViewModel --> "ConfirmCommand" ICommand
+class ImportViewModel {
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + ImportViewModel(config:ITourPlannerConfig)
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- ImportViewModel
+IDialogRequestClose <|-- ImportViewModel
+ImportViewModel --> "jsonPaths<string>" "ObservableCollection`1"
+ImportViewModel --> "config" ITourPlannerConfig
+ImportViewModel --> "JsonPaths<string>" "ObservableCollection`1"
+ImportViewModel --> "SelectPathsCommand" ICommand
+ImportViewModel --> "ExitCommand" ICommand
+ImportViewModel --> "ConfirmImportCommand" ICommand
+class MainViewModel {
+    - ShowException(e:Exception) : void
+    + MainViewModel(dialogService:IDialogService)
+}
+class "IExporterImporter`1"<T> {
+}
+BaseViewModel <|-- MainViewModel
+MainViewModel --> "tourDetailViewModel" TourDetailViewModel
+MainViewModel --> "toursViewModel" ToursViewModel
+MainViewModel --> "tourPlannerFactory" ITourFactory
+MainViewModel --> "dialogService" IDialogService
+MainViewModel --> "pdfGenerator" ITourPlannerReportsGenerator
+MainViewModel --> "exporterImporter<Tour>" "IExporterImporter`1"
+MainViewModel --> "TourDetailViewModel" TourDetailViewModel
+MainViewModel --> "ToursViewModel" ToursViewModel
+MainViewModel --> "AddTourCommand" ICommand
+MainViewModel --> "RemoveTourCommand" ICommand
+MainViewModel --> "EditTourCommand" ICommand
+MainViewModel --> "GenerateTourReportCommand" ICommand
+MainViewModel --> "GenerateSummaryReportCommand" ICommand
+MainViewModel --> "GenerateJSONExportCommand" ICommand
+MainViewModel --> "ConductImportCommand" ICommand
+MainViewModel --> "LoadConfigCommand" ICommand
+class ManeuversViewModel {
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + ManeuversViewModel(maneuvers:List<Maneuver>)
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- ManeuversViewModel
+IDialogRequestClose <|-- ManeuversViewModel
+ManeuversViewModel --> "maneuvers<Maneuver>" "ObservableCollection`1"
+ManeuversViewModel --> "currentManeuver" Maneuver
+ManeuversViewModel --> "Maneuvers<Maneuver>" "ObservableCollection`1"
+ManeuversViewModel --> "CurrentManeuver" Maneuver
+ManeuversViewModel --> "AddManeuverCommand" ICommand
+ManeuversViewModel --> "RemoveManeuverCommand" ICommand
+ManeuversViewModel --> "ConfirmCommand" ICommand
+ManeuversViewModel --> "ExitCommand" ICommand
+class TourDetailViewModel {
+    - ShowException(e:Exception) : void
+    + TourDetailViewModel(dialogService:IDialogService)
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- TourDetailViewModel
+TourDetailViewModel --> "_selectedTour" Tour
+TourDetailViewModel --> "selectedTourLog" TourLog
+TourDetailViewModel --> "currentTourLogs<TourLog>" "ObservableCollection`1"
+TourDetailViewModel --> "tourLogFactory" ITourLogFactory
+TourDetailViewModel --> "dialogService" IDialogService
+TourDetailViewModel --> "CurrentTourLogs<TourLog>" "ObservableCollection`1"
+TourDetailViewModel --> "SelectedTour" Tour
+TourDetailViewModel --> "SelectedTourLog" TourLog
+TourDetailViewModel --> "AddLogCommand" ICommand
+TourDetailViewModel --> "RemoveLogCommand" ICommand
+TourDetailViewModel --> "EditLogCommand" ICommand
+class ToursViewModel {
+    - searchString : string
+    + SearchString : string <<get>> <<set>>
+    + ToursViewModel(tourPlannerFactory:ITourFactory, dialogService:IDialogService)
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- ToursViewModel
+ToursViewModel --> "tourPlannerFactory" ITourFactory
+ToursViewModel --> "dialogService" IDialogService
+ToursViewModel --> "filteredTours<Tour>" "ObservableCollection`1"
+ToursViewModel --> "_tours<Tour>" "ObservableCollection`1"
+ToursViewModel --> "FilteredTours<Tour>" "ObservableCollection`1"
+ToursViewModel --> "Tours<Tour>" "ObservableCollection`1"
+ToursViewModel --> "SearchToursCommand" ICommand
+@enduml

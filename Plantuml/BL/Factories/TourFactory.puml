@@ -1,0 +1,17 @@
+@startuml
+class TourFactory {
+    + TourFactory()
+    + TourFactory(uow:IUnitOfWork)
+    - <<async>> RetrieveMapQuestData(tour:Tour) : Task
+    + <<async>> CreateMapQuestTour(tour:Tour) : Task
+    + <<async>> CreateTour(tour:Tour) : Task
+    + DeleteTour(tour:Tour) : Task
+    + <<async>> UpdateMapQuestTour(tour:Tour) : Task
+    + UpdateTour(tour:Tour) : Task
+    + GetTours() : List<Tour>
+}
+ITourFactory <|-- TourFactory
+TourFactory --> "mapQuestClient" IMapQuestClient
+TourFactory --> "logger" ILog
+TourFactory --> "uow" IUnitOfWork
+@enduml

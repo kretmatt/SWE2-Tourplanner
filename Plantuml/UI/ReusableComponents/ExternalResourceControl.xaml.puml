@@ -1,0 +1,18 @@
+@startuml
+class ExternalResourceControl <<partial>> {
+    - {static} <<readonly>> googleFaviconCrawler : string = @"https://www.google.com/s2/favicons?domain"
+    - faviconLocation : string
+    + LinkText : string <<get>> <<set>>
+    + Link : string <<get>> <<set>>
+    + Favicon : object <<get>> <<set>>
+    + ExternalResourceControl()
+    - ExternalResource_MouseDown(sender:object, e:MouseButtonEventArgs) : void
+    - {static} OnLinkChanged(d:DependencyObject, e:DependencyPropertyChangedEventArgs) : void
+    +  <<event>> PropertyChanged : PropertyChangedEventHandler 
+    # <<virtual>> OnPropertyChanged(propertyName:string) : void
+}
+UserControl <|-- ExternalResourceControl
+INotifyPropertyChanged <|-- ExternalResourceControl
+ExternalResourceControl o-> "LinkTextProperty" DependencyProperty
+ExternalResourceControl o-> "LinkProperty" DependencyProperty
+@enduml

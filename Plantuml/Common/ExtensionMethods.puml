@@ -1,0 +1,5 @@
+@startuml
+class Extensions <<static>> {
+    + {static} CIContains(text:string, value:string, stringComparison:StringComparison) : bool
+}
+@enduml

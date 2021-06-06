@@ -1,0 +1,256 @@
+@startuml
+interface IDBCommand {
+    Execute() : int
+    Undo() : int
+}
+class DatabaseConnection {
+    - DatabaseConnection()
+    - DatabaseConnection(config:ITourPlannerConfig)
+    + {static} GetDBConnection() : IDBConnection
+    + {static} GetDBConnection(testConfig:ITourPlannerConfig) : IDBConnection
+    + ExecuteStatement(command:IDbCommand) : int
+    + QueryDatabase(command:IDbCommand) : List<object[]>
+    + OpenConnection() : void
+    + CloseConnection() : void
+    + DeclareParameter(command:IDbCommand, name:string, type:System.Data.DbType) : int
+    + DefineParameter(command:IDbCommand, name:string, type:System.Data.DbType, value:object) : void
+}
+IDBConnection <|-- DatabaseConnection
+DatabaseConnection --> "dB" DatabaseConnection
+DatabaseConnection --> "config" ITourPlannerConfig
+interface IDataReader {
+    Read() : bool
+    GetValue(i:int) : object
+    FieldCount : int <<get>>
+}
+IDisposable <|-- IDataReader
+interface IDbCommand {
+    ExecuteNonQuery() : int
+    ExecuteReader() : IDataReader
+}
+IDbCommand --> "Parameters" DbParameterCollection
+IDbCommand --> "Connection" DbConnection
+interface IDBConnection {
+    ExecuteStatement(command:IDbCommand) : int
+    QueryDatabase(command:IDbCommand) : List<object[]>
+    DeclareParameter(command:IDbCommand, name:string, type:DbType) : int
+    DefineParameter(command:IDbCommand, name:string, type:DbType, value:object) : void
+    OpenConnection() : void
+    CloseConnection() : void
+}
+class NpgsqlCommand {
+    + ExecuteNonQuery() : int
+    + ExecuteReader() : IDataReader
+    + NpgsqlCommand(cmdText:string)
+}
+IDbCommand <|-- NpgsqlCommand
+NpgsqlCommand --> "Parameters" DbParameterCollection
+NpgsqlCommand --> "Connection" DbConnection
+class NpgsqlDataReader {
+    + NpgsqlDataReader(npgsqlDataReader:Npgsql.NpgsqlDataReader)
+    + FieldCount : int <<get>>
+    + Read() : bool
+    + GetValue(i:int) : object
+    + Dispose() : void
+}
+IDataReader <|-- NpgsqlDataReader
+class DALDBConnectionException {
+    + DALDBConnectionException()
+    + DALDBConnectionException(message:string)
+    + DALDBConnectionException(message:string, inner:Exception)
+}
+Exception <|-- DALDBConnectionException
+class DALParameterException {
+    + DALParameterException()
+    + DALParameterException(message:string)
+    + DALParameterException(message:string, inner:Exception)
+}
+Exception <|-- DALParameterException
+class DALRepositoryCommandException {
+    + DALRepositoryCommandException()
+    + DALRepositoryCommandException(message:string)
+    + DALRepositoryCommandException(message:string, inner:Exception)
+}
+Exception <|-- DALRepositoryCommandException
+class DALUnitOfWorkException {
+    + DALUnitOfWorkException()
+    + DALUnitOfWorkException(message:string)
+    + DALUnitOfWorkException(message:string, inner:Exception)
+}
+Exception <|-- DALUnitOfWorkException
+interface IManeuverRepository {
+}
+class "IRepository`1"<T> {
+}
+"IRepository`1" "<Maneuver>" <|-- IManeuverRepository
+interface "IRepository`1"<T> {
+    Insert(entity:T) : void
+    Read(id:int) : T
+    ReadAll() : List<T>
+    Update(entity:T) : void
+    Delete(id:int) : void
+}
+interface ITourLogRepository {
+}
+class "IRepository`1"<T> {
+}
+"IRepository`1" "<TourLog>" <|-- ITourLogRepository
+interface ITourRepository {
+}
+class "IRepository`1"<T> {
+}
+"IRepository`1" "<Tour>" <|-- ITourRepository
+class ManeuverRepository {
+    + ManeuverRepository()
+    + ManeuverRepository(db:IDBConnection, commitCommands:List<IDBCommand>)
+    - ConvertToManeuver(row:object[]) : Maneuver
+    - CheckDBConstraints(maneuver:Maneuver) : bool
+    + Delete(id:int) : void
+    + Insert(entity:Maneuver) : void
+    + Read(id:int) : Maneuver
+    + ReadAll() : List<Maneuver>
+    + Update(entity:Maneuver) : void
+}
+class "List`1"<T> {
+}
+IManeuverRepository <|-- ManeuverRepository
+ManeuverRepository --> "db" IDBConnection
+ManeuverRepository --> "commitCommands<IDBCommand>" "List`1"
+class TourLogRepository {
+    + TourLogRepository()
+    + TourLogRepository(db:IDBConnection, commitCommands:List<IDBCommand>)
+    - ConvertToTourLog(row:object[]) : TourLog
+    - CheckDBConstraints(tourLog:TourLog) : bool
+    + Delete(id:int) : void
+    + Insert(entity:TourLog) : void
+    + Read(id:int) : TourLog
+    + ReadAll() : List<TourLog>
+    + Update(entity:TourLog) : void
+}
+class "List`1"<T> {
+}
+ITourLogRepository <|-- TourLogRepository
+TourLogRepository --> "db" IDBConnection
+TourLogRepository --> "commitCommands<IDBCommand>" "List`1"
+class TourRepository {
+    + TourRepository()
+    + TourRepository(db:IDBConnection, commitCommands:List<IDBCommand>)
+    + TourRepository(db:IDBConnection, commitCommands:List<IDBCommand>, tourLogRepository:ITourLogRepository, maneuverRepository:IManeuverRepository)
+    - ConvertToTour(row:object[]) : Tour
+    - CheckDBConstraints(tour:Tour) : bool
+    + Delete(id:int) : void
+    + Insert(entity:Tour) : void
+    + Read(id:int) : Tour
+    + ReadAll() : List<Tour>
+    + Update(entity:Tour) : void
+}
+class "List`1"<T> {
+}
+ITourRepository <|-- TourRepository
+TourRepository --> "db" IDBConnection
+TourRepository --> "commitCommands<IDBCommand>" "List`1"
+TourRepository --> "tourLogRepository" ITourLogRepository
+TourRepository --> "maneuverRepository" IManeuverRepository
+interface IUnitOfWork {
+    Commit() : int
+    Rollback() : int
+}
+IDisposable <|-- IUnitOfWork
+IUnitOfWork --> "TourRepository" ITourRepository
+IUnitOfWork --> "TourLogRepository" ITourLogRepository
+IUnitOfWork --> "ManeuverRepository" IManeuverRepository
+class UnitOfWork {
+    + UnitOfWork()
+    + UnitOfWork(db:IDBConnection, commitCommands:List<IDBCommand>, rollbackCommands:List<IDBCommand>)
+    + Commit() : int
+    + Dispose() : void
+    + Rollback() : int
+}
+class "List`1"<T> {
+}
+IUnitOfWork <|-- UnitOfWork
+UnitOfWork --> "commitCommands<IDBCommand>" "List`1"
+UnitOfWork --> "rollbackCommands<IDBCommand>" "List`1"
+UnitOfWork --> "db" IDBConnection
+UnitOfWork --> "tourRepository" ITourRepository
+UnitOfWork --> "tourLogRepository" ITourLogRepository
+UnitOfWork --> "maneuverRepository" IManeuverRepository
+UnitOfWork --> "TourRepository" ITourRepository
+UnitOfWork --> "TourLogRepository" ITourLogRepository
+UnitOfWork --> "ManeuverRepository" IManeuverRepository
+class DeleteManeuverCommand {
+    + DeleteManeuverCommand(db:IDBConnection, maneuver:Maneuver)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- DeleteManeuverCommand
+DeleteManeuverCommand --> "db" IDBConnection
+DeleteManeuverCommand --> "maneuver" Maneuver
+class InsertManeuverCommand {
+    + InsertManeuverCommand(db:IDBConnection, maneuver:Maneuver)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- InsertManeuverCommand
+InsertManeuverCommand --> "db" IDBConnection
+InsertManeuverCommand --> "maneuver" Maneuver
+class UpdateManeuverCommand {
+    + UpdateManeuverCommand(db:IDBConnection, maneuver:Maneuver, oldManeuver:Maneuver)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- UpdateManeuverCommand
+UpdateManeuverCommand --> "db" IDBConnection
+UpdateManeuverCommand --> "maneuver" Maneuver
+UpdateManeuverCommand --> "oldManeuver" Maneuver
+class DeleteTourCommand {
+    + DeleteTourCommand(db:IDBConnection, tour:Tour)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- DeleteTourCommand
+DeleteTourCommand --> "db" IDBConnection
+DeleteTourCommand --> "tour" Tour
+class InsertTourCommand {
+    + InsertTourCommand(db:IDBConnection, tour:Tour)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- InsertTourCommand
+InsertTourCommand --> "db" IDBConnection
+InsertTourCommand --> "tour" Tour
+class UpdateTourCommand {
+    + UpdateTourCommand(db:IDBConnection, tour:Tour, oldTour:Tour)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- UpdateTourCommand
+UpdateTourCommand --> "db" IDBConnection
+UpdateTourCommand --> "tour" Tour
+UpdateTourCommand --> "oldTour" Tour
+class DeleteTourLogCommand {
+    + DeleteTourLogCommand(db:IDBConnection, tourLog:TourLog)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- DeleteTourLogCommand
+DeleteTourLogCommand --> "db" IDBConnection
+DeleteTourLogCommand --> "tourLog" TourLog
+class InsertTourLogCommand {
+    + InsertTourLogCommand(db:IDBConnection, tourLog:TourLog)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- InsertTourLogCommand
+InsertTourLogCommand --> "db" IDBConnection
+InsertTourLogCommand --> "tourLog" TourLog
+class UpdateTourLogCommand {
+    + UpdateTourLogCommand(db:IDBConnection, tourLog:TourLog, oldTourLog:TourLog)
+    + Execute() : int
+    + Undo() : int
+}
+IDBCommand <|-- UpdateTourLogCommand
+UpdateTourLogCommand --> "db" IDBConnection
+UpdateTourLogCommand --> "tourLog" TourLog
+UpdateTourLogCommand --> "oldTourLog" TourLog
+@enduml

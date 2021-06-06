@@ -1,0 +1,13 @@
+@startuml
+class ErrorViewModel {
+    - errorHandlingMessage : string
+    - errorType : string
+    +  <<event>> CloseRequested : EventHandler<DialogCloseRequestedEventArgs> 
+    + ErrorHandlingMessage : string <<get>>
+    + ErrorType : string <<get>>
+    + ErrorViewModel(errorHandlingMessage:string, errorType:string)
+}
+BaseViewModel <|-- ErrorViewModel
+IDialogRequestClose <|-- ErrorViewModel
+ErrorViewModel --> "CloseCommand" ICommand
+@enduml

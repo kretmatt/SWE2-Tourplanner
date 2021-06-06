@@ -1,0 +1,17 @@
+@startuml
+class DatabaseConnection {
+    - DatabaseConnection()
+    - DatabaseConnection(config:ITourPlannerConfig)
+    + {static} GetDBConnection() : IDBConnection
+    + {static} GetDBConnection(testConfig:ITourPlannerConfig) : IDBConnection
+    + ExecuteStatement(command:IDbCommand) : int
+    + QueryDatabase(command:IDbCommand) : List<object[]>
+    + OpenConnection() : void
+    + CloseConnection() : void
+    + DeclareParameter(command:IDbCommand, name:string, type:System.Data.DbType) : int
+    + DefineParameter(command:IDbCommand, name:string, type:System.Data.DbType, value:object) : void
+}
+IDBConnection <|-- DatabaseConnection
+DatabaseConnection --> "dB" DatabaseConnection
+DatabaseConnection --> "config" ITourPlannerConfig
+@enduml

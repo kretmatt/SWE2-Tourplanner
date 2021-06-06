@@ -1,0 +1,10 @@
+@startuml
+enum EWeather {
+    SUNNY,
+    RAINY,
+    CLOUDY,
+    HAIL,
+    SNOWY,
+    STORMY,
+}
+@enduml

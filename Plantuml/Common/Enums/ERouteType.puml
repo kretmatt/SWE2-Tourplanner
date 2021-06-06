@@ -1,0 +1,9 @@
+@startuml
+enum ERouteType {
+    FASTEST,
+    SHORTEST,
+    PEDESTRIAN,
+    MULTIMODAL,
+    BICYCLE,
+}
+@enduml

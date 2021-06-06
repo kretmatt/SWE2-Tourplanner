@@ -1,0 +1,6 @@
+@startuml
+interface ITourPlannerReportsGenerator {
+    GenerateTourReport(tour:Tour) : Task
+    GenerateSummaryReport(tours:List<Tour>) : Task
+}
+@enduml
