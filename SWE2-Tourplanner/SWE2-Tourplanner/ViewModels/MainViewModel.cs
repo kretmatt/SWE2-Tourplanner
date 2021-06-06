@@ -51,6 +51,14 @@ namespace SWE2_Tourplanner
         public TourDetailViewModel TourDetailViewModel
         {
             get { return tourDetailViewModel; }
+            set
+            {
+                if (value != tourDetailViewModel)
+                {
+                    tourDetailViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
         }
         /// <value>
         /// ToursViewModel provides Tour entities and a search command 
@@ -58,6 +66,14 @@ namespace SWE2_Tourplanner
         public ToursViewModel ToursViewModel
         {
             get { return toursViewModel; }
+            set
+            {
+                if (value != toursViewModel)
+                {
+                    toursViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
         }
         /// <value>
         /// Command for creating new tours
@@ -122,13 +138,13 @@ namespace SWE2_Tourplanner
                         if (result ?? false)
                         {
                             TourPlannerConfig.GetTourPlannerConfig().LoadConfigFromFile(importCVM.ConfigPath);
+                            ToursViewModel = new ToursViewModel(tourPlannerFactory, dialogService);
+                            TourDetailViewModel = new TourDetailViewModel(dialogService);
                         }
                     }
                     catch(Exception e)
                     {
-                        ShowException(e);
-                        toursViewModel = new ToursViewModel(tourPlannerFactory, dialogService);
-                        tourDetailViewModel = new TourDetailViewModel(dialogService);
+                        ShowException(e);     
                     }
 
                 },

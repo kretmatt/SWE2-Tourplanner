@@ -61,8 +61,7 @@ namespace SWE2_Tourplanner.ReusableComponents {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SWE2-Tourplanner;V1.0.0.0;component/reusablecomponents/externalresourcecontrol.x" +
-                    "aml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SWE2-Tourplanner;component/reusablecomponents/externalresourcecontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\ReusableComponents\ExternalResourceControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

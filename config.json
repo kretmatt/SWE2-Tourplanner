@@ -1,0 +1,12 @@
+{
+	"dbsettings":{
+		"host":"localhost",
+		"port":5432,
+		"username":"username",
+		"password":"password",
+		"database":"databasename"
+	},
+	"mapQuestKey":"mapQuestKey",
+	"pictureDirectory":"picture directory",
+	"exportsDirectory":"exports directory"
+}
